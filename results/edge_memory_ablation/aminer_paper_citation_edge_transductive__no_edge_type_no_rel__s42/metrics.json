@@ -1,0 +1,150 @@
+{
+  "best_epoch": 6,
+  "stopped_epoch": 6,
+  "monitor_metric": "val_mrr",
+  "best_val": {
+    "epoch": 6,
+    "loss": 0.1437494428294745,
+    "epoch_sec": 248.66552782058716,
+    "val_auc": 0.948769273076849,
+    "val_ap": 0.39971108564858027,
+    "val_acc": 0.8693684491726511,
+    "val_mrr": 0.6985575848606593
+  },
+  "test": {
+    "auc": 0.9731310135413982,
+    "ap": 0.5055215504409182,
+    "acc": 0.9354261616637854,
+    "mrr": 0.7675844727329877
+  },
+  "test_relation_breakdown": {
+    "paper_cite_paper": {
+      "auc": 0.9729473068181406,
+      "ap": 0.5043230365580178,
+      "acc": 0.9172874430300173,
+      "mrr": 0.7672990334747759
+    }
+  },
+  "test_task_splits": {},
+  "node_eval": {},
+  "multilabel_threshold_calibration": {
+    "threshold": 0.5,
+    "calib_micro_f1": 0.0,
+    "calib_nodes": 0
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 0.2113010647227408,
+      "epoch_sec": 249.36276841163635,
+      "val_auc": 0.9433416397844326,
+      "val_ap": 0.37403008485627987,
+      "val_acc": 0.875672433751853,
+      "val_mrr": 0.5980892820040055
+    },
+    {
+      "epoch": 2,
+      "loss": 0.1403748708966743,
+      "epoch_sec": 265.9910714626312,
+      "val_auc": 0.9461683817705603,
+      "val_ap": 0.3979283320414758,
+      "val_acc": 0.8880735002173787,
+      "val_mrr": 0.6144878273439489
+    },
+    {
+      "epoch": 3,
+      "loss": 0.1442340984228349,
+      "epoch_sec": 259.141077041626,
+      "val_auc": 0.9489905646813073,
+      "val_ap": 0.4047264737049492,
+      "val_acc": 0.8622538774612254,
+      "val_mrr": 0.6235174040200989
+    },
+    {
+      "epoch": 4,
+      "loss": 0.1434587293807684,
+      "epoch_sec": 257.2152953147888,
+      "val_auc": 0.9461959786339327,
+      "val_ap": 0.3958767355061615,
+      "val_acc": 0.884510321563451,
+      "val_mrr": 0.692800362686097
+    },
+    {
+      "epoch": 5,
+      "loss": 0.1420937659369264,
+      "epoch_sec": 255.9325499534607,
+      "val_auc": 0.9467917362715329,
+      "val_ap": 0.39392206012461745,
+      "val_acc": 0.8760862391376086,
+      "val_mrr": 0.6841523896268973
+    },
+    {
+      "epoch": 6,
+      "loss": 0.1437494428294745,
+      "epoch_sec": 248.66552782058716,
+      "val_auc": 0.948769273076849,
+      "val_ap": 0.39971108564858027,
+      "val_acc": 0.8693684491726511,
+      "val_mrr": 0.6985575848606593
+    }
+  ],
+  "epoch_time_sec": [
+    249.36276841163635,
+    265.9910714626312,
+    259.141077041626,
+    257.2152953147888,
+    255.9325499534607,
+    248.66552782058716
+  ],
+  "avg_epoch_time_sec": 256.051381667455,
+  "memory_trace_file": "",
+  "memory_final_state_file": "",
+  "model_stats": {
+    "total_params": 1027778,
+    "trainable_params": 1027778,
+    "device": "cuda:0",
+    "gpu_id": 0
+  },
+  "run_args": {
+    "data": "/home/xuxj/2026/dyn_relation_memory/data/processed/paper_tasks/aminer_paper_citation_edge_transductive.pt",
+    "out_dir": "/home/xuxj/2026/dyn_relation_memory/results/edge_memory_ablation/aminer_paper_citation_edge_transductive__no_edge_type_no_rel__s42",
+    "seed": 42,
+    "epochs": 6,
+    "batch_size": 256,
+    "lr": 0.001,
+    "gpu_id": 0,
+    "early_stop_patience": 4,
+    "early_stop_min_delta": 0.0,
+    "monitor_metric": "val_mrr",
+    "task_type": "edge_transductive",
+    "mem_dim": 128,
+    "rel_dim": 64,
+    "time_dim": 32,
+    "msg_dim": 128,
+    "community_dim": 128,
+    "num_communities": 64,
+    "community_assign_temperature": 1.0,
+    "community_assign_topk": 0,
+    "no_recent_neighbors": false,
+    "recent_neighbor_size": 16,
+    "no_edge_type_features": true,
+    "no_relation_memory": true,
+    "no_community": false,
+    "lambda_cl": 0.05,
+    "lambda_community_entropy": 0.0,
+    "lambda_mc": 1.0,
+    "lambda_ml": 1.0,
+    "relation_loss_weights": "",
+    "ml_pos_weight": false,
+    "ml_pos_weight_max": 50.0,
+    "ml_pos_weight_power": 0.5,
+    "ml_threshold_search": false,
+    "ml_threshold_num_candidates": 99,
+    "ml_calib_max_nodes": 0,
+    "node_eval_max_nodes": 0,
+    "typed_negative_ratio": 0.0,
+    "popular_negative_ratio": 0.0,
+    "save_memory_artifacts": false,
+    "no_lightweight_checkpoint": false
+  }
+}

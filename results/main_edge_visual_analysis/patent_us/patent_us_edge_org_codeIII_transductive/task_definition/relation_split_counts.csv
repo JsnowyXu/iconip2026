@@ -1,0 +1,13 @@
+dataset,task_name,split,relation_id,relation_name,edge_count,supervised_edge_count
+patent_us,patent_us_edge_org_codeIII_transductive,train,0,patent_org,145497,0
+patent_us,patent_us_edge_org_codeIII_transductive,train,1,patent_codeIII,296268,0
+patent_us,patent_us_edge_org_codeIII_transductive,train,2,org_codeIII,299674,299674
+patent_us,patent_us_edge_org_codeIII_transductive,train,3,org_coorg,3192,0
+patent_us,patent_us_edge_org_codeIII_transductive,val,0,patent_org,28794,0
+patent_us,patent_us_edge_org_codeIII_transductive,val,1,patent_codeIII,59652,0
+patent_us,patent_us_edge_org_codeIII_transductive,val,2,org_codeIII,60424,60424
+patent_us,patent_us_edge_org_codeIII_transductive,val,3,org_coorg,734,0
+patent_us,patent_us_edge_org_codeIII_transductive,test,0,patent_org,28070,0
+patent_us,patent_us_edge_org_codeIII_transductive,test,1,patent_codeIII,62062,0
+patent_us,patent_us_edge_org_codeIII_transductive,test,2,org_codeIII,62727,62727
+patent_us,patent_us_edge_org_codeIII_transductive,test,3,org_coorg,670,0

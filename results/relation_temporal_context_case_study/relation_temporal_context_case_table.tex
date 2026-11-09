@@ -1,0 +1,39 @@
+\begin{table}[t]
+\centering
+\caption{Aggregate case study of relation memory and temporal context. Panel (a) reports controlled \texttt{best\_config\_module\_ablation} runs on \texttt{thgl\_software\_edge\_inductive}; $\Delta$AP is computed as Full minus the ablated variant, so a positive value means the removed module was helpful. Panel (b) reports the \texttt{best\_config\_sensitivity} temporal-context sweep on \texttt{patent\_cn}; $\star$ marks the best AP within each split. No per-edge rank-change sample is reported because the saved artifacts provide aggregate metrics, train histories, and memory traces rather than exported edge-level ranking trajectories.}
+\label{tab:case-relation-temporal-context}
+\centering
+\small
+\textbf{(a) Relation-memory ablation}\vspace{2pt}
+\begin{tabular}{lrrrr}
+\toprule
+Variant & MRR & AUC & AP & $\Delta$AP \\
+\midrule
+full & 0.7971 & 0.9726 & 0.5661 & 0.0000 \\
+no\_relation\_memory & 0.7967 & 0.9730 & 0.5466 & 0.0195 \\
+no\_edge\_type & 0.7908 & 0.9724 & 0.5509 & 0.0152 \\
+no\_community & 0.7896 & 0.9712 & 0.5280 & 0.0382 \\
+\bottomrule
+\end{tabular}
+
+\vspace{6pt}
+\centering
+\small
+\textbf{(b) Temporal-context window}\vspace{2pt}
+\begin{tabular}{lrrrrr}
+\toprule
+Split & $K$ & MRR & AUC & AP & $\Delta$AP \\
+\midrule
+CN-inductive & 8 & 0.9954 & 0.9995 & 0.9840 & -0.0030 \\
+CN-inductive & 12 & 0.9955 & 0.9995 & 0.9855 & -0.0015 \\
+CN-inductive & 16 & 0.9962 & 0.9995 & 0.9870 $\star$ & 0.0000 \\
+CN-inductive & 24 & 0.9945 & 0.9994 & 0.9833 & -0.0037 \\
+CN-inductive & 32 & 0.9934 & 0.9993 & 0.9822 & -0.0048 \\
+CN-transductive & 8 & 0.9957 & 0.9996 & 0.9873 $\star$ & 0.0000 \\
+CN-transductive & 12 & 0.9956 & 0.9995 & 0.9825 & -0.0047 \\
+CN-transductive & 16 & 0.9952 & 0.9995 & 0.9840 & -0.0032 \\
+CN-transductive & 24 & 0.9957 & 0.9996 & 0.9867 & -0.0005 \\
+CN-transductive & 32 & 0.9957 & 0.9996 & 0.9857 & -0.0016 \\
+\bottomrule
+\end{tabular}
+\end{table}

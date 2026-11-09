@@ -1,0 +1,16 @@
+{
+  "name": "rank_links",
+  "description": "Rank candidate target nodes for a typed temporal relation over the trained graph vocabulary. Read-only; scores are uncalibrated.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "source_id": {"type": "integer", "minimum": 0},
+      "candidate_ids": {"type": "array", "items": {"type": "integer", "minimum": 0}, "minItems": 1, "maxItems": 4096},
+      "relation_id": {"type": "integer", "minimum": 0},
+      "timestamp": {"type": "number", "description": "Same units as the training stream; >= current history watermark"},
+      "top_k": {"type": "integer", "minimum": 1, "default": 10}
+    },
+    "required": ["source_id", "candidate_ids", "relation_id", "timestamp"],
+    "additionalProperties": false
+  }
+}

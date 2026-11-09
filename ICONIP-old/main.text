@@ -1,0 +1,376 @@
+\documentclass[runningheads]{llncs}
+
+\usepackage{natbib}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{url}
+
+\begin{document}
+
+\title{DHC: Dynamic Heterogeneous Community-aware Learning with Cross-Relation Semantics and Soft Community Evolution}
+
+\author{Xuejie Xu\inst{1} \and Jian Huang\inst{1,3} \and Leilei Sun\inst{2,3}}
+
+\authorrunning{X. Xu et al.}
+
+\institute{School of Software, Beihang University, Beijing, China \\
+\and State Key Laboratory of Complex \& Critical Software Environment, Beihang University, Beijing, China \\
+\and Key Laboratory of Data Science and Intelligent Computing, Hangzhou International Innovation Institute, Beihang University, Hangzhou, China \\
+\email{\{x_xuejie,hj,leileisun\}@buaa.edu.cn}}
+
+\maketitle
+
+\begin{abstract}
+Dynamic heterogeneous graphs in patents, academic networks, and recommendation systems combine temporal dependencies, typed relations, and rich text attributes. We present DHC, a unified framework for link prediction and node multi-label classification on such graphs. DHC integrates relation-time message generation, node-relation memory evolution, text-aware node initialization, and soft community memory with cross-scale alignment. We build task views on the original five datasets and complete repeated three-seed evaluation on four of them: raw\_cn, raw\_us, arxiv, and dblp. The remaining recommendation dataset, amazon\_movies, is retained as a documented stress test because its link views contain no training replay edges and its node re-evaluation exceeds the current resource budget. We further validate the same protocol on a curated AMiner citation subset with 120,000 timestamped edges from 2002 to 2012. On this extension dataset, DHC reaches 0.6647/0.8742/0.3944 in inductive MRR/AUC/AP and 0.5031 micro-F1 on node multi-label prediction. The AMiner recheck also shows that citation results are highly protocol-sensitive. After aligning evaluation difficulty across methods and simplifying DHC to a citation-oriented variant, the apparent baseline gap shrinks substantially. The context-only auxiliary relation strategy also improves raw\_us from 0.9826/0.9981/0.9497 to 0.9829/0.9982/0.9585 in MRR/AUC/AP. We also report threshold calibration, cross-relation analysis, community evolution, grid search, and case studies in a reproducible experimental pipeline.
+
+\keywords{Dynamic Heterogeneous Graph \and Text-attributed Graph \and Temporal Graph Learning \and Soft Community Memory \and Multi-label Calibration}
+\end{abstract}
+
+\section{Introduction}
+Temporal graph learning has progressed quickly in recent years. Representative models such as JODIE, DyRep, TGAT, and TGN show the value of event-driven memory and time encoding for dynamic link prediction \citep{kumar2019jodie,trivedi2019dyrep,xu2020tgat,rossi2020tgn}. DynamicTriad, DySAT, and EvolveGCN further extend dynamic graph learning to triadic evolution, temporal self-attention, and time-evolving graph filters \citep{zhou2018dynamictriad,sankar2019dysat,pareja2020evolvegcn}. CAW and APAN emphasize inductive temporal reasoning and efficient real-time propagation \citep{wang2021caw,wang2021apan}. Later architectures such as GraphMixer and DyGFormer improve temporal aggregation and long-range interaction modeling \citep{chen2023graphmixer,yu2023dygformer}. In parallel, heterogeneous graph learning has established that node types and relation types are important for robust representation learning \citep{schlichtkrull2018rgcn,wang2019han,hu2020hgt}.
+
+Many applications require all three properties at once. Patent graphs, academic graphs, and recommendation graphs are dynamic, heterogeneous, and text-attributed. Their nodes carry titles, abstracts, venues, assignee names, or category descriptors. Recent text-attributed graph methods such as GLEM, CTGL, SKETCH, and MARK confirm the importance of semantic encoders in graph learning \citep{zhao2023glem,zhou2025ctgl,zhou2025sketch,fu2025mark}. Yet most of these methods focus on static settings or non-temporal benchmarks. They do not directly address evolving relations, target-specific auxiliary edges, and soft community dynamics in a single model.
+
+Research on temporal heterogeneous graphs is also growing. THINE and HPGE combine heterogeneous structure with temporal point processes or heterogeneous event modeling \citep{huang2021thine,ji2021hpge}. TemporalHAN studies snapshot-based heterogeneous temporal embedding with hierarchical attention \citep{mo2024temporalhan}. More recent continuous-time models such as CTRL and TeSa model temporal heterogeneous information networks more directly \citep{li2026ctrl,wang2025tesa}. These studies show steady progress, but they rarely combine text-aware node encoding, relation memory, and community-aware dynamics for both link prediction and multi-label classification.
+
+This setting leaves four issues unresolved. First, relation semantics are often only weakly coupled with temporal message generation. Second, relation dynamics are usually compressed into static embeddings rather than explicit memory states. Third, text attributes are available but not always fused with temporal-relation updates in a task-aware manner. Fourth, node multi-label tasks in long-tail graphs remain highly sensitive to threshold selection, so micro-F1 may stay very low even when AUC and AP are strong.
+
+To address these issues, we propose DHC, a unified model and evaluation pipeline for dynamic heterogeneous learning. DHC introduces relation-time dual-aware messages, node-relation dual memory updates, text-aware node initialization, and soft community memory with cross-scale alignment. We also include a practical optimization stage based on threshold calibration, cross-relation enhancement, and controlled grid search.
+
+Our contributions are:
+\begin{itemize}
+\item We propose a unified dynamic heterogeneous architecture that combines relation-aware temporal messages, relation memory evolution, text-aware node encoding, and soft community alignment.
+\item We introduce a context-only auxiliary relation mechanism. It uses auxiliary edges to update memory while keeping the supervised loss on the target relation.
+\item We provide an optimization workflow for long-tail node multi-label tasks, including threshold calibration and constrained configuration selection.
+\item We report a reproducible empirical study with repeated benchmarks, ablations, cross-relation analysis, sensitivity plots, and community evolution visualizations.
+\end{itemize}
+
+\section{Related Work}
+\subsection{Temporal Graph Representation Learning}
+Early temporal interaction models such as JODIE and DyRep use recurrent updates over event streams \citep{kumar2019jodie,trivedi2019dyrep}. TGAT introduces functional time encoding and inductive temporal aggregation \citep{xu2020tgat}. TGN generalizes memory-based temporal graph learning and remains a strong backbone \citep{rossi2020tgn}. DynamicTriad, DySAT, and EvolveGCN extend temporal graph learning to triadic evolution, temporal self-attention, and evolving graph filters \citep{zhou2018dynamictriad,sankar2019dysat,pareja2020evolvegcn}. CAW and APAN further emphasize inductive temporal reasoning and efficient real-time propagation \citep{wang2021caw,wang2021apan}. Recent variants such as GraphMixer and DyGFormer improve efficiency and long-range temporal context modeling \citep{chen2023graphmixer,yu2023dygformer}.
+
+\subsection{Heterogeneous and Temporal-Heterogeneous Graphs}
+For heterogeneous graphs, metapath2vec gives an early scalable solution based on meta-path guided walks \citep{dong2017metapath2vec}. MAGNN, HAN, and HGT show that metapath aggregation, attention, and type-aware transformers are all effective in heterogeneous settings \citep{fu2020magnn,wang2019han,hu2020hgt}. R-GCN remains a strong relation-aware baseline \citep{schlichtkrull2018rgcn}. Temporal heterogeneous learning has received growing attention in recent years. THINE and HPGE combine Hawkes-process style temporal modeling with heterogeneous structure \citep{huang2021thine,ji2021hpge}. TemporalHAN studies snapshot-based heterogeneous temporal embedding with hierarchical attention \citep{mo2024temporalhan}. CTRL and TeSa move closer to continuous-time heterogeneous learning with stronger temporal event modeling \citep{li2026ctrl,wang2025tesa}. On the evaluation side, DURENDAL, TGB, and TGB 2.0 show that protocol design, relation types, and scalability strongly affect empirical conclusions \citep{dileo2023durendal,huang2023tgb,gastinger2024tgb2}.
+
+\subsection{Text-attributed Graphs and Semantic Encoders}
+TAG learning requires the joint use of semantic node content and graph structure. GLEM alternates language models and GNNs in a variational EM framework for large-scale TAG learning \citep{zhao2023glem}. CTGL and SKETCH study stronger interactions between semantic features and graph structure \citep{zhou2025ctgl,zhou2025sketch}. MARK further shows that semantic priors can improve downstream graph mining \citep{fu2025mark}. For efficient semantic encoding, Sentence-BERT remains a strong foundation for multilingual sentence representations and is especially relevant for noisy patent text \citep{reimers-gurevych-2019-sentence}.
+
+\subsection{Community-aware Dynamic Representation Learning}
+Dynamic community information is a mesoscopic signal between individual interactions and global topology. Community-preserving methods such as M-NMF, ComE, and COSINE show that explicit community structure can improve representation quality in static or diffusion-driven networks \citep{wang2017mnmf,cavallari2017come,zhang2018cosine}. Community-aware dynamic embeddings such as CDNE extend this idea to evolving graphs and show gains in stability and interpretability \citep{ma2020cdne}. Our work differs in that we model communities through soft prototype memory inside a temporal heterogeneous predictor rather than as a separate embedding or clustering stage.
+
+\subsection{Evaluation and Calibration under Class Imbalance}
+In practical deployment, AUC and AP may be strong while operational F1 remains weak because of threshold mismatch. Calibration and post-hoc threshold selection are standard tools for more reliable decision rules \citep{guo2017calibration}. For heavily imbalanced labels, loss reweighting is also widely used \citep{lin2017focal}. Our optimization section combines these ideas with temporal graph node heads.
+
+\section{Problem Definition}
+Given a temporal heterogeneous and text-attributed event stream
+\begin{equation}
+\mathcal{E}=\{(u_i,r_i,v_i,t_i,\mathbf{e}_i)\}_{i=1}^{N},
+\end{equation}
+where $u_i,v_i$ are node IDs, $r_i$ is relation type, $t_i$ is timestamp, and $\mathbf{e}_i$ is edge feature. Each node $u$ is associated with structural descriptors $\mathbf{x}^{str}_u$, optional text attribute $s_u$, and node type $\tau_u$. We optimize three tasks:
+\begin{enumerate}
+\item Transductive link prediction,
+\item Inductive link prediction,
+\item Node multi-label prediction.
+\end{enumerate}
+
+We report MRR/AUC/AP for link tasks. For multi-label node tasks, we report micro-F1, mAP, Recall@1/3/5, Precision@1/3/5, and NDCG@1/3/5.
+
+\section{Method}
+\subsection{Relation-Time Dual-aware Message Generation}
+For an interaction $(u,r,v,t)$, DHC uses node memories and temporal encoding:
+\begin{equation}
+\mathbf{x}_{u\leftarrow v}=[\mathbf{M}_v,\mathbf{M}_u,\mathbf{e}_{uv},\phi(\Delta t_u)].
+\end{equation}
+The relation-conditioned message follows
+\begin{equation}
+\mathbf{m}_{u\leftarrow v}=W\mathbf{x}_{u\leftarrow v}\odot \sigma(W_g\mathbf{h}_r)+W_b\mathbf{h}_r,
+\end{equation}
+where $\mathbf{h}_r$ is relation embedding enhanced by relation memory.
+
+\subsection{Node-Relation Dual Memory Evolution}
+Node and relation memories are updated with GRU cells:
+\begin{align}
+\mathbf{M}_u(t) &= \text{GRU}_n(\mathbf{m}_u(t),\mathbf{M}_u(t^-)),\\
+\mathbf{R}_r(t) &= \text{GRU}_r(\bar{\mathbf{m}}_r(t),\mathbf{R}_r(t^-)).
+\end{align}
+This design captures non-stationary relation dynamics directly in the latent state.
+
+\subsection{Text-aware Node Initialization}
+For text-attributed nodes, DHC initializes node states from structural descriptors, node-type embeddings, and text semantics:
+\begin{equation}
+\mathbf{h}^{(0)}_u = f_{enc}\left([\mathbf{x}^{str}_u \,\|\, g_{txt}(s_u) \,\|\, \mathbf{e}_{\tau_u}]\right),
+\end{equation}
+where $g_{txt}$ denotes a fixed-dimensional text encoder. In patent graphs, $s_u$ may contain titles, abstracts, assignee names, or IPC descriptors. In academic graphs, it contains titles, venues, author strings, or dataset-provided semantic features. This design keeps the model compatible with both lightweight hashing encoders and stronger multilingual sentence encoders \citep{reimers-gurevych-2019-sentence}.
+
+\subsection{Community Memory and Cross-scale Alignment}
+DHC introduces soft assignment from node embeddings to $K$ community prototypes:
+\begin{equation}
+\alpha_{u,k}=\text{softmax}_k\Big(\frac{\mathbf{q}_u^\top \mathbf{k}_k}{\sqrt{d}}\Big).
+\end{equation}
+Community memory is updated by weighted aggregation with temporal decay, and a contrastive objective aligns node representation with its dominant community:
+\begin{equation}
+\mathcal{L}_{cl}=\text{CE}(\mathbf{q}_u\mathbf{C}^\top/\tau, k^+_u).
+\end{equation}
+
+\subsection{Cross-relation Semantic Reinforcement}
+Many target relations can benefit from semantically adjacent auxiliary relations. Patent IPC prediction, for example, can use assignee-to-IPC and patent-to-assignee events as context. Let $y_e\in\{0,1\}$ denote whether event $e$ participates in the target supervision loss. We use
+\begin{equation}
+\mathcal{L}_{link}=\sum_{e\in \mathcal{E}_{train}} y_e \cdot \ell_{link}(e),
+\end{equation}
+where auxiliary or bridge edges can be assigned $y_e=0$ while still updating node and relation memory. This context-only strategy preserves cross-relation evidence without treating auxiliary semantics as direct positive labels for the target relation.
+
+\subsection{TGN-inspired Local Edge Encoding}
+To strengthen edge ranking, especially AP, we integrate a TGN-style memory path into the edge predictor. For queried endpoints, DHC combines relation-aware heterogeneous memory, recent-neighbor temporal subgraph encoding, and a TGN-style event memory updated by raw edge messages. A gated fusion preserves the stable ranking signal of the TGN branch while retaining heterogeneous semantics from DHC:
+\begin{equation}
+\mathbf{z}^{edge}_u = \mathbf{g}_u \odot \mathbf{z}^{tgn}_u + (1-\mathbf{g}_u)\odot \mathbf{z}^{dhc}_u,
+\end{equation}
+where $\mathbf{g}_u=\sigma(f_g([\mathbf{z}^{tgn}_u\|\mathbf{z}^{dhc}_u]))$. This design is motivated by the empirical strength of TGN-like baselines on temporal link prediction while preserving heterogeneous relation and community modeling.
+
+\subsection{Threshold-Calibrated Multi-label Optimization}
+For node multi-label logits $\mathbf{z}$, we search threshold $\theta$ on calibration nodes:
+\begin{equation}
+\theta^*=\arg\max_{\theta\in\Theta} \text{F1}_{micro}(\mathbf{y},\mathbf{1}[\sigma(\mathbf{z})\ge\theta]).
+\end{equation}
+Optionally, positive-class reweighting is enabled for long-tail labels:
+\begin{equation}
+\text{pos\_weight}_c=\Big(\frac{N^-_c}{\max(N^+_c,1)}\Big)^\alpha,
+\end{equation}
+with clipping for stability.
+
+\subsection{Joint Objective}
+\begin{equation}
+\mathcal{L}=\mathcal{L}_{link}+\lambda_{mc}\mathcal{L}_{mc}+\lambda_{ml}\mathcal{L}_{ml}+\lambda_{cl}\mathcal{L}_{cl}.
+\end{equation}
+
+\section{Experimental Setup}
+\subsection{Datasets and Statistics}
+Table~\ref{tab:data_stats} summarizes the processed task views used in this paper.
+
+\begin{table}[t]
+\centering
+\caption{Dataset statistics used in this paper (processed task views).}
+\label{tab:data_stats}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+Dataset & Tasks & Nodes & Max Edges & Rels & Node Types & Label Classes \\
+\midrule
+amazon\_movies & 1 & 293,532 & 20,000 & 18,691 & 2 & 4 \\
+aminer\_paper & 3 & 85,538 & 120,000 & 1 & 1 & 8 \\
+arxiv & 3 & 169,343 & 20,000 & 1 & 1 & 4 \\
+dblp & 3 & 21,240 & 20,000 & 2 & 2 & 4 \\
+raw\_cn & 4 & 47,304 & 120,000 & 3 & 3 & 584 \\
+raw\_us & 4 & 35,507 & 120,000 & 3 & 3 & 587 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All six processed task-view families are retained for preprocessing statistics. The recovered repeated benchmark and aggregate result tables below still focus on the four original datasets with completed three-seed runs. Amazon\_movies is discussed separately as a failure case. AMiner is reported as an additional extension dataset because it was added after the recovered benchmark had already stabilized.
+
+\subsection{Baselines, Metrics, and Implementation}
+We compare DHC with several temporal graph baselines: tgn-master, TGB2-custom with a TGN-like protocol, DyGLib-custom with a TGN-like protocol, and DyGLib model-zoo variants including TGN, TGAT, CAWN, TCL, GraphMixer, and DyGFormer. CDGP-style logs are retained as supplementary reference results. This set covers memory-based, attention-based, walk-based, mixer-style, and transformer-style models.
+
+Default dimensions are memory $128$, relation embedding $64$, time encoding $32$, message dimension $128$, community memory $128$, and number of communities $64$. We train with Adam and a learning rate of $10^{-3}$. Data are split chronologically with an approximate ratio of 70\%/15\%/15\%. All task views are processed as text-attributed heterogeneous temporal graphs. In the main setting, node features concatenate structural statistics and fixed-dimensional text vectors. For patent nodes, these text vectors are derived from titles, abstracts, assignee names, and IPC descriptors. Academic graphs use titles, venues, author strings, identifiers, or dataset-provided semantic features. The preprocessing pipeline is also compatible with stronger multilingual sentence encoders such as Sentence-BERT \citep{reimers-gurevych-2019-sentence}. All formal main-result tables are averaged over three seeds and reported with standard deviation. The recovered full-model benchmark currently covers raw\_cn, raw\_us, arxiv, and dblp. Amazon\_movies is excluded from aggregate claims because its rerun exposed task-construction and re-evaluation failures. We also run a separate three-seed AMiner extension experiment under the same hyperparameters and report it outside the recovered benchmark totals.
+
+\section{Results}
+\subsection{Main Results Across Tasks}
+Table~\ref{tab:compact_main} gives a compact summary of DHC on representative task splits. Tables~\ref{tab:baseline_transductive},~\ref{tab:baseline_inductive}, and~\ref{tab:baseline_multilabel} provide the currently available cross-method summary exported from this workspace; cells marked ``-'' correspond to unavailable or excluded runs rather than hidden results.
+
+\begin{table}[t]
+\centering
+\caption{Compact DHC summary on four completed benchmark datasets (mean$\pm$std over three seeds).}
+\label{tab:compact_main}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{lccc}
+\toprule
+Dataset & Transductive (MRR/AUC/AP) & Inductive (MRR/AUC/AP) & Node-ML (AUC/AP/F1) \\
+\midrule
+raw\_cn & 0.971$\pm$.005/0.979$\pm$.021/0.858$\pm$.082 & 0.972$\pm$.002/0.990$\pm$.005/0.884$\pm$.031 & 0.979$\pm$.008/0.692$\pm$.058/0.0073$\pm$.0035 \\
+raw\_us & 0.969$\pm$.001/0.995$\pm$.001/0.930$\pm$.007 & 0.953$\pm$.008/0.988$\pm$.006/0.887$\pm$.021 & 0.987$\pm$.001/0.833$\pm$.003/0.0057$\pm$.0008 \\
+arxiv & 0.692$\pm$.008/0.919$\pm$.004/0.498$\pm$.005 & 0.828$\pm$.015/0.974$\pm$.003/0.652$\pm$.018 & 0.833$\pm$.007/0.339$\pm$.023/0.460$\pm$.044 \\
+dblp & 0.970$\pm$.006/0.995$\pm$.002/0.869$\pm$.031 & 0.523$\pm$.142/0.804$\pm$.188/0.278$\pm$.095 & 0.925$\pm$.052/0.409$\pm$.114/0.948$\pm$.012 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The completed repeated benchmark covers 162 of 171 scheduled runs, and all nine failures come from amazon\_movies. We therefore omit that dataset from the aggregate tables above. Several observations follow.
+
+First, the academic tasks are more stable than the patent tasks. For arxiv, DHC reaches 0.6922/0.9187/0.4982 on the transductive setting and 0.8281/0.9736/0.6523 on the inductive setting in MRR/AUC/AP. For dblp, the transductive setting is particularly strong at 0.9699/0.9952/0.8693. The node multi-label result on dblp also remains high at 0.9478 in micro-F1. These results suggest that the current model is effective when semantic attributes are relatively clean and relation patterns are less noisy.
+
+Second, the patent tasks remain harder. On raw\_cn and raw\_us, DHC already gives strong ranking quality on link prediction. However, the variance is larger than on academic data, especially for raw\_cn transductive AP and raw\_us inductive MRR. This pattern is consistent with the higher label sparsity, noisier text fields, and stronger cross-relation ambiguity in the patent graphs.
+
+Third, node multi-label prediction is still the main difficulty. On raw\_cn and raw\_us, AUC and AP are competitive, but micro-F1 remains very low before calibration. This mismatch indicates that ranking quality alone does not guarantee useful operating points in long-tail label spaces. It also justifies the separate threshold-search stage reported later in this section.
+
+\input{tables/baseline_transductive_table}
+\input{tables/baseline_inductive_table}
+\input{tables/baseline_multilabel_table}
+
+\subsection{Additional AMiner Transfer Results}
+To test whether the same preprocessing and training protocol transfers to a larger citation graph without dataset-specific branches, we add aminer\_paper, a 120,000-edge citation subset from 2002 to 2012 with 9,492 labeled source papers and eight semantic labels. Table~\ref{tab:aminer_extension} reports the result.
+
+\input{tables/aminer_extension_results}
+
+Inductive citation prediction is the strongest setting on this extension dataset, reaching 0.6647/0.8742/0.3944 in MRR/AUC/AP. Node multi-label prediction is also stable at 0.5031 micro-F1. In contrast, the transductive split is much harder and shows larger variance, with 0.1660 AP on average. This pattern is consistent with the task audit, where source-paper overlap between training and test is effectively zero. As a result, the nominally transductive split behaves much closer to a cold-source citation test than to a standard replay setting.
+
+An additional AMiner protocol recheck changed the interpretation of the baseline gap. The first baseline sweep used a single negative edge per positive during evaluation, while DHC used twenty negatives. After correcting the baseline scripts, the TGB2-custom recheck drops from 0.7841/0.7880 AP on transductive/inductive citation ranking to 0.1616/0.1919 under the same twenty-negative evaluation. GPU spot checks on DyGLib also fall back to the same range. GraphMixer reaches 0.8710/0.2047 in AUC/AP on the transductive split, and TGN reaches 0.8044/0.1213 on the inductive split.
+
+We then run a citation-oriented DHC variant without community memory or relation memory, use uniform negatives during training, and select checkpoints by validation AP. Over three CUDA seeds, this corrected setting reaches 0.4768/0.8146/0.2262 on the transductive split and 0.7235/0.8675/0.4383 on the inductive split. Relative to the original AMiner DHC means, the corrected setting improves both transductive and inductive AP while keeping node multi-label micro-F1 near 0.50. The remaining variance is still substantial on the transductive split, so we treat this variant as a diagnostic result rather than as a replacement for the main benchmark table.
+
+\subsection{Patent and Academic Task Ablations}
+Tables below summarize earlier single-run CUDA pilot experiments and ablations. We retain them to show module-level behavior and throughput trends, while the main quantitative claims in this paper rely on the completed three-seed benchmark reported above.
+
+\input{tables/cuda_results}
+\input{tables/cuda_academic_results}
+
+\subsection{Grid Search and Parameter Sensitivity for Node Multi-label Tasks}
+We run a constrained grid over four configurations: \texttt{base}, \texttt{thr}, \texttt{thr\_pos}, and \texttt{thr\_pos\_l03}. Recommended configs are selected under non-degradation constraints on AUC/AP.
+
+\begin{table}[t]
+\centering
+\caption{Grid-search recommendation under AUC/AP non-degradation constraints (4 datasets completed).}
+\label{tab:grid_rec}
+\scriptsize
+\begin{tabular}{lcccc}
+\toprule
+Dataset & Recommended & Base micro-F1 & Best micro-F1 & Threshold \\
+\midrule
+arxiv & thr\_pos\_l03 & 1.0000 & 1.0000 & 0.010 \\
+dblp & thr & 0.9295 & 0.9311 & 0.255 \\
+raw\_cn & thr & 0.0001 & 0.0247 & 0.010 \\
+raw\_us & thr & 0.0000 & 0.1199 & 0.059 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+After applying the recommended node configurations, operational F1 improves on all completed datasets. The largest practical gains appear on the long-tail patent node tasks. Even so, calibration does not fully close the AP gap on raw\_cn and raw\_us. This result suggests that threshold tuning is necessary but not sufficient. Better text features and cleaner relation modeling are still needed.
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/bar_f1_by_dataset.png}
+    \caption{Micro-F1 by dataset/config.}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/line_parameter_sensitivity.png}
+    \caption{Sensitivity trend.}
+\end{subfigure}
+\caption{Grid search and sensitivity analyses for node multi-label tasks.}
+\label{fig:grid_sens}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/training_curves_recommended.png}
+    \caption{Training performance curves.}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/bar_base_vs_recommended_auc_ap.png}
+    \caption{AUC/AP: base vs recommended.}
+\end{subfigure}
+\caption{Common paper figures requested by the optimization study.}
+\label{fig:curves_bar}
+\end{figure}
+
+\subsection{Cross-Relation Enhancement}
+To test whether auxiliary heterogeneous edges improve patent IPC prediction, we build a cross-relation view with \texttt{patent\_ipc} as the target relation, \texttt{patent\_assignee} as the bridge relation, and \texttt{assignee\_ipc} as the auxiliary relation. We use a context-only auxiliary strategy. Auxiliary and bridge edges update temporal memory but do not enter the target link loss. Table~\ref{tab:cross_rel_ctx} reports the best setting for each dataset.
+
+\begin{table}[t]
+\centering
+\caption{Cross-relation enhancement (base vs best boost, context-only auxiliary).}
+\label{tab:cross_rel_ctx}
+\scriptsize
+\begin{tabular}{lcccc}
+\toprule
+Dataset & Setting & MRR & AUC & AP \\
+\midrule
+raw\_cn & base & 0.9785 & 0.9978 & 0.9387 \\
+raw\_cn & best boost (\texttt{boost\_base}) & 0.9773 & 0.9977 & 0.9369 \\
+raw\_us & base & 0.9826 & 0.9981 & 0.9497 \\
+raw\_us & best boost (\texttt{boost\_relw\_sparse}) & \textbf{0.9829} & \textbf{0.9982} & \textbf{0.9585} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The result is asymmetric. Raw\_us gains on all three metrics, while raw\_cn remains slightly below the base model. This suggests that cross-relation reinforcement helps when the auxiliary relation is semantically aligned with the target task, but may hurt when the auxiliary edges are noisy or weakly matched to the target labels.
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/cross_relation_bar_base_vs_best.png}
+    \caption{Base vs best boost metrics.}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/cross_relation_delta_variants.png}
+    \caption{Delta vs base across boost variants.}
+\end{subfigure}
+\caption{Cross-relation enhancement comparison and parameter-sensitivity deltas.}
+\label{fig:cross_relation_boost}
+\end{figure}
+
+\subsection{Community Analysis and Case Study}
+We inspect soft assignments with normalized entropy and top-1 assignment probability. On raw\_us, the best boost setting reduces entropy from 0.999997 to 0.318417 and raises the top-1 probability from 0.015789 to 0.621467. This indicates non-collapsed but decisive communities. In contrast, raw\_cn stays close to uniform, consistent with its weaker boost gain.
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/raw_us_boost_community_trajectory.png}
+    \caption{Community centroid trajectory (raw\_us boost).}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/raw_us_boost_community_drift.png}
+    \caption{Community drift by epoch (raw\_us boost).}
+\end{subfigure}
+\caption{Community vector evolution under cross-relation enhancement.}
+\label{fig:community_evo}
+\end{figure}
+
+Case studies further support this trend. On raw\_us, the largest gains appear when assignee-to-IPC context is consistent with the target IPC label. On raw\_cn, the dominant cases instead show negative score shifts. This again points to lower auxiliary relation quality and suggests that confidence or temporal freshness should be used before injecting such edges into memory updates.
+
+\section{Discussion}
+Although DHC performs strongly on many ranking metrics, AP and F1 gaps remain on several datasets. Our evidence points to five main factors:
+\begin{itemize}
+\item \textbf{Threshold mismatch}: especially severe in long-tail patent labels; fixed 0.5 is suboptimal.
+\item \textbf{Metric conflict}: some settings improve F1 but hurt AP/AUC (e.g., aggressive class reweighting).
+\item \textbf{Dataset heterogeneity}: relation semantics, text quality, and sparsity differ substantially across arxiv, dblp, aminer\_paper, and patent datasets.
+\item \textbf{Text encoder mismatch}: in raw\_cn, the gap between target semantics and noisy Chinese patent text suggests that a stronger multilingual sentence encoder or domain-specialized patent encoder could better align auxiliary relation evidence with the target task \citep{reimers-gurevych-2019-sentence,zhao2023glem,zhou2025sketch}.
+\item \textbf{Protocol and scale sensitivity}: the amazon\_movies stress test and the AMiner extension both show that temporal benchmark outcomes are highly sensitive to task construction. One fails because the target relation is not valid for replay-based link prediction. The other remains valid, but its near-zero source overlap produces a much harder transductive citation split, a pattern also emphasized by TGB and TGB 2.0 \citep{huang2023tgb,gastinger2024tgb2}.
+\end{itemize}
+
+For further iteration, we recommend class-wise threshold calibration with validation constraints, stronger multilingual or patent-specialized text encoders, relation-specific decoders when AP is the main target, and confidence-aware filtering for noisy auxiliary relations in Chinese patent graphs. The AMiner comparison further suggests that DHC needs a stronger local citation encoder if it is to match TGN-like baselines on pure paper citation ranking.
+
+\section{Conclusion}
+We presented DHC, a unified framework for dynamic heterogeneous and text-attributed graph learning. The model combines relation-aware temporal messaging, relation memory evolution, text-aware initialization, and soft community memory. Across the completed four-dataset benchmark and the additional AMiner transfer set, DHC achieves strong ranking performance on both patent and academic tasks. It is especially effective on academic link prediction and remains competitive on patent link prediction.
+
+The experiments also clarify current limitations. Patent node multi-label tasks remain difficult even when ranking metrics are high. Cross-relation enhancement helps on raw\_us but not on raw\_cn, which shows that auxiliary edges must be filtered carefully. The amazon\_movies stress test further highlights that task construction and evaluation cost must be checked before a dataset is integrated into a repeated benchmark. The additional AMiner run shows that the same pipeline can transfer to a larger citation subset, but it also confirms two limitations: low source overlap makes transductive citation prediction substantially harder, and pure citation graphs benefit from a lighter configuration than the default community-rich DHC setup. Even after this correction, transductive citation prediction still exhibits noticeably higher seed variance than the other completed benchmarks.
+
+Overall, the study shows that temporal relation modeling, semantic node encoding, and soft community memory are complementary in dynamic heterogeneous graphs. The study also provides a reproducible pipeline for future work on stronger text encoders, cleaner auxiliary relations, and more stable multi-label decision rules.
+
+\section*{Acknowledgment}
+This work was supported in part by the National key R\&D Program of China (No. 2022YFB2602104) and the Research Start-up Funds of Hangzhou International Innovation Institute of Beihang University (No. 2024KQ026).
+
+\bibliographystyle{splncs04}
+\bibliography{iconip25}
+
+\end{document}

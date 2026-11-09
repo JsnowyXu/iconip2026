@@ -1,0 +1,7 @@
+dataset,inductive_edges,transductive_edges,same_total_edges,train_same_indices,train_inductive_edges,train_transductive_edges,val_same_indices,val_inductive_edges,val_transductive_edges,test_same_indices,test_inductive_edges,test_transductive_edges,all_split_indices_identical
+dblp,200000,200000,True,False,147886,146099,False,33360,36810,False,18754,17091,False
+aminer_paper_citation,961282,961282,True,False,870607,857834,False,63734,69911,False,26941,33537,False
+patent_us,925249,1047764,False,False,863605,744631,False,61642,149604,False,131,153529,False
+patent_in,1074509,1154804,False,False,935384,809114,False,77977,181225,False,61148,164465,False
+patent_cn,690931,757275,False,False,616782,534357,False,41007,114573,False,33142,108345,False
+thgl_software,1489806,1489806,True,True,1108627,1108627,True,203697,203697,True,177482,177482,True

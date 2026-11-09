@@ -1,0 +1,95 @@
+
+\section{Preliminary}
+
+This section defines the data format, task views, and unified notation used by DHC. 
+\subsection{Dynamic Heterogeneous Graph}
+
+\textbf{Definition 1. Unified dynamic heterogeneous graph.}
+We represent a dynamic heterogeneous graph as a chronological event stream
+\begin{equation}
+\mathcal{S}=\{o_i=(u_i,r_i,v_i,t_i,\mathbf{e}_i,y_i)\}_{i=1}^{N}, \quad t_i \leq t_{i+1},
+\label{eq:event_stream}
+\end{equation}
+where $u_i$ and $v_i$ are the source and destination nodes connected with relation type $r_i\in\mathcal{R}$ which interact at time $t_i$, 
+$\mathbf{e}_i$ denotes edge features, and $y_i\in\{0,1\}$ indicates whether the event is a supervised target edge. 
+Each node $u\in\mathcal{V}$ has a node type $\tau_u\in\mathcal{U}$ and a text-derived feature vector $\mathbf{x}_u\in\mathbb{R}^{d_x}$. 
+The event stream is sorted by time strictly. This definition captures three types of information: typed entities, typed temporal interactions, and text-derived node attributes.
+
+\begin{table}[t]
+\centering
+\caption{Main notation used in DHC.}
+\label{tab:notation}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{ll}
+\toprule
+Symbol & Description \\
+\midrule
+$\mathcal{V},\mathcal{R},\mathcal{U}$ & Node, relation-type, and node-type sets \\
+$o_i=(u_i,r_i,v_i,t_i,\mathbf{e}_i,y_i)$ & Temporal event with edge feature and target-edge indicator \\
+$\mathbf{x}_u,\tau_u$ & Text-derived node feature and node type of $u$ \\
+$\mathbf{M}_u(t)$ & Node memory state of node $u$ after events up to time $t$ \\
+$\mathbf{R}_r(t)$ & Relation memory state of relation $r$ after events up to time $t$ \\
+$\Phi(\Delta t)$ & Sinusoidal encoding of an elapsed time gap \\
+$\rho_r(t)$ & Effective relation representation at time $t$ \\
+$\mathcal{N}_{L}(u,t)$ & Bounded recent-neighbor window of node $u$ before time $t$ \\
+$\mathbf{E}_u(t)$ & \rev{Sequential event-memory state of node $u$ after events up to time $t$} \\
+$\mathbf{q}^{E}_{u\leftarrow v}(t)$ & \rev{Directional message used by the sequential event-memory branch} \\
+$h_u^{C}(t), h_u^{E}(t)$ & \rev{Context-branch and sequential event-memory representations} \\
+$s_{\theta}(u,r,v,t)$ & Logit score for candidate temporal link $(u,r,v,t)$ \\
+$\mathcal{N}_i^{-}$ & Negative destination set sampled for event $o_i$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Temporal Edge-Task Views}
+
+\textbf{Definition 2. Temporal heterogeneous edge-task view.}
+Given the event stream $\mathcal{S}$, DHC separates events into context edges and target edges. 
+Context edges provide temporal and heterogeneous background information for state updates, 
+while target edges provide supervised labels for link prediction. 
+Formally, events with $y_i=1$ are used in the link-prediction loss, whereas events with $y_i=0$ are used only to update dynamic states.
+
+We consider two task views. In the \emph{transductive} view, training, validation, and test edges are split chronologically, and their node sets may overlap. 
+In the \emph{inductive} view, the split also withholds a set of source-side or target-side nodes. Target edges involving these unseen nodes are assigned to the test set. 
+Training and validation context edges that touch unseen nodes are removed. This prevents indirect leakage through auxiliary relations and makes the inductive task stricter than ordinary chronological extrapolation.
+
+\subsection{Temporal Link Prediction}
+
+\textbf{Definition 3. Temporal link prediction.}
+Given a query $(u,r,?,t)$ and the historical event set
+\begin{equation}
+\mathcal{H}_t=\{o_i\in\mathcal{S}\mid t_i<t\},
+\end{equation}
+the goal is to rank the true destination node $v$ above negative candidates. 
+DHC computes a temporal link score
+\begin{equation}
+s_{\theta}(u,r,v,t)=f_{\theta}(u,r,v,t,\mathcal{H}_t),
+\end{equation}
+where $f_{\theta}$ denotes the DHC scoring function conditioned on dynamic node states, relation states, and recent temporal context built from $\mathcal{H}_t$.
+
+For evaluation, each positive target edge is compared with sampled negative destinations $\mathcal{N}_i^{-}$. 
+The rank of the true destination is:
+\begin{equation}
+\operatorname{rank}_i
+=
+1+
+\sum_{v^{-}\in\mathcal{N}_i^{-}}
+\mathbb{I}
+\left[
+s_{\theta}(u_i,r_i,v^{-},t_i)
+\geq
+s_{\theta}(u_i,r_i,v_i,t_i)
+\right],
+\end{equation}
+where $\mathbb{I}[\cdot]$ is the indicator function. The mean reciprocal rank(MRR) is
+\begin{equation}
+\mathrm{MRR}
+=
+\frac{1}{|\mathcal{Q}|}
+\sum_{i\in\mathcal{Q}}
+\frac{1}{\operatorname{rank}_i}.
+\end{equation}
+where $\mathcal{Q}$ is the evaluated positive target-edge set. \rev{Table~\ref{tab:notation} summarizes the symbols used in this paper; in particular, the edge-type augmentation flag and optional relation loss weights are introduced in Algorithm~\ref{alg:dhc_forward} and Eq.~\eqref{eq:link_loss}.}
+
+

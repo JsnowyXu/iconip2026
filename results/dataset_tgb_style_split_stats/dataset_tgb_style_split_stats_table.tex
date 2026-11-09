@@ -1,0 +1,50 @@
+\begin{table}[t]
+\centering
+\small
+\caption{Train/validation/test split statistics. The split-level columns follow the TGB2-style dataset statistics; Induct. Nodes is measured against the training split.}
+\label{tab:dataset-split-tgb-style-stats}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllrrrrrrrrr}
+\toprule
+Dataset & Protocol & Split & Nodes & Edges & Avg. Deg. & Induct. Nodes & DRec & Rec & Con & Edges/Ts. & Nodes/Ts. \\
+\midrule
+dblp & inductive & train & 140,030 & 147,886 & 2.11 & 0.000 & 0.000 & 0.000 & 1.00 & 81.57 & 85.34 \\
+dblp & inductive & val & 32,775 & 33,360 & 2.04 & 0.885 & 0.000 & 0.000 & 1.00 & 11120.00 & 11222.00 \\
+dblp & inductive & test & 19,337 & 18,754 & 1.94 & 0.829 & 0.000 & 0.000 & 1.00 & 382.73 & 405.39 \\
+dblp & transductive & train & 138,448 & 146,099 & 2.11 & 0.000 & 0.000 & 0.000 & 1.00 & 80.63 & 84.53 \\
+dblp & transductive & val & 35,557 & 36,810 & 2.07 & 0.880 & 0.000 & 0.000 & 1.00 & 18405.00 & 18272.50 \\
+dblp & transductive & test & 17,395 & 17,091 & 1.97 & 0.902 & 0.000 & 0.000 & 1.00 & 5697.00 & 5840.33 \\
+aminer\_paper\_citation & inductive & train & 232,140 & 870,607 & 7.50 & 0.000 & 0.002 & 0.039 & 1.00 & 432.92 & 146.48 \\
+aminer\_paper\_citation & inductive & val & 36,316 & 63,734 & 3.51 & 0.645 & 0.006 & 0.081 & 1.00 & 31867.00 & 19338.50 \\
+aminer\_paper\_citation & inductive & test & 24,464 & 26,941 & 2.20 & 0.445 & 0.000 & 0.000 & 1.00 & 2449.18 & 2478.82 \\
+aminer\_paper\_citation & transductive & train & 227,375 & 857,834 & 7.55 & 0.000 & 0.002 & 0.036 & 1.00 & 426.78 & 142.60 \\
+aminer\_paper\_citation & transductive & val & 40,211 & 69,911 & 3.48 & 0.640 & 0.006 & 0.087 & 1.00 & 34955.50 & 21424.50 \\
+aminer\_paper\_citation & transductive & test & 20,451 & 33,537 & 3.28 & 0.678 & 0.006 & 0.069 & 1.00 & 33537.00 & 20451.00 \\
+patent\_us & inductive & train & 201,165 & 863,605 & 8.59 & 0.000 & 0.110 & 0.316 & 1.03 & 1654.42 & 623.65 \\
+patent\_us & inductive & val & 608 & 61,642 & 202.77 & 0.128 & 0.489 & 0.885 & 1.85 & 360.48 & 122.78 \\
+patent\_us & inductive & test & 80 & 131 & 3.27 & 0.013 & 0.061 & 0.389 & 1.00 & 131.00 & 80.00 \\
+patent\_us & transductive & train & 145,103 & 744,631 & 10.26 & 0.000 & 0.151 & 0.350 & 1.05 & 1798.63 & 578.90 \\
+patent\_us & transductive & val & 29,514 & 149,604 & 10.14 & 0.964 & 0.176 & 0.386 & 1.08 & 6233.50 & 1802.25 \\
+patent\_us & transductive & test & 28,840 & 153,529 & 10.65 & 0.963 & 0.126 & 0.393 & 1.07 & 1827.73 & 597.10 \\
+patent\_in & inductive & train & 163,357 & 935,384 & 11.45 & 0.000 & 0.042 & 0.271 & 1.02 & 2612.80 & 877.27 \\
+patent\_in & inductive & val & 1,053 & 77,977 & 148.10 & 0.450 & 0.150 & 0.650 & 1.13 & 373.10 & 161.55 \\
+patent\_in & inductive & test & 1,053 & 61,148 & 116.14 & 0.452 & 0.088 & 0.607 & 1.10 & 389.48 & 151.76 \\
+patent\_in & transductive & train & 116,685 & 809,114 & 13.87 & 0.000 & 0.060 & 0.300 & 1.02 & 2848.99 & 827.58 \\
+patent\_in & transductive & val & 27,942 & 181,225 & 12.97 & 0.873 & 0.034 & 0.346 & 1.02 & 5177.86 & 1327.63 \\
+patent\_in & transductive & test & 26,848 & 164,465 & 12.25 & 0.865 & 0.049 & 0.364 & 1.03 & 4217.05 & 1246.67 \\
+patent\_cn & inductive & train & 197,742 & 616,782 & 6.24 & 0.000 & 0.027 & 0.256 & 1.01 & 1183.84 & 750.35 \\
+patent\_cn & inductive & val & 840 & 41,007 & 97.64 & 0.386 & 0.117 & 0.758 & 1.16 & 157.11 & 152.28 \\
+patent\_cn & inductive & test & 829 & 33,142 & 79.96 & 0.391 & 0.127 & 0.738 & 1.14 & 178.18 & 156.95 \\
+patent\_cn & transductive & train & 140,564 & 534,357 & 7.60 & 0.000 & 0.043 & 0.291 & 1.02 & 1251.42 & 685.51 \\
+patent\_cn & transductive & val & 32,385 & 114,573 & 7.08 & 0.918 & 0.024 & 0.303 & 1.01 & 2603.93 & 1474.25 \\
+patent\_cn & transductive & test & 30,728 & 108,345 & 7.05 & 0.914 & 0.027 & 0.309 & 1.02 & 2124.41 & 1205.29 \\
+thgl\_software & inductive & train & 559,212 & 1,108,627 & 3.96 & 0.000 & 0.000 & 0.078 & 1.00 & 0.55 & 1.01 \\
+thgl\_software & inductive & val & 154,177 & 203,697 & 2.64 & 0.470 & 0.000 & 0.084 & 1.00 & 0.58 & 1.06 \\
+thgl\_software & inductive & test & 129,442 & 177,482 & 2.74 & 0.526 & 0.000 & 0.095 & 1.00 & 0.56 & 1.03 \\
+thgl\_software & transductive & train & 559,212 & 1,108,627 & 3.96 & 0.000 & 0.000 & 0.078 & 1.00 & 0.55 & 1.01 \\
+thgl\_software & transductive & val & 154,177 & 203,697 & 2.64 & 0.470 & 0.000 & 0.084 & 1.00 & 0.58 & 1.06 \\
+thgl\_software & transductive & test & 129,442 & 177,482 & 2.74 & 0.526 & 0.000 & 0.095 & 1.00 & 0.56 & 1.03 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

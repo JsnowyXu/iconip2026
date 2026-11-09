@@ -1,0 +1,12 @@
+dataset,task_name,split,relation_id,relation_name,edge_count,supervised_edge_count
+aminer_paper,aminer_paper_citation_edge_inductive,train,0,paper_cite_paper,147123,147123
+aminer_paper,aminer_paper_citation_edge_inductive,train,1,author_write_paper,37198,0
+aminer_paper,aminer_paper_citation_edge_inductive,train,2,paper_publish_venue,13622,0
+aminer_paper,aminer_paper_citation_edge_inductive,train,3,author_coauthor_author,672664,0
+aminer_paper,aminer_paper_citation_edge_inductive,val,0,paper_cite_paper,32867,32866
+aminer_paper,aminer_paper_citation_edge_inductive,val,1,author_write_paper,7444,0
+aminer_paper,aminer_paper_citation_edge_inductive,val,2,paper_publish_venue,2551,0
+aminer_paper,aminer_paper_citation_edge_inductive,val,3,author_coauthor_author,20872,0
+aminer_paper,aminer_paper_citation_edge_inductive,test,0,paper_cite_paper,20010,20010
+aminer_paper,aminer_paper_citation_edge_inductive,test,1,author_write_paper,5134,0
+aminer_paper,aminer_paper_citation_edge_inductive,test,2,paper_publish_venue,1797,0

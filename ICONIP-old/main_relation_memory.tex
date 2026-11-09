@@ -1,0 +1,60 @@
+\documentclass[runningheads]{llncs}
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\newcommand{\concat}{\mathbin{\Vert}}
+\newcommand{\sigmoid}{\sigma}
+\newcommand{\placeholderfigure}[2]{%
+\fbox{\begin{minipage}[c][#2][c]{0.94\textwidth}\centering\small #1\end{minipage}}}
+
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{7pt plus 2pt minus 2pt}
+\setlength{\intextsep}{7pt plus 2pt minus 2pt}
+\setlength{\abovedisplayskip}{6pt plus 2pt minus 2pt}
+\setlength{\belowdisplayskip}{6pt plus 2pt minus 2pt}
+\setlength{\abovedisplayshortskip}{4pt plus 2pt minus 2pt}
+\setlength{\belowdisplayshortskip}{4pt plus 2pt minus 2pt}
+\setlist[itemize]{leftmargin=*,itemsep=1pt,topsep=2pt}
+
+
+\begin{document}
+
+\input{texfiles/title}
+
+\input{texfiles/intro}
+
+\input{texfiles/related}
+
+\input{texfiles/pre}
+
+\input{texfiles/methodology}
+
+\input{texfiles/experiments}
+
+\section{Conclusion}
+We presented DHC, a dynamic heterogeneous context-learning framework for temporal link prediction. 
+The model combines text-aware node initialization, relation-time messages, node and relation memory, recent-neighbor temporal encoding, and sequential event-memory fusion. 
+On the current four datasets, DHC is competitive across scholarly citation, patent, and software temporal heterogeneous graphs. The ablations and case studies suggest that relation memory and recent-neighbor encoding should be treated as task-adaptive components. 
+They are most useful when relations are sparse, non-stationary, or semantically heterogeneous.
+
+\section*{Acknowledgment}
+This work was supported by the National Natural Science Foundation of China (62272023).
+\begingroup
+\footnotesize
+\bibliographystyle{splncs04}
+\bibliography{iconip25_dhc}
+\endgroup
+
+\end{document}

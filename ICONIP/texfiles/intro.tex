@@ -1,0 +1,42 @@
+
+\section{Introduction}
+Temporal graph learning represents a graph as an ordered stream of event interactions. It is widely used for edges that appear over time, such as paper citations, co-authorships, patent assignments, and software dependency events. 
+Recent models such as TGAT, TGN, DyGFormer, GraphMixer, and RepeatMixer have shown that temporal attention, event memory, neighbor co-occurrence, and repeated interaction patterns are important for link prediction in continuous-time graphs \cite{xu2020tgat,rossi2020tgn,yu2023dygformer,cong2023graphmixer,zou2024repeatmixer}. 
+\rev{In parallel, heterogeneous graph learning has shown that node and relation types are essential when similar topologies carry different semantics \cite{wang2019heterogeneous,hu2020hgt}.}
+
+This paper studies temporal link prediction on dynamic heterogeneous and text-attributed graphs. 
+This setting is significant for academic data mining and technology intelligence.
+In scholarly networks, papers, authors, venues, and topics form typed relations that evolve with time. 
+In patent networks, assignees, inventors, patents, and IPC/CPC codes interact through multiple technical ownership relations. 
+In software ecosystems, users, repositories, packages, and issues are connected by typed temporal events. 
+\rev{These applications require models that jointly use textual attributes, time-dependent structural context, and complex typed relations.}
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/1-existmethod.png}
+\caption{Illustration of existing methods and gaps for temporal link prediction.
+}
+\label{fig:intro_results}
+\vspace{-2mm}
+\end{figure}
+
+The task is challenging for three reasons. 
+First, relation types have different meanings and predictive roles. A citation edge, a coauthor edge, and an assignee--technology edge should not share the same message function. 
+Second, relation behavior is non-stationary. A relation that is informative in one period may become less informative later. 
+Third, future links depend on recent temporal neighborhoods rather than isolated endpoints, especially when target edges are sparse or partially unseen.
+However, existing approaches address these issues partially. Methods for homogeneous temporal graphs model interaction sequences, but usually ignore typed entities and multi-relational structures. 
+Methods for heterogeneous or text-attributed graphs capture node types and attributes, but relation types are often used as fixed labels or static embeddings. 
+As shown in \ref{fig:intro_results}, this leaves relation evolution and relation-aware local temporal context unexplored. 
+
+To address these limitations, we propose DHC, a dynamic heterogeneous context-learning framework. 
+DHC maintains node memory and relation memory, generates relation-conditioned temporal messages, 
+encodes recent local neighborhoods, and fuses them with a sequential event-memory branch. 
+The model follows a unified event-stream protocol. Context edges update dynamic states, while target edges provide supervised labels. 
+This is useful for academic and patent graphs because auxiliary relations, such as authorship, venue, topic, and technology-paper links, can provide evidence for predicting a
+specific target relation. 
+
+The main contributions are summarized as follows:
+\begin{itemize}[leftmargin=*]
+\item We introduce a temporal heterogeneous link prediction framework that jointly models text-derived node attributes, relation-aware messages, node-relation dual memory, and recent-neighbor temporal context.
+\item \rev{We design relation-time message generation and dynamic relation states, allowing relation semantics to influence both state evolution and link scoring.}
+\item \rev{Experiments on four processed temporal heterogeneous datasets from scholarly, patent, and software domains evaluate DHC in both transductive and inductive settings.}
+\end{itemize}

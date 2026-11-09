@@ -1,0 +1,32 @@
+[run_train] device=cpu
+[run_train] task_type=edge_transductive
+[run_train] params total=17610 trainable=17610
+[train] epoch=001 loss=1.531586 monitor=val_ap:0.079752 time=0.15s best_epoch=1 stale=0/10 val_mrr=0.240518 val_auc=0.534375 val_ap=0.079752
+[train] epoch=002 loss=1.533212 monitor=val_ap:0.080848 time=0.13s best_epoch=2 stale=0/10 val_mrr=0.163578 val_auc=0.541406 val_ap=0.080848
+[test_link_eval:replay] start edges=40 batches=5 batch_size=8
+[test_link_eval:replay] progress batch=1/5
+[test_link_eval:replay] progress batch=5/5
+[test_link_eval:replay] done
+[test_link_eval] start edges=8 batches=1 num_neg=20
+[test_link_eval] progress batch=1/1
+[test_link_eval] done auc=0.503906 ap=0.062314 mrr=0.105388
+[relation_breakdown] start relations=2
+[relation_breakdown:0:replay] start edges=40 batches=5 batch_size=8
+[relation_breakdown:0:replay] progress batch=1/5
+[relation_breakdown:0:replay] progress batch=5/5
+[relation_breakdown:0:replay] done
+[relation_breakdown:0] start edges=4 batches=1 num_neg=20
+[relation_breakdown:0] progress batch=1/1
+[relation_breakdown:0] done auc=0.656250 ap=0.089250 mrr=0.121429
+[relation_breakdown] progress relation=1/2 name=rel_0
+[relation_breakdown:1:replay] start edges=40 batches=5 batch_size=8
+[relation_breakdown:1:replay] progress batch=1/5
+[relation_breakdown:1:replay] progress batch=5/5
+[relation_breakdown:1:replay] done
+[relation_breakdown:1] start edges=4 batches=1 num_neg=20
+[relation_breakdown:1] progress batch=1/1
+[relation_breakdown:1] done auc=0.334375 ap=0.047271 mrr=0.055308
+[relation_breakdown] progress relation=2/2 name=rel_1
+[relation_breakdown] done
+{'test_mrr': 0.10538847117794486, 'test_auc': 0.50390625, 'test_ap': 0.06231400823589017, 'test_node_ml_micro_f1': 0.0}
+{"status": "PASS", "training_epochs": 2, "ranking": {"source_id": 0, "relation_id": 0, "timestamp": 40.0, "history_watermark": 32.0, "ranked": [{"node_id": 2, "logit": -0.07711026072502136, "sigmoid_score": 0.4807319939136505}, {"node_id": 1, "logit": -0.08381636440753937, "sigmoid_score": 0.4790582060813904}]}, "checkpoint_contains_memory_grus": true}

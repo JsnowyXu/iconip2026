@@ -1,0 +1,8 @@
+saved unified dataset to /home/xuxj/2026/iconip-master/data/smoke/preprocess/unified.pt
+nodes=108 edges=300 rels=2
+baseline adapters exported to /home/xuxj/2026/iconip-master/data/smoke/preprocess/adapters
+generated:
+/home/xuxj/2026/iconip-master/data/smoke/preprocess/tasks/dblp_edge_transductive.pt
+/home/xuxj/2026/iconip-master/data/smoke/preprocess/tasks/dblp_edge_inductive.pt
+/home/xuxj/2026/iconip-master/data/smoke/preprocess/tasks/dblp_node_multilabel.pt
+PASS: raw ZIP parsing, 128-D features, target/context task splits, and baseline export

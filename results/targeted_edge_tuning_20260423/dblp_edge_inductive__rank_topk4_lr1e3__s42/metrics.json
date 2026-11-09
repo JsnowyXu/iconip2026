@@ -1,0 +1,210 @@
+{
+  "best_epoch": 2,
+  "stopped_epoch": 12,
+  "monitor_metric": "val_mrr",
+  "best_val": {
+    "epoch": 2,
+    "loss": 0.4829749297157291,
+    "epoch_sec": 83.6706771850586,
+    "val_auc": 0.9034532859697271,
+    "val_ap": 0.2422109089793692,
+    "val_acc": 0.926975259377494,
+    "val_mrr": 0.5267715209405154
+  },
+  "test": {
+    "auc": 0.9646334579673669,
+    "ap": 0.45679174018939617,
+    "acc": 0.9506223853728226,
+    "mrr": 0.7388067797189283
+  },
+  "test_relation_breakdown": {
+    "rel_1": {
+      "auc": 0.9641016688860236,
+      "ap": 0.45117420171448686,
+      "acc": 0.9501226832721519,
+      "mrr": 0.7433606888201264
+    }
+  },
+  "test_task_splits": {},
+  "node_eval": {},
+  "multilabel_threshold_calibration": {
+    "threshold": 0.5,
+    "calib_micro_f1": 0.0,
+    "calib_nodes": 0
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 0.5670532287713979,
+      "epoch_sec": 73.18222880363464,
+      "val_auc": 0.7450516229331716,
+      "val_ap": 0.18235028084819194,
+      "val_acc": 0.9151999165965646,
+      "val_mrr": 0.425572183589992
+    },
+    {
+      "epoch": 2,
+      "loss": 0.4829749297157291,
+      "epoch_sec": 83.6706771850586,
+      "val_auc": 0.9034532859697271,
+      "val_ap": 0.2422109089793692,
+      "val_acc": 0.926975259377494,
+      "val_mrr": 0.5267715209405154
+    },
+    {
+      "epoch": 3,
+      "loss": 0.4736233945536366,
+      "epoch_sec": 74.76873135566711,
+      "val_auc": 0.7797153810178243,
+      "val_ap": 0.14916483026669114,
+      "val_acc": 0.9228985569767693,
+      "val_mrr": 0.3541568829570196
+    },
+    {
+      "epoch": 4,
+      "loss": 0.4795449028842177,
+      "epoch_sec": 73.6429386138916,
+      "val_auc": 0.9060895026833885,
+      "val_ap": 0.24484514103356958,
+      "val_acc": 0.9183563052278136,
+      "val_mrr": 0.5125955641318769
+    },
+    {
+      "epoch": 5,
+      "loss": 0.4126596275497885,
+      "epoch_sec": 73.0643675327301,
+      "val_auc": 0.8660213593178836,
+      "val_ap": 0.18173978271138402,
+      "val_acc": 0.9227457705111336,
+      "val_mrr": 0.4187372948874756
+    },
+    {
+      "epoch": 6,
+      "loss": 0.4347830697842535,
+      "epoch_sec": 75.00464868545532,
+      "val_auc": 0.8749457409720822,
+      "val_ap": 0.19929265125077364,
+      "val_acc": 0.9280717269544085,
+      "val_mrr": 0.4350915805175582
+    },
+    {
+      "epoch": 7,
+      "loss": 0.41922499615840847,
+      "epoch_sec": 73.35234475135803,
+      "val_auc": 0.8780859225826643,
+      "val_ap": 0.2190694893281515,
+      "val_acc": 0.8845653314927058,
+      "val_mrr": 0.44753024763499627
+    },
+    {
+      "epoch": 8,
+      "loss": 0.4309294170032942,
+      "epoch_sec": 72.94365453720093,
+      "val_auc": 0.8887035715732552,
+      "val_ap": 0.21128555897132575,
+      "val_acc": 0.8831075688617588,
+      "val_mrr": 0.47419937985580446
+    },
+    {
+      "epoch": 9,
+      "loss": 0.427921771732478,
+      "epoch_sec": 74.64610052108765,
+      "val_auc": 0.893768206932822,
+      "val_ap": 0.235738420259749,
+      "val_acc": 0.9224941222147927,
+      "val_mrr": 0.47780522214879756
+    },
+    {
+      "epoch": 10,
+      "loss": 0.413419622180268,
+      "epoch_sec": 73.861168384552,
+      "val_auc": 0.8837123643074049,
+      "val_ap": 0.2178644307979073,
+      "val_acc": 0.9264252281012058,
+      "val_mrr": 0.45304223726011433
+    },
+    {
+      "epoch": 11,
+      "loss": 0.4257384042761524,
+      "epoch_sec": 73.84345650672913,
+      "val_auc": 0.8813024597217011,
+      "val_ap": 0.22455006079618753,
+      "val_acc": 0.9288877864296858,
+      "val_mrr": 0.4550890992930099
+    },
+    {
+      "epoch": 12,
+      "loss": 0.39780692756175995,
+      "epoch_sec": 73.53062272071838,
+      "val_auc": 0.9093288741838462,
+      "val_ap": 0.25661387674369784,
+      "val_acc": 0.9318913885952992,
+      "val_mrr": 0.5195810698603994
+    }
+  ],
+  "epoch_time_sec": [
+    73.18222880363464,
+    83.6706771850586,
+    74.76873135566711,
+    73.6429386138916,
+    73.0643675327301,
+    75.00464868545532,
+    73.35234475135803,
+    72.94365453720093,
+    74.64610052108765,
+    73.861168384552,
+    73.84345650672913,
+    73.53062272071838
+  ],
+  "avg_epoch_time_sec": 74.62591163317363,
+  "memory_trace_file": "/home/xuxj/2026/dyn_relation_memory/results/targeted_edge_tuning_20260423/dblp_edge_inductive__rank_topk4_lr1e3__s42/memory_trace.pt",
+  "memory_final_state_file": "/home/xuxj/2026/dyn_relation_memory/results/targeted_edge_tuning_20260423/dblp_edge_inductive__rank_topk4_lr1e3__s42/memory_final_state.pt",
+  "model_stats": {
+    "total_params": 1027753,
+    "trainable_params": 1027753,
+    "device": "cuda:0",
+    "gpu_id": 0
+  },
+  "run_args": {
+    "data": "/home/xuxj/2026/dyn_relation_memory/data/processed/paper_tasks/dblp_edge_inductive.pt",
+    "out_dir": "/home/xuxj/2026/dyn_relation_memory/results/targeted_edge_tuning_20260423/dblp_edge_inductive__rank_topk4_lr1e3__s42",
+    "seed": 42,
+    "epochs": 20,
+    "batch_size": 256,
+    "lr": 0.001,
+    "gpu_id": 1,
+    "early_stop_patience": 10,
+    "early_stop_min_delta": 0.0,
+    "monitor_metric": "val_mrr",
+    "task_type": "edge_inductive",
+    "mem_dim": 128,
+    "rel_dim": 64,
+    "time_dim": 32,
+    "msg_dim": 128,
+    "community_dim": 128,
+    "num_communities": 64,
+    "community_assign_temperature": 1.0,
+    "community_assign_topk": 4,
+    "no_recent_neighbors": false,
+    "recent_neighbor_size": 24,
+    "no_edge_type_features": false,
+    "no_relation_memory": false,
+    "no_community": false,
+    "lambda_cl": 0.05,
+    "lambda_community_entropy": 0.0,
+    "lambda_mc": 1.0,
+    "lambda_ml": 1.0,
+    "relation_loss_weights": "",
+    "ml_pos_weight": false,
+    "ml_pos_weight_max": 50.0,
+    "ml_pos_weight_power": 0.5,
+    "ml_threshold_search": false,
+    "ml_threshold_num_candidates": 99,
+    "ml_calib_max_nodes": 0,
+    "node_eval_max_nodes": 0,
+    "typed_negative_ratio": 0.0,
+    "popular_negative_ratio": 0.0,
+    "save_memory_artifacts": true,
+    "no_lightweight_checkpoint": false
+  }
+}

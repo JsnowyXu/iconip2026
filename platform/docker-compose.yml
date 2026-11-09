@@ -1,0 +1,68 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: dhc_platform
+      MYSQL_USER: dhc
+      MYSQL_PASSWORD: dhcpass
+      MYSQL_ROOT_PASSWORD: rootpass
+    command: ["--default-authentication-plugin=mysql_native_password", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    volumes:
+      - dhc_mysql_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+
+  backend:
+    build:
+      context: ..
+      dockerfile: platform/backend/Dockerfile
+    restart: unless-stopped
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: dhc_platform
+      MYSQL_USER: dhc
+      MYSQL_PASSWORD: dhcpass
+      DHC_PROJECT_ROOT: /app
+      DHC_PLATFORM_GITHUB_URL: https://github.com/your-org/dyn_hetero_community
+    depends_on:
+      - mysql
+    volumes:
+      - ..:/app
+    ports:
+      - "8000:8000"
+
+  worker:
+    build:
+      context: ..
+      dockerfile: platform/backend/Dockerfile
+    restart: unless-stopped
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: dhc_platform
+      MYSQL_USER: dhc
+      MYSQL_PASSWORD: dhcpass
+      DHC_PROJECT_ROOT: /app
+    depends_on:
+      - mysql
+      - backend
+    volumes:
+      - ..:/app
+    command: ["python", "manage.py", "runjobworker", "--poll-sec", "3"]
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: platform/frontend/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+
+volumes:
+  dhc_mysql_data:

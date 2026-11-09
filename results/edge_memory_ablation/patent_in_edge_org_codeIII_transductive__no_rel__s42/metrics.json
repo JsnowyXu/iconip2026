@@ -1,0 +1,169 @@
+{
+  "best_epoch": 1,
+  "stopped_epoch": 5,
+  "monitor_metric": "val_ap",
+  "best_val": {
+    "epoch": 1,
+    "loss": 1.2189749673828907,
+    "epoch_sec": 160.17450404167175,
+    "val_auc": 0.9990381089163016,
+    "val_ap": 0.9784770465144788,
+    "val_acc": 0.994002140532512,
+    "val_mrr": 0.994135377760304
+  },
+  "test": {
+    "auc": 0.99906410939761,
+    "ap": 0.9798931609228062,
+    "acc": 0.9938700318997207,
+    "mrr": 0.994308184354555
+  },
+  "test_relation_breakdown": {
+    "org_codeIII": {
+      "auc": 0.9993567714643369,
+      "ap": 0.9833578085151937,
+      "acc": 0.995978857581704,
+      "mrr": 0.9945983648789215
+    }
+  },
+  "test_task_splits": {
+    "org_codeIII_transductive": {
+      "val": {
+        "auc": 0.9994353990428078,
+        "ap": 0.9841630147546979,
+        "acc": 0.9964290310972422,
+        "mrr": 0.9948930810671669
+      },
+      "test": {
+        "auc": 0.9994745117179242,
+        "ap": 0.9849191255444314,
+        "acc": 0.9965597083336617,
+        "mrr": 0.994998804861456
+      }
+    },
+    "org_codeIII_inductive": {
+      "val": {
+        "auc": 0.9992939985437623,
+        "ap": 0.979914682730774,
+        "acc": 0.9934968614066296,
+        "mrr": 0.993707546242268
+      },
+      "test": {
+        "auc": 0.999325328873918,
+        "ap": 0.9809553311079448,
+        "acc": 0.9923775881779414,
+        "mrr": 0.9939790889862847
+      }
+    }
+  },
+  "node_eval": {},
+  "multilabel_threshold_calibration": {
+    "threshold": 0.5,
+    "calib_micro_f1": 0.0,
+    "calib_nodes": 0
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 1.2189749673828907,
+      "epoch_sec": 160.17450404167175,
+      "val_auc": 0.9990381089163016,
+      "val_ap": 0.9784770465144788,
+      "val_acc": 0.994002140532512,
+      "val_mrr": 0.994135377760304
+    },
+    {
+      "epoch": 2,
+      "loss": 1.2126493162176868,
+      "epoch_sec": 156.14154243469238,
+      "val_auc": 0.9950619773012253,
+      "val_ap": 0.9111247872070929,
+      "val_acc": 0.9806010340706626,
+      "val_mrr": 0.9674298320337243
+    },
+    {
+      "epoch": 3,
+      "loss": 1.2466744871210405,
+      "epoch_sec": 159.47510623931885,
+      "val_auc": 0.9987946908339377,
+      "val_ap": 0.9751692656846638,
+      "val_acc": 0.9858181920301048,
+      "val_mrr": 0.9944841971910972
+    },
+    {
+      "epoch": 4,
+      "loss": 1.1922981759779518,
+      "epoch_sec": 161.9568874835968,
+      "val_auc": 0.9988176828013138,
+      "val_ap": 0.9762675287286852,
+      "val_acc": 0.9938498694150355,
+      "val_mrr": 0.9927110499530393
+    },
+    {
+      "epoch": 5,
+      "loss": 1.1579478500690135,
+      "epoch_sec": 162.6331443786621,
+      "val_auc": 0.9987618104312658,
+      "val_ap": 0.9751357557103794,
+      "val_acc": 0.9911869970450666,
+      "val_mrr": 0.9938011925823996
+    }
+  ],
+  "epoch_time_sec": [
+    160.17450404167175,
+    156.14154243469238,
+    159.47510623931885,
+    161.9568874835968,
+    162.6331443786621
+  ],
+  "avg_epoch_time_sec": 160.07623691558837,
+  "memory_trace_file": "",
+  "memory_final_state_file": "",
+  "model_stats": {
+    "total_params": 1190417,
+    "trainable_params": 1190417,
+    "device": "cuda:0",
+    "gpu_id": 0
+  },
+  "run_args": {
+    "data": "/home/xuxj/2026/dyn_relation_memory/data/processed/tasks/patent_in_edge_org_codeIII_transductive.pt",
+    "out_dir": "/home/xuxj/2026/dyn_relation_memory/results/edge_memory_ablation/patent_in_edge_org_codeIII_transductive__no_rel__s42",
+    "seed": 42,
+    "epochs": 6,
+    "batch_size": 512,
+    "lr": 0.001,
+    "gpu_id": 0,
+    "early_stop_patience": 4,
+    "early_stop_min_delta": 0.0,
+    "monitor_metric": "auto",
+    "task_type": "edge_transductive",
+    "mem_dim": 128,
+    "rel_dim": 64,
+    "time_dim": 32,
+    "msg_dim": 128,
+    "community_dim": 128,
+    "num_communities": 64,
+    "community_assign_temperature": 0.7,
+    "community_assign_topk": 8,
+    "no_recent_neighbors": false,
+    "recent_neighbor_size": 10,
+    "no_edge_type_features": false,
+    "no_relation_memory": true,
+    "no_community": false,
+    "lambda_cl": 0.1,
+    "lambda_community_entropy": 0.01,
+    "lambda_mc": 1.0,
+    "lambda_ml": 1.0,
+    "relation_loss_weights": "",
+    "ml_pos_weight": false,
+    "ml_pos_weight_max": 50.0,
+    "ml_pos_weight_power": 0.5,
+    "ml_threshold_search": false,
+    "ml_threshold_num_candidates": 99,
+    "ml_calib_max_nodes": 0,
+    "node_eval_max_nodes": 0,
+    "typed_negative_ratio": 0.6,
+    "popular_negative_ratio": 0.2,
+    "save_memory_artifacts": false,
+    "no_lightweight_checkpoint": false
+  }
+}

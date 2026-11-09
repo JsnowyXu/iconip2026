@@ -1,0 +1,5 @@
+kind,epoch,slot,x,y,norm,label
+relation_replayed_final,7,0,1.1576499,0.14684722,1.8146394,org_codeIII
+relation_replayed_final,7,1,0.49808997,0.9919132,1.8932062,slot_1
+relation_replayed_final,7,2,0.21310139,-1.3411615,1.6390285,slot_2
+relation_replayed_final,7,3,-1.8688416,0.2024011,2.2378914,slot_3

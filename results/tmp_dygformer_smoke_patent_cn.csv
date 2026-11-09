@@ -1,0 +1,2 @@
+model,status,val_mrr,val_auc,val_ap,test_mrr,test_auc,test_ap,node_ml_micro_f1,node_ml_macro_f1,node_ml_precision_at_1,node_ml_precision_at_3,node_ml_precision_at_5,node_ml_recall_at_1,node_ml_recall_at_3,node_ml_recall_at_5,node_ml_ndcg_at_1,node_ml_ndcg_at_3,node_ml_ndcg_at_5,avg_epoch_sec,total_sec,total_params,trainable_params,device
+DyGFormer,ok,0.6890765765765766,0.7003424032140249,0.45094462015730036,0.6659693165969316,0.7272701808441729,0.44916135513185185,,,,,,,,,,,,5.2079877853393555,6.087301969528198,257705,257705,cuda:3

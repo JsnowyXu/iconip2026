@@ -1,0 +1,5 @@
+kind,epoch,slot,x,y,norm,label
+relation,7,0,1.2283446,-0.89384985,1.771092,org_codeIII
+relation,7,1,0.32403937,0.37504315,1.3772119,slot_1
+relation,7,2,0.20428191,0.9626957,1.2825503,slot_2
+relation,7,3,-1.7566655,-0.44388902,2.2101853,slot_3

@@ -1,0 +1,27 @@
+
+\title{DHC: Dynamic Heterogeneous Context Learning with Relation Memory for Temporal Link Prediction}
+\titlerunning{DHC for Temporal Link Prediction}
+
+\author{Xuejie Xu\inst{1}\orcidID{0000-0003-4890-2110} 
+\and Wenjin Zhang\inst{1}\orcidID{0009-0007-8375-9280}  
+\and \rev{Liangzhe Han}\inst{1}
+\and Jian Huang\inst{1}\orcidID{0000-0002-8223-5705} 
+\and Leilei Sun\inst{1}\orcidID{0000-0002-0157-1716}}
+\authorrunning{X. Xu et al.}
+\institute{Beihang University, Beijing 100191, China
+\email{\{x\_xuejie,liangzhehan,zhangwenjin,hj,leileisun\}@buaa.edu.cn}}
+\maketitle
+
+\begin{abstract}
+Dynamic heterogeneous graphs are commonly found in academic networks, patent systems, and software ecosystems. 
+They contain timestamped interactions, typed relations, and text-derived node attributes. 
+These signals are complementary, but existing temporal graph models still encode relation types as static edge features. They therefore have limited ability to track relation semantics as the graph evolves. 
+We propose DHC, a dynamic heterogeneous context-learning framework for temporal link prediction. 
+DHC combines text-aware node initialization, relation-time message generation, node-relation memory, recent-neighbor temporal subgraph encoding, and a sequential event-memory branch.
+The relation-aware context branch captures heterogeneous local evidence, while the event-memory branch preserves compact chronological interaction history. 
+Then a gate fuses the two representations for link scoring. 
+\rev{Empirical evaluations on AMiner-Paper, DBLP, Patent-US, and THGL-Software show that DHC is competitive under chronological evaluation; three datasets additionally use history-level cold-start views, while the reported THGL-Software ``inductive'' view is a disclosed temporal fallback.}
+The results indicate that explicitly modeling dynamic relation semantics and local temporal context are useful for scholarly, patent, and software network mining.
+
+\keywords{Dynamic Heterogeneous Graph \and Temporal Link Prediction \and Relation Memory \and Academic Data Mining}
+\end{abstract}

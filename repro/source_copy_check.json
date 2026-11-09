@@ -1,0 +1,44 @@
+[
+  {
+    "source": "dyn_relation_memory",
+    "destination": "iconip-master",
+    "files": 3532,
+    "bytes": 47866389904,
+    "missing": [],
+    "size_differences": [
+      "README.md",
+      "scripts/experiments/run_edge_only_campaign.py",
+      "scripts/experiments/run_patent_preprocessing.py",
+      "scripts/experiments/__pycache__/run_edge_only_campaign.cpython-38.pyc",
+      "scripts/experiments/__pycache__/run_patent_preprocessing.cpython-38.pyc",
+      "scripts/datasets/prepare_dataset.py",
+      "scripts/datasets/__pycache__/prepare_dataset.cpython-38.pyc",
+      "dhc/train/trainer.py",
+      "dhc/train/__pycache__/trainer.cpython-38.pyc"
+    ]
+  },
+  {
+    "source": "datasets",
+    "destination": "iconip-master/raw_datasets",
+    "files": 29,
+    "bytes": 15619198481,
+    "missing": [],
+    "size_differences": []
+  },
+  {
+    "source": "baselines/src",
+    "destination": "iconip-master/vendor/baselines",
+    "files": 341,
+    "bytes": 2057832935,
+    "missing": [],
+    "size_differences": []
+  },
+  {
+    "source": "baselines/ref",
+    "destination": "iconip-master/vendor/ref",
+    "files": 71,
+    "bytes": 183448015,
+    "missing": [],
+    "size_differences": []
+  }
+]

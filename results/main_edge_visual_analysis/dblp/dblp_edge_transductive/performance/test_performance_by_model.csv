@@ -1,0 +1,3 @@
+dataset,task_name,model,run_dir,epochs_run,best_epoch,best_val_mrr,final_loss,avg_epoch_sec,total_sec,test_mrr,test_auc,test_ap,total_params,trainable_params,split,source_path
+dblp,dblp_edge_transductive,tami,,,,,,52.93254140019417,,0.7952113143826627,0.9741756814690906,0.5562966563608072,7115474,492485,test,/home/xuxj/2026/dyn_relation_memory/results/tami_baseline_formal_20260508/dblp_edge_transductive.csv
+dblp,dblp_edge_transductive,DHC-main,/home/xuxj/2026/dyn_relation_memory/results/edge_only_formal/main/dblp_edge_transductive__seed42,7.0,2.0,0.4370128610710729,0.5604398653511408,65.89656053270612,461.27592372894287,0.25478637833953144,0.40849255842039717,0.13641621811304683,1026473,1026473,,

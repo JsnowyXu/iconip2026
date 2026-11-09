@@ -1,0 +1,241 @@
+{
+  "dataset": "aminer_paper",
+  "raw_inputs": {
+    "paper": "/home/xuxj/2026/datasets/Aminer/AMiner-Paper.rar",
+    "author": "/home/xuxj/2026/datasets/Aminer/AMiner-Author.zip",
+    "author2paper": "/home/xuxj/2026/datasets/Aminer/AMiner-Author2Paper.zip",
+    "coauthor": "/home/xuxj/2026/datasets/Aminer/AMiner-Coauthor.zip"
+  },
+  "paper": {
+    "archive": {
+      "path": "/home/xuxj/2026/datasets/Aminer/AMiner-Paper.rar",
+      "size_bytes": 534150263,
+      "size_mib": 509.405
+    },
+    "records_scanned": 2092356,
+    "scan_limited": false,
+    "field_coverage": {
+      "id": {
+        "non_empty": 2092356,
+        "coverage": 1.0
+      },
+      "title": {
+        "non_empty": 2092333,
+        "coverage": 0.999989
+      },
+      "authors": {
+        "non_empty": 2054851,
+        "coverage": 0.982075
+      },
+      "orgs": {
+        "non_empty": 2054770,
+        "coverage": 0.982037
+      },
+      "year": {
+        "non_empty": 2092209,
+        "coverage": 0.99993
+      },
+      "year_parseable": {
+        "non_empty": 2092209,
+        "coverage": 0.99993
+      },
+      "venue": {
+        "non_empty": 2092218,
+        "coverage": 0.999934
+      },
+      "abstract": {
+        "non_empty": 1534970,
+        "coverage": 0.733608
+      },
+      "references": {
+        "non_empty": 858794,
+        "coverage": 0.410444
+      }
+    },
+    "year_min": 1936,
+    "year_max": 2014,
+    "malformed_nonempty_years": 0,
+    "papers_with_references": 858794,
+    "reference_lines": 8024869,
+    "unique_referenced_paper_ids": 944959,
+    "top_years_by_record_count": {
+      "2009": 172075,
+      "2010": 141468,
+      "2011": 133335,
+      "2008": 130571,
+      "2012": 125644,
+      "2006": 123822,
+      "2007": 118228,
+      "2005": 100961,
+      "2013": 93875,
+      "2004": 64120,
+      "2002": 64116,
+      "2001": 59642,
+      "2000": 59069,
+      "2003": 57039,
+      "1999": 55693,
+      "1997": 54118,
+      "1998": 53788,
+      "1996": 49283,
+      "1995": 45287,
+      "1993": 38582
+    }
+  },
+  "author": {
+    "archive": {
+      "path": "/home/xuxj/2026/datasets/Aminer/AMiner-Author.zip",
+      "size_bytes": 175632142,
+      "size_mib": 167.496
+    },
+    "zip_members": [
+      {
+        "name": "AMiner-Author.txt",
+        "compressed_size": 175632010,
+        "file_size": 543701583
+      }
+    ],
+    "records_scanned": 1712433,
+    "scan_limited": false,
+    "field_coverage": {
+      "id": {
+        "non_empty": 1712433,
+        "coverage": 1.0
+      },
+      "name": {
+        "non_empty": 1712431,
+        "coverage": 0.999999
+      },
+      "affiliation": {
+        "non_empty": 979565,
+        "coverage": 0.572031
+      },
+      "paper_count": {
+        "non_empty": 1712433,
+        "coverage": 1.0
+      },
+      "citation_count": {
+        "non_empty": 1712433,
+        "coverage": 1.0
+      },
+      "h_index": {
+        "non_empty": 1712433,
+        "coverage": 1.0
+      },
+      "pi": {
+        "non_empty": 1712433,
+        "coverage": 1.0
+      },
+      "upi": {
+        "non_empty": 1712433,
+        "coverage": 1.0
+      },
+      "topics": {
+        "non_empty": 1697039,
+        "coverage": 0.99101
+      }
+    },
+    "numeric_ranges": {
+      "paper_count": {
+        "min": 1,
+        "max": 752
+      },
+      "citation_count": {
+        "min": 0,
+        "max": 15757
+      },
+      "h_index": {
+        "min": 0,
+        "max": 60
+      }
+    }
+  },
+  "author2paper": {
+    "archive": {
+      "path": "/home/xuxj/2026/datasets/Aminer/AMiner-Author2Paper.zip",
+      "size_bytes": 44063592,
+      "size_mib": 42.022
+    },
+    "zip_members": [
+      {
+        "name": "AMiner-Author2Paper.txt",
+        "compressed_size": 44063448,
+        "file_size": 133398342
+      }
+    ],
+    "rows_scanned": 5192998,
+    "scan_limited": false,
+    "malformed_rows": 0,
+    "unique_author_ids": 1712433,
+    "unique_paper_ids": 2037605,
+    "row_id_min": 1,
+    "row_id_max": 5192998,
+    "author_order_min": 1,
+    "author_order_max": 115,
+    "top_author_orders": {
+      "1": 2037605,
+      "2": 1503061,
+      "3": 868335,
+      "4": 420574,
+      "5": 183174,
+      "6": 81509,
+      "7": 38724,
+      "8": 20877,
+      "9": 11983,
+      "10": 7455,
+      "11": 4846,
+      "12": 3359,
+      "13": 2386,
+      "14": 1741,
+      "15": 1281,
+      "16": 968,
+      "17": 751,
+      "18": 593,
+      "19": 475,
+      "20": 400
+    }
+  },
+  "coauthor": {
+    "archive": {
+      "path": "/home/xuxj/2026/datasets/Aminer/AMiner-Coauthor.zip",
+      "size_bytes": 33132081,
+      "size_mib": 31.597
+    },
+    "zip_members": [
+      {
+        "name": "AMiner-Coauthor.txt",
+        "compressed_size": 33131945,
+        "file_size": 75424417
+      }
+    ],
+    "rows_scanned": 4258946,
+    "scan_limited": false,
+    "malformed_rows": 0,
+    "unique_author_ids": 1560640,
+    "unique_undirected_author_pairs": 4258946,
+    "self_loop_rows": 0,
+    "weight_min": 1,
+    "weight_max": 320,
+    "top_weights": {
+      "1": 3288462,
+      "2": 553011,
+      "3": 185736,
+      "4": 85127,
+      "5": 46816,
+      "6": 28243,
+      "7": 18596,
+      "8": 13000,
+      "9": 8817,
+      "10": 6532,
+      "11": 4873,
+      "12": 3634,
+      "13": 2798,
+      "14": 2217,
+      "15": 1755,
+      "16": 1456,
+      "17": 1183,
+      "18": 916,
+      "19": 763,
+      "20": 664
+    }
+  }
+}

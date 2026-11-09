@@ -1,0 +1,188 @@
+{
+  "best_epoch": 2,
+  "stopped_epoch": 7,
+  "monitor_metric": "val_ap",
+  "best_val": {
+    "epoch": 2,
+    "loss": 1.4005033883227629,
+    "epoch_sec": 185.9458429813385,
+    "val_auc": 0.9995970300182261,
+    "val_ap": 0.9866404908143177,
+    "val_acc": 0.9957140205524526,
+    "val_mrr": 0.9965914651637616
+  },
+  "test": {
+    "auc": 0.999167899408284,
+    "ap": 0.9646335628390652,
+    "acc": 0.9972527472527473,
+    "mrr": 0.9903846153846154
+  },
+  "test_relation_breakdown": {
+    "org_codeIII": {
+      "auc": 0.9999260355029586,
+      "ap": 0.9985056435212244,
+      "acc": 0.9990842490842491,
+      "mrr": 1.0
+    }
+  },
+  "test_task_splits": {
+    "org_codeIII_transductive": {
+      "val": {
+        "auc": 0.9994862158071822,
+        "ap": 0.9845596261859131,
+        "acc": 0.9876321945749473,
+        "mrr": 0.9964744891054269
+      },
+      "test": {
+        "auc": 0.9994533262206096,
+        "ap": 0.9857439393823071,
+        "acc": 0.9849543882287578,
+        "mrr": 0.9972399949818092
+      }
+    },
+    "org_codeIII_inductive": {
+      "val": {
+        "auc": 0.9994541111309444,
+        "ap": 0.984362275855764,
+        "acc": 0.9788501765245952,
+        "mrr": 0.9968445637050288
+      },
+      "test": {
+        "auc": 0.9993899438356227,
+        "ap": 0.9814037461656598,
+        "acc": 0.9800668540186498,
+        "mrr": 0.9963697413990119
+      }
+    }
+  },
+  "node_eval": {},
+  "multilabel_threshold_calibration": {
+    "threshold": 0.5,
+    "calib_micro_f1": 0.0,
+    "calib_nodes": 0
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 1.4006055760267586,
+      "epoch_sec": 180.70477533340454,
+      "val_auc": 0.993070856555467,
+      "val_ap": 0.9119819638282817,
+      "val_acc": 0.9658551911053472,
+      "val_mrr": 0.9708779620156225
+    },
+    {
+      "epoch": 2,
+      "loss": 1.4005033883227629,
+      "epoch_sec": 185.9458429813385,
+      "val_auc": 0.9995970300182261,
+      "val_ap": 0.9866404908143177,
+      "val_acc": 0.9957140205524526,
+      "val_mrr": 0.9965914651637616
+    },
+    {
+      "epoch": 3,
+      "loss": 1.3949845468765918,
+      "epoch_sec": 181.81323289871216,
+      "val_auc": 0.9982425894106757,
+      "val_ap": 0.9464472896845088,
+      "val_acc": 0.9688667867126602,
+      "val_mrr": 0.9853913909184484
+    },
+    {
+      "epoch": 4,
+      "loss": 1.463270907782,
+      "epoch_sec": 185.06189131736755,
+      "val_auc": 0.9981781121048839,
+      "val_ap": 0.9399335721023757,
+      "val_acc": 0.9623582689914127,
+      "val_mrr": 0.9830304462030833
+    },
+    {
+      "epoch": 5,
+      "loss": 1.4392752821790622,
+      "epoch_sec": 182.68857598304749,
+      "val_auc": 0.9991474618893805,
+      "val_ap": 0.9699392270527851,
+      "val_acc": 0.9672951002110849,
+      "val_mrr": 0.9924320402274606
+    },
+    {
+      "epoch": 6,
+      "loss": 1.474962239427868,
+      "epoch_sec": 189.74407482147217,
+      "val_auc": 0.9993844763960578,
+      "val_ap": 0.9804272957209657,
+      "val_acc": 0.9601220708657052,
+      "val_mrr": 0.9953202954063526
+    },
+    {
+      "epoch": 7,
+      "loss": 1.485042927981583,
+      "epoch_sec": 191.80315160751343,
+      "val_auc": 0.998386685490901,
+      "val_ap": 0.9291906297617996,
+      "val_acc": 0.9865667408316279,
+      "val_mrr": 0.984699559590301
+    }
+  ],
+  "epoch_time_sec": [
+    180.70477533340454,
+    185.9458429813385,
+    181.81323289871216,
+    185.06189131736755,
+    182.68857598304749,
+    189.74407482147217,
+    191.80315160751343
+  ],
+  "avg_epoch_time_sec": 185.39450642040796,
+  "memory_trace_file": "/home/xuxj/2026/dyn_relation_memory/results/patent_dhc_formal/patent_us_edge_org_codeIII_inductive__seed42/memory_trace.pt",
+  "memory_final_state_file": "/home/xuxj/2026/dyn_relation_memory/results/patent_dhc_formal/patent_us_edge_org_codeIII_inductive__seed42/memory_final_state.pt",
+  "model_stats": {
+    "total_params": 1176247,
+    "trainable_params": 1176247,
+    "device": "cuda:0",
+    "gpu_id": 0
+  },
+  "run_args": {
+    "data": "/home/xuxj/2026/dyn_relation_memory/data/processed/tasks/patent_us_edge_org_codeIII_inductive.pt",
+    "out_dir": "/home/xuxj/2026/dyn_relation_memory/results/patent_dhc_formal/patent_us_edge_org_codeIII_inductive__seed42",
+    "seed": 42,
+    "epochs": 20,
+    "batch_size": 512,
+    "lr": 0.001,
+    "gpu_id": 1,
+    "early_stop_patience": 5,
+    "early_stop_min_delta": 0.0,
+    "monitor_metric": "auto",
+    "task_type": "auto",
+    "mem_dim": 128,
+    "rel_dim": 64,
+    "time_dim": 32,
+    "msg_dim": 128,
+    "community_dim": 128,
+    "num_communities": 64,
+    "community_assign_temperature": 1.0,
+    "community_assign_topk": 0,
+    "no_recent_neighbors": false,
+    "recent_neighbor_size": 10,
+    "no_relation_memory": false,
+    "no_community": false,
+    "lambda_cl": 0.1,
+    "lambda_community_entropy": 0.0,
+    "lambda_mc": 1.0,
+    "lambda_ml": 1.0,
+    "relation_loss_weights": "",
+    "ml_pos_weight": false,
+    "ml_pos_weight_max": 50.0,
+    "ml_pos_weight_power": 0.5,
+    "ml_threshold_search": true,
+    "ml_threshold_num_candidates": 99,
+    "ml_calib_max_nodes": 0,
+    "node_eval_max_nodes": 0,
+    "typed_negative_ratio": 0.6,
+    "popular_negative_ratio": 0.2,
+    "save_memory_artifacts": true,
+    "no_lightweight_checkpoint": false
+  }
+}

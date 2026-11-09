@@ -1,0 +1,86 @@
+{
+  "amazon_movies_edge_inductive": {
+    "config": "repro/configs/amazon_movies_edge_inductive__seed42.json",
+    "val_mrr": 0.9150659699281238,
+    "source_run": "results/edge_only_formal/main/amazon_movies_edge_inductive__seed42",
+    "note": "Highest recorded best-epoch validation MRR within archived main/tuning runs; historical search may already have inspected test."
+  },
+  "amazon_movies_edge_transductive": {
+    "config": "repro/configs/amazon_movies_edge_transductive__seed42.json",
+    "val_mrr": 0.9212665519384292,
+    "source_run": "results/edge_only_formal/main/amazon_movies_edge_transductive__seed42",
+    "note": "Highest recorded best-epoch validation MRR within archived main/tuning runs; historical search may already have inspected test."
+  },
+  "aminer_paper_citation_edge_inductive": {
+    "config": "repro/configs/aminer_paper_citation_edge_inductive__rank_norel_lr5e4__s42.json",
+    "val_mrr": 0.6836670125988875,
+    "source_run": "results/targeted_edge_tuning_20260423/aminer_paper_citation_edge_inductive__rank_norel_lr5e4__s42",
+    "note": "Highest recorded best-epoch validation MRR within archived main/tuning runs; historical search may already have inspected test."
+  },
+  "aminer_paper_citation_edge_transductive": {
+    "config": "repro/configs/aminer_paper_citation_edge_transductive__rank_norel_lr5e4__s42.json",
+    "val_mrr": 0.7008093103592774,
+    "source_run": "results/targeted_edge_tuning_20260423/aminer_paper_citation_edge_transductive__rank_norel_lr5e4__s42",
+    "note": "Highest recorded best-epoch validation MRR within archived main/tuning runs; historical search may already have inspected test."
+  },
+  "dblp_edge_inductive": {
+    "config": "repro/configs/dblp_edge_inductive__rank_nocomm_lr5e4__s42.json",
+    "val_mrr": 0.6202695989358,
+    "source_run": "results/targeted_edge_tuning_20260423/dblp_edge_inductive__rank_nocomm_lr5e4__s42",
+    "note": "Highest recorded best-epoch validation MRR within archived main/tuning runs; historical search may already have inspected test."
+  },
+  "dblp_edge_transductive": {
+    "config": "repro/configs/dblp_edge_transductive__rank_topk8_lr5e4__s42.json",
+    "val_mrr": 0.6795416897033717,
+    "source_run": "results/targeted_edge_tuning_20260423/dblp_edge_transductive__rank_topk8_lr5e4__s42",
+    "note": "Highest recorded best-epoch validation MRR within archived main/tuning runs; historical search may already have inspected test."
+  },
+  "patent_cn_edge_org_codeIII_inductive": {
+    "config": "repro/configs/patent_cn_edge_org_codeIII_inductive__seed42.json",
+    "val_mrr": 0.9955901837897596,
+    "source_run": "results/edge_only_formal/main/patent_cn_edge_org_codeIII_inductive__seed42",
+    "note": "Highest recorded best-epoch validation MRR within archived main/tuning runs; historical search may already have inspected test."
+  },
+  "patent_cn_edge_org_codeIII_transductive": {
+    "config": "repro/configs/patent_cn_edge_org_codeIII_transductive__mrr_topk4_lr7e4__s42.json",
+    "val_mrr": 0.995835646862854,
+    "source_run": "results/targeted_edge_tuning_20260423/patent_cn_edge_org_codeIII_transductive__mrr_topk4_lr7e4__s42",
+    "note": "Highest recorded best-epoch validation MRR within archived main/tuning runs; historical search may already have inspected test."
+  },
+  "patent_in_edge_org_codeIII_inductive": {
+    "config": "repro/configs/patent_in_edge_org_codeIII_inductive__mrr_topk4_lr7e4__s42.json",
+    "val_mrr": 0.9955777558339853,
+    "source_run": "results/targeted_edge_tuning_20260423/patent_in_edge_org_codeIII_inductive__mrr_topk4_lr7e4__s42",
+    "note": "Highest recorded best-epoch validation MRR within archived main/tuning runs; historical search may already have inspected test."
+  },
+  "patent_in_edge_org_codeIII_transductive": {
+    "config": "repro/configs/patent_in_edge_org_codeIII_transductive__mrr_topk4_lr7e4__s42.json",
+    "val_mrr": 0.9957604350959963,
+    "source_run": "results/targeted_edge_tuning_20260423/patent_in_edge_org_codeIII_transductive__mrr_topk4_lr7e4__s42",
+    "note": "Highest recorded best-epoch validation MRR within archived main/tuning runs; historical search may already have inspected test."
+  },
+  "patent_us_edge_org_codeIII_inductive": {
+    "config": "repro/configs/patent_us_edge_org_codeIII_inductive__seed42.json",
+    "val_mrr": 0.9964120783448515,
+    "source_run": "results/edge_only_formal/main/patent_us_edge_org_codeIII_inductive__seed42",
+    "note": "Highest recorded best-epoch validation MRR within archived main/tuning runs; historical search may already have inspected test."
+  },
+  "patent_us_edge_org_codeIII_transductive": {
+    "config": "repro/configs/patent_us_edge_org_codeIII_transductive__mrr_topk4_lr7e4__s42.json",
+    "val_mrr": 0.9965880003530606,
+    "source_run": "results/targeted_edge_tuning_20260423/patent_us_edge_org_codeIII_transductive__mrr_topk4_lr7e4__s42",
+    "note": "Highest recorded best-epoch validation MRR within archived main/tuning runs; historical search may already have inspected test."
+  },
+  "thgl_software_edge_inductive": {
+    "config": "repro/configs/thgl_software_edge_inductive__rank_no_edge_type__s42.json",
+    "val_mrr": 0.7942609772207265,
+    "source_run": "results/targeted_edge_tuning_20260423/thgl_software_edge_inductive__rank_no_edge_type__s42",
+    "note": "Highest recorded best-epoch validation MRR within archived main/tuning runs; historical search may already have inspected test."
+  },
+  "thgl_software_edge_transductive": {
+    "config": "repro/configs/thgl_software_edge_transductive__rank_no_edge_type__s42.json",
+    "val_mrr": 0.8094183747961623,
+    "source_run": "results/targeted_edge_tuning_20260423/thgl_software_edge_transductive__rank_no_edge_type__s42",
+    "note": "Highest recorded best-epoch validation MRR within archived main/tuning runs; historical search may already have inspected test."
+  }
+}

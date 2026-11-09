@@ -1,0 +1,16 @@
+\begin{table*}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{Transductive Link Prediction on Five Datasets (available methods in the current workspace; `-` denotes unavailable or excluded results)}
+\label{tab:baseline_transductive}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llllll}
+\toprule
+                       method &                          raw\_cn &                          raw\_us &                           arxiv &                            dblp & amazon\_movies \\
+\midrule
+Current(dyn\_hetero\_community) & MRR/AUC/AP=0.9709/0.9786/0.8579 & MRR/AUC/AP=0.9688/0.9947/0.9295 & MRR/AUC/AP=0.6922/0.9187/0.4982 & MRR/AUC/AP=0.9699/0.9952/0.8693 &             - \\
+\bottomrule
+\end{tabular}
+}%
+\end{table*}

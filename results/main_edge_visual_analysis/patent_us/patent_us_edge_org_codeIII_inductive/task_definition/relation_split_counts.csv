@@ -1,0 +1,9 @@
+dataset,task_name,split,relation_id,relation_name,edge_count,supervised_edge_count
+patent_us,patent_us_edge_org_codeIII_inductive,train,0,patent_org,141162,0
+patent_us,patent_us_edge_org_codeIII_inductive,train,1,patent_codeIII,417982,0
+patent_us,patent_us_edge_org_codeIII_inductive,train,2,org_codeIII,302491,302491
+patent_us,patent_us_edge_org_codeIII_inductive,train,3,org_coorg,1970,0
+patent_us,patent_us_edge_org_codeIII_inductive,val,2,org_codeIII,61642,61642
+patent_us,patent_us_edge_org_codeIII_inductive,test,0,patent_org,25,0
+patent_us,patent_us_edge_org_codeIII_inductive,test,1,patent_codeIII,53,0
+patent_us,patent_us_edge_org_codeIII_inductive,test,2,org_codeIII,53,53

@@ -1,0 +1,5 @@
+model,status,val_mrr,val_auc,val_ap,test_mrr,test_auc,test_ap,node_ml_micro_f1,node_ml_macro_f1,node_ml_precision_at_1,node_ml_precision_at_3,node_ml_precision_at_5,node_ml_recall_at_1,node_ml_recall_at_3,node_ml_recall_at_5,node_ml_ndcg_at_1,node_ml_ndcg_at_3,node_ml_ndcg_at_5,avg_epoch_sec,total_sec,total_params,trainable_params,device,seed,error_message
+TGN,failed:AssertionError,,,,,,,,,,,,,,,,,,,,,,cuda:0,42,Trying to update memory to time in the past!
+TGAT,ok,0.5067918627423316,0.8632838944043433,0.2844351402941358,0.5355199561288174,0.8757070898040383,0.32168199164749894,,,,,,,,,,,,148.76784341335298,1573.67311668396,305877.0,305877.0,cuda:0,42,
+CAWN,ok,0.762324571176438,0.9411217713196286,0.6539404164331063,0.7656743915958147,0.942334312801962,0.6575690110435705,,,,,,,,,,,,5654.024939894676,60151.47588658333,728129.0,728129.0,cuda:0,42,
+DyGFormer,ok,0.7746434053722873,0.9405891086631535,0.6875121894470897,0.7709196235541673,0.9416158085865587,0.6834262011679083,,,,,,,,,,,,1554.7336568593978,16481.230867147446,257705.0,257705.0,cuda:0,42,

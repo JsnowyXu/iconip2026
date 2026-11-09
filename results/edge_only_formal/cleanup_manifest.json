@@ -1,0 +1,12 @@
+{
+  "project_root": "/home/xuxj/2026/dyn_relation_memory",
+  "removed_paths": [
+    "/home/xuxj/2026/dyn_relation_memory/results/baseline_formal_aminer_custom",
+    "/home/xuxj/2026/dyn_relation_memory/results/baseline_formal_dblp_amazon",
+    "/home/xuxj/2026/dyn_relation_memory/results/patent_baseline_formal",
+    "/home/xuxj/2026/dyn_relation_memory/results/experiment_snapshot",
+    "/home/xuxj/2026/dyn_relation_memory/results/patent_dhc_reindexed",
+    "/home/xuxj/2026/dyn_relation_memory/data/reports",
+    "/home/xuxj/2026/dyn_relation_memory/data/interim/baseline_adapters"
+  ]
+}

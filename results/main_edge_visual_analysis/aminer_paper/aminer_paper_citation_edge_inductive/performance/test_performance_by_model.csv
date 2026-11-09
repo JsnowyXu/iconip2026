@@ -1,0 +1,3 @@
+dataset,task_name,model,run_dir,epochs_run,best_epoch,best_val_mrr,final_loss,avg_epoch_sec,total_sec,test_mrr,test_auc,test_ap,total_params,trainable_params,split,source_path
+aminer_paper,aminer_paper_citation_edge_inductive,DHC-main,/home/xuxj/2026/dyn_relation_memory/results/edge_only_formal/main/aminer_paper_citation_edge_inductive__seed42,10.0,2.0,0.6517559638512903,0.1443930614560772,305.5006983757019,3055.006983757019,0.7790224350306808,0.9657967128379839,0.5114402659614532,1030338,1030338,,
+aminer_paper,aminer_paper_citation_edge_inductive,tami,,,,,,33.89553248882294,,0.60262630074949,0.865511022258497,0.2198942310135927,3070808,492485,test,/home/xuxj/2026/dyn_relation_memory/results/tami_baseline_formal_20260508/aminer_paper_citation_edge_inductive.csv

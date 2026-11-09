@@ -1,0 +1,5 @@
+dataset,dataset_label,task_name,task_path,relation_id,relation_name,is_target_relation,edge_count,supervised_edge_count,dominant_src_type,dominant_dst_type,task_phrase
+patent_us,patent-us,patent_us_edge_org_codeIII_inductive,/home/xuxj/2026/dyn_relation_memory/data/processed/tasks/patent_us_edge_org_codeIII_inductive.pt,0,patent_org,False,141163,0,patent,org,patent -> org patent_org
+patent_us,patent-us,patent_us_edge_org_codeIII_inductive,/home/xuxj/2026/dyn_relation_memory/data/processed/tasks/patent_us_edge_org_codeIII_inductive.pt,1,patent_codeIII,False,417982,0,patent,codeIII,patent -> codeIII patent_codeIII
+patent_us,patent-us,patent_us_edge_org_codeIII_inductive,/home/xuxj/2026/dyn_relation_memory/data/processed/tasks/patent_us_edge_org_codeIII_inductive.pt,2,org_codeIII,True,364134,364134,org,codeIII,org -> codeIII org_codeIII
+patent_us,patent-us,patent_us_edge_org_codeIII_inductive,/home/xuxj/2026/dyn_relation_memory/data/processed/tasks/patent_us_edge_org_codeIII_inductive.pt,3,org_coorg,False,1970,0,org,org,org -> org org_coorg

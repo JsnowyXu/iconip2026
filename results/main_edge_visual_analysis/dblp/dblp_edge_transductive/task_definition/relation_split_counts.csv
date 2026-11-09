@@ -1,0 +1,7 @@
+dataset,task_name,split,relation_id,relation_name,edge_count,supervised_edge_count
+dblp,dblp_edge_transductive,train,0,author_write_paper,33818,0
+dblp,dblp_edge_transductive,train,1,paper_cite_paper,112281,112281
+dblp,dblp_edge_transductive,val,0,author_write_paper,6751,0
+dblp,dblp_edge_transductive,val,1,paper_cite_paper,30059,30059
+dblp,dblp_edge_transductive,test,0,author_write_paper,3912,0
+dblp,dblp_edge_transductive,test,1,paper_cite_paper,13179,13179

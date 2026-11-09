@@ -1,0 +1,16 @@
+{
+  "dataset": "patent_cn",
+  "num_nodes": 198390,
+  "num_edges": 757275,
+  "num_relations": 4,
+  "num_node_types": 3,
+  "time_min": 1262707200.0,
+  "time_max": 1577750400.0,
+  "time_span": 315043200.0,
+  "edge_feat_dim": 4,
+  "node_feat_dim": 128,
+  "avg_degree": 7.634205353092394,
+  "max_degree": 20211,
+  "has_multiclass_label": true,
+  "has_multilabel": true
+}

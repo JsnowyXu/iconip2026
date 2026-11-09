@@ -1,0 +1,338 @@
+\documentclass[runningheads]{llncs}
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{url}
+
+\begin{document}
+
+\title{DHC: Dynamic Heterogeneous Community-aware Learning with Relation Memory for Temporal Link Prediction}
+
+\author{Xuejie Xu\inst{1} \and Jian Huang\inst{1,3} \and Leilei Sun\inst{2,3}}
+
+\authorrunning{X. Xu et al.}
+
+\institute{School of Software, Beihang University, Beijing, China \\
+\and State Key Laboratory of Complex \& Critical Software Environment, Beihang University, Beijing, China \\
+\and Key Laboratory of Data Science and Intelligent Computing, Hangzhou International Innovation Institute, Beihang University, Hangzhou, China \\
+\email{\{x_xuejie,hj,leileisun\}@buaa.edu.cn}}
+
+\maketitle
+
+\begin{abstract}
+Dynamic heterogeneous graphs in academic networks, patent systems, and software ecosystems contain timestamped interactions, typed relations, and text-derived node attributes. These signals are complementary, but existing temporal graph models often treat relation type as a static edge feature and do not explicitly track how relation semantics and mesoscopic communities evolve over time. We propose DHC, a dynamic heterogeneous community-aware model for temporal link prediction. DHC combines text-aware node initialization, relation-time message generation, node and relation memory, recent-neighbor temporal subgraph encoding, a TGN-style local memory path, and soft community memory. We evaluate DHC on six processed datasets in the current workspace: \texttt{aminer\_paper}, \texttt{dblp}, \texttt{patent\_cn}, \texttt{patent\_us}, \texttt{patent\_in}, and \texttt{thgl\_software}. Baselines are restricted to the currently executed pool: TGN, TGN with edge-type features, RepeatMixer, STHN, EdgeBank, and DyGFormer. DHC obtains strong performance on patent link prediction, reaching 0.9949/0.9995/0.9854 MRR/AUC/AP on \texttt{patent\_cn} transductive and 0.9957/0.9991/0.9796 on \texttt{patent\_in} transductive. On \texttt{dblp} inductive and AMiner citation inductive settings, DHC reaches 0.8353/0.9545/0.6371 and 0.7992/0.9721/0.5087, respectively. Ablation and case-study results show that relation memory, edge-type features, recent-neighbor encoding, and community memory are useful but task-dependent: they help on sparse or partially unseen temporal streams, while saturated patent splits sometimes prefer lighter variants.
+
+\keywords{Dynamic Heterogeneous Graph \and Temporal Link Prediction \and Relation Memory \and Soft Community Memory}
+\end{abstract}
+
+\section{Introduction}
+Temporal graph learning represents a graph as an ordered stream of interactions. Models such as TGN \cite{rossi2020tgn}, DyGFormer \cite{yu2023dygformer}, and RepeatMixer \cite{zou2024repeatmixer} show that memory, temporal attention, and repeated-neighbor patterns are all useful for future link prediction. Heterogeneous graph models further show that node and edge types are essential when interactions have different semantics \cite{wang2019han,hu2020hgt}. In real applications, these two settings meet naturally: papers cite papers and connect to authors or venues, patents connect inventors, organizations, and technology codes, and software ecosystems evolve through typed developer-package interactions.
+
+This paper focuses on temporal link prediction over dynamic heterogeneous and text-attributed graphs. Compared with homogeneous temporal graphs, this setting introduces three additional difficulties. First, the same pair of nodes may interact under different relation types, so relation semantics should modulate both message generation and scoring. Second, relation behavior is non-stationary: a relation that is predictive in one period may become noisy later. Third, node-level behavior is often organized around evolving mesoscopic groups, for example technology communities in patents or developer-package communities in software.
+
+We propose DHC, a dynamic heterogeneous community-aware framework. The model keeps node memory and relation memory, generates relation-conditioned temporal messages, encodes recent local temporal neighborhoods, fuses a TGN-style event-memory path, and maintains soft community memory. The current manuscript is intentionally narrowed to the active experimental scope in \texttt{dyn\_relation\_memory}: link prediction on \texttt{aminer\_paper}, \texttt{dblp}, \texttt{patent\_cn}, \texttt{patent\_us}, \texttt{patent\_in}, and \texttt{thgl\_software}.
+
+Our contributions are:
+\begin{itemize}
+\item We introduce a temporal heterogeneous link-prediction architecture that jointly models text-derived node attributes, relation-aware messages, node memory, relation memory, recent-neighbor context, and soft community memory.
+\item We design explicit relation-time message equations and state updates so that relation semantics influence both memory evolution and link scoring rather than appearing only as a static edge feature.
+\item We provide a current-protocol empirical study on six datasets and six baselines: TGN, TGN-edge, RepeatMixer, STHN, EdgeBank, and DyGFormer.
+\item We report module ablations, sensitivity analyses, cross-relation patent experiments, and community-memory case studies to clarify when each component helps.
+\end{itemize}
+
+\section{Related Work}
+\subsection{Temporal Graph Learning}
+TGN is a general memory-based framework for continuous-time dynamic graphs and remains a strong temporal link-prediction backbone \cite{rossi2020tgn}. DyGFormer uses Transformer-style interaction modeling to capture longer temporal dependencies \cite{yu2023dygformer}. RepeatMixer emphasizes repeat-aware neighbor sampling and MLP-based temporal representation learning \cite{zou2024repeatmixer}. EdgeBank is a non-parametric memorization baseline that is especially important in temporal benchmarks because repeated links can make simple history-based methods competitive \cite{huang2023tgb}. STHN simplifies temporal heterogeneous link prediction with continuous-time memory and type/time encodings \cite{li2023sthn}. TGB and TGB 2.0 emphasize realistic temporal evaluation, strong simple baselines, and relation-aware negative sampling for heterogeneous temporal graphs \cite{huang2023tgb,gastinger2024tgb2}.
+
+\subsection{Heterogeneous and Text-attributed Graphs}
+Heterogeneous graph learning studies typed nodes and typed relations. HAN and HGT demonstrate the value of hierarchical attention and type-aware transformers in heterogeneous information networks \cite{wang2019han,hu2020hgt}. Text-attributed graph learning further combines semantic node content with structure; GLEM and recent TAG methods show that textual features can significantly improve graph representation learning \cite{zhao2023glem,zhou2025sketch}. DHC follows this direction but targets continuous-time heterogeneous link prediction rather than static node classification.
+
+\subsection{Community-aware Representation}
+Community structure provides a mesoscopic signal between individual events and global topology. Community-preserving embeddings such as M-NMF and ComE show that explicit community information can improve representation quality \cite{wang2017mnmf,cavallari2017come}. DHC differs by maintaining differentiable soft community memory inside a temporal predictor, updating community states online from active node embeddings.
+
+\section{Problem Definition}
+Let a dynamic heterogeneous graph be an ordered event stream
+\begin{equation}
+\mathcal{E}=\{(u_i,r_i,v_i,t_i,\mathbf{e}_i)\}_{i=1}^{N},
+\end{equation}
+where $u_i$ and $v_i$ are source and destination nodes, $r_i\in\{1,\ldots,R\}$ is the relation type, $t_i$ is the timestamp, and $\mathbf{e}_i$ is an edge feature vector. Each node $u$ has a node type $\tau_u$ and a text-derived feature vector $\mathbf{x}_u$ produced during preprocessing. Given historical events before time $t$, the task is to rank the true destination $v$ above sampled negative destinations for a query $(u,r,?,t)$. We evaluate transductive and inductive temporal link prediction using MRR, AUC, and AP.
+
+\section{Methodology}
+\subsection{Text-aware Node Initialization}
+DHC starts from static node attributes and dynamic memory. For node $u$, the preprocessing pipeline builds a dense feature vector $\mathbf{x}_u\in\mathbb{R}^{d_x}$ from structural statistics and text-derived attributes. Patent features encode titles, abstracts, assignees, inventors, and IPC descriptors when available; academic features encode paper, author, venue, and citation descriptors; software features encode node-type and interaction metadata. The model also learns a node-type embedding $\mathbf{a}_{\tau_u}$. Given node memory $\mathbf{M}_u(t^-)$, the base representation is
+\begin{equation}
+\mathbf{h}^{0}_u(t)=f_{\theta}\left(\mathbf{x}_u \,\Vert\, \mathbf{a}_{\tau_u} \,\Vert\, \mathbf{M}_u(t^-)\right),
+\end{equation}
+where $f_{\theta}$ is a two-layer MLP and $\Vert$ denotes concatenation. This design lets DHC use text and type information before any temporal aggregation happens.
+
+\subsection{Time and Relation Encoding}
+For a node $u$ queried at time $t$, DHC uses a sinusoidal time encoding of the elapsed time since the node's last update:
+\begin{equation}
+\phi(\Delta t_u)=\left[\sin\left(\frac{\Delta t_u}{\omega_1}\right),\ldots,\sin\left(\frac{\Delta t_u}{\omega_q}\right),
+\cos\left(\frac{\Delta t_u}{\omega_1}\right),\ldots,\cos\left(\frac{\Delta t_u}{\omega_q}\right)\right],
+\end{equation}
+where $\Delta t_u=t-t_u^{last}$ and $\omega_i$ are fixed log-spaced frequencies. Each relation has a learned embedding $\mathbf{h}_r$. If relation memory is enabled, DHC augments it with projected relation state:
+\begin{equation}
+\tilde{\mathbf{h}}_r(t)=\mathbf{h}_r + W_R\mathbf{R}_r(t^-).
+\end{equation}
+Thus the same relation can change its effective representation over time.
+
+\subsection{Relation-time Message Generation}
+For an observed interaction $(u,r,v,t,\mathbf{e})$, DHC creates directional messages for both endpoints. With optional one-hot edge-type augmentation $\psi(r)$, the raw edge feature is
+\begin{equation}
+\tilde{\mathbf{e}}=\mathbf{e}\,\Vert\,\psi(r).
+\end{equation}
+The message from $v$ to $u$ is computed from destination memory, source memory, edge features, and elapsed time:
+\begin{equation}
+\mathbf{x}_{u\leftarrow v}=\mathbf{M}_v(t^-)\,\Vert\,\mathbf{M}_u(t^-)\,\Vert\,\tilde{\mathbf{e}}\,\Vert\,\phi(t-t_u^{last}).
+\end{equation}
+DHC then applies a relation-conditioned gate:
+\begin{equation}
+\mathbf{m}_{u\leftarrow v}=
+\left(W_m\mathbf{x}_{u\leftarrow v}\right)\odot\sigma(W_g\tilde{\mathbf{h}}_r(t)) + W_b\tilde{\mathbf{h}}_r(t).
+\end{equation}
+The symmetric message $\mathbf{m}_{v\leftarrow u}$ is computed analogously. The multiplicative gate controls which temporal-memory dimensions are active for relation $r$, while the additive bias injects relation-specific semantics even when node memories are sparse.
+
+\subsection{Node and Relation Memory Updates}
+DHC maintains node memory $\mathbf{M}_u$ and relation memory $\mathbf{R}_r$ with GRU cells. Within a mini-batch, if a node or relation appears multiple times, only the latest timestamped message is committed:
+\begin{align}
+\mathbf{M}_u(t) &= \mathrm{GRU}_n\left(W_n\mathbf{m}_{u}(t),\mathbf{M}_u(t^-)\right),\\
+\mathbf{R}_r(t) &= \mathrm{GRU}_r\left(W_r\frac{\mathbf{m}_{u\leftarrow v}(t)+\mathbf{m}_{v\leftarrow u}(t)}{2},\mathbf{R}_r(t^-)\right).
+\end{align}
+Node memory captures endpoint-specific historical behavior. Relation memory captures global non-stationarity of each relation type, for example a patent organization-code relation becoming more or less predictive across time.
+
+\subsection{Recent-neighbor Temporal Context}
+For each node, DHC stores the most recent $K$ undirected interactions. Given a query node $u$, its neighbor context is
+\begin{equation}
+\mathbf{c}_u(t)=\sum_{j\in\mathcal{N}_K(u,t)}\alpha_{uj}(t)\,W_v\left(\mathbf{M}_j(t^-)\,\Vert\,\tilde{\mathbf{h}}_{r_{uj}}(t)\,\Vert\,\phi(t-t_{uj})\right).
+\end{equation}
+The aggregation weights are either uniform mean weights or attention weights:
+\begin{equation}
+\alpha_{uj}(t)=\mathrm{softmax}_j\left(W_a\left[\mathbf{h}^{0}_u(t)\,\Vert\,\mathbf{v}_{uj}(t)\,\Vert\,\tilde{\mathbf{h}}_{r_{uj}}(t)\,\Vert\,\phi(t-t_{uj})\right]\right).
+\end{equation}
+The node representation is then fused as
+\begin{equation}
+\mathbf{h}^{N}_u(t)=f_N\left(\mathbf{h}^{0}_u(t)\,\Vert\,\mathbf{c}_u(t)\right).
+\end{equation}
+For link queries, DHC also builds a compact recent-neighbor subgraph around the queried endpoints and applies a TransformerConv layer with edge attributes $\tilde{\mathbf{h}}_r\,\Vert\,\tilde{\mathbf{e}}\,\Vert\,\phi(\Delta t)$.
+
+\subsection{TGN-style Local Memory Fusion}
+The code contains an additional TGN-style event-memory path implemented with a safe TGN memory module. For query node $u$, let $\mathbf{z}^{D}_u(t)$ be the DHC representation from recent-neighbor and community context, and let $\mathbf{z}^{T}_u(t)$ be the TGN memory representation. DHC learns a gate
+\begin{equation}
+\mathbf{g}_u(t)=\sigma\left(W_G[\mathbf{z}^{D}_u(t)\,\Vert\,\mathbf{z}^{T}_u(t)]\right),
+\end{equation}
+and fuses the two paths:
+\begin{equation}
+\mathbf{z}_u(t)=\mathbf{g}_u(t)\odot\mathbf{z}^{T}_u(t)+(1-\mathbf{g}_u(t))\odot\mathbf{z}^{D}_u(t).
+\end{equation}
+This keeps the robust local event-memory behavior of TGN while allowing heterogeneous relation and community information to influence the final ranking.
+
+\subsection{Soft Community Memory}
+DHC maintains $C$ community prototypes and a memory vector $\mathbf{C}_k$ for each community. For node embedding $\mathbf{h}_u$, the soft assignment is
+\begin{equation}
+\alpha_{u,k}=\mathrm{softmax}_k\left(\frac{(W_q\mathbf{h}_u)^\top(W_k\mathbf{p}_k)}{\sqrt{d_c}\tau_a}\right),
+\end{equation}
+with optional top-$k$ masking. The community context is
+\begin{equation}
+\mathbf{o}_u=f_C\left(\mathbf{h}_u\,\Vert\,\sum_{k=1}^{C}\alpha_{u,k}\mathbf{C}_k\right).
+\end{equation}
+After a batch, node embeddings are projected and aggregated into community messages:
+\begin{equation}
+\bar{\mathbf{s}}_k(t)=\frac{\sum_{u}\alpha_{u,k}W_s\mathbf{h}_u(t)}{\sum_u\alpha_{u,k}+\epsilon}.
+\end{equation}
+The community memory decays with elapsed time and is updated by a GRU:
+\begin{equation}
+\mathbf{C}_k(t)=\mathrm{GRU}_c\left(\bar{\mathbf{s}}_k(t), \exp(-\Delta t_k/\gamma)\mathbf{C}_k(t^-)\right).
+\end{equation}
+A contrastive term aligns each active node to its dominant community:
+\begin{equation}
+\mathcal{L}_{com}=\mathrm{CE}\left(\frac{\mathrm{norm}(W_q\mathbf{h}_u)\mathrm{norm}(\mathbf{C})^\top}{\tau_c}, \arg\max_k\alpha_{u,k}\right).
+\end{equation}
+
+\subsection{Link Scoring and Objective}
+For a candidate edge $(u,r,v,t)$, DHC scores
+\begin{equation}
+s(u,r,v,t)=f_L\left(\mathbf{z}_u(t)\,\Vert\,\mathbf{z}_v(t)\,\Vert\,\tilde{\mathbf{h}}_r(t)\,\Vert\,\phi(t-t_u^{last})\right).
+\end{equation}
+Training uses binary cross entropy over positive edges and sampled negative destinations:
+\begin{equation}
+\mathcal{L}_{link}= -\sum_{(u,r,v,t)}\log\sigma(s(u,r,v,t))-\sum_{\bar{v}\sim P_n}\log(1-\sigma(s(u,r,\bar{v},t))).
+\end{equation}
+The final objective is
+\begin{equation}
+\mathcal{L}=\mathcal{L}_{link}+\lambda_{com}\mathcal{L}_{com}+\lambda_{ent}\mathcal{H}(\alpha),
+\end{equation}
+where the entropy term is optional and used only when a run explicitly enables community-entropy regularization.
+
+\section{Experimental Setup}
+\subsection{Datasets}
+Table~\ref{tab:data_stats} reports the latest dataset statistics from \texttt{results/current\_snapshot/dataset\_stats}. The manuscript uses \texttt{thgl\_software} as the local dataset name; it corresponds to the software temporal heterogeneous graph imported from the TGB2.0-style THGL files.
+
+\begin{table}[t]
+\centering
+\caption{Current processed dataset statistics. Time is reported in the native processed unit.}
+\label{tab:data_stats}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+Dataset & Nodes & Edges & Rels. & Node types & Edge feat. & Avg. degree \\
+\midrule
+aminer\_paper & 265,234 & 961,282 & 4 & 3 & 2 & 7.25 \\
+dblp & 184,938 & 200,000 & 2 & 2 & 2 & 2.16 \\
+patent\_cn & 198,390 & 757,275 & 4 & 3 & 4 & 7.63 \\
+patent\_us & 201,321 & 1,047,764 & 4 & 3 & 4 & 10.41 \\
+patent\_in & 164,307 & 1,154,804 & 4 & 3 & 4 & 14.06 \\
+thgl\_software & 681,927 & 1,489,806 & 14 & 4 & 2 & 4.37 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Baselines and Metrics}
+We compare with the currently executed baseline pool only: TGN \cite{rossi2020tgn}, TGN-edge (TGN with explicit edge-type features), RepeatMixer \cite{zou2024repeatmixer}, STHN \cite{li2023sthn}, EdgeBank \cite{huang2023tgb}, and DyGFormer \cite{yu2023dygformer}. Some baseline cells are unavailable because the corresponding run has not completed in the current workspace; these are shown as ``-'' rather than filled from older experiments. We report MRR, AUC, and AP under chronological transductive and inductive splits.
+
+\section{Results}
+\subsection{DHC Main Results}
+\begin{table}[t]
+\centering
+\caption{DHC edge prediction results under the current processed task views.}
+\label{tab:dhc_main}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lcc}
+\toprule
+Dataset / relation & Transductive MRR/AUC/AP & Inductive MRR/AUC/AP \\
+\midrule
+aminer\_paper citation & 0.7786/0.9736/0.5383 & 0.7992/0.9721/0.5087 \\
+aminer\_paper coauthor & 0.6474/0.9163/0.4153 & 0.5911/0.9029/0.3145 \\
+dblp & 0.5269/0.8634/0.2569 & 0.8353/0.9545/0.6371 \\
+patent\_cn org-codeIII & 0.9949/0.9995/0.9854 & 0.9940/0.9994/0.9804 \\
+patent\_us org-codeIII & 0.9872/0.9987/0.9646 & 0.9904/0.9992/0.9646 \\
+patent\_in org-codeIII & 0.9957/0.9991/0.9796 & 0.9945/0.9993/0.9824 \\
+thgl\_software rel\_6 & 0.8009/0.9736/0.5864 & 0.7666/0.9661/0.4919 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Patent link prediction is the strongest and most stable slice. DHC reaches near-saturated ranking on all three patent graphs, with AP above 0.96 on both transductive and inductive splits. The academic datasets are more mixed. AMiner citation ranking remains strong, while AMiner coauthor prediction is harder. DBLP shows the opposite split behavior: inductive performance is much stronger than transductive performance in the current task view, suggesting that the chronological transductive test window contains distribution shift or harder negative candidates.
+
+\subsection{Baseline Comparison}
+\begin{table*}[t]
+\centering
+\caption{Current baseline comparison on representative transductive task views. Values are MRR/AUC/AP.}
+\label{tab:baseline_trans}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccccc}
+\toprule
+Method & AMiner-cite & DBLP & Patent-CN & Patent-US & Patent-IN & Software \\
+\midrule
+DHC & 0.7786/0.9736/0.5383 & 0.5269/0.8634/0.2569 & 0.9949/0.9995/0.9854 & 0.9872/0.9987/0.9646 & 0.9957/0.9991/0.9796 & 0.8009/0.9736/0.5864 \\
+TGN & 0.4350/0.8674/0.2209 & 0.5654/0.9309/0.3378 & 0.8581/0.9702/0.7854 & 0.9939/0.9994/0.9838 & 0.9959/0.9996/0.9887 & 0.7875/0.9591/0.6939 \\
+TGN-edge & 0.3782/0.8189/0.1959 & 0.5724/0.9316/0.3462 & 0.9946/0.9995/0.9842 & 0.9967/0.9996/0.9894 & 0.9957/0.9996/0.9896 & 0.8894/0.9889/0.8515 \\
+RepeatMixer & 0.5648/0.9035/0.4019 & 0.5106/0.9304/0.3350 & 0.6608/0.8980/0.5353 & 0.5872/0.8888/0.4692 & 0.7539/0.9366/0.6269 & 0.8199/0.9808/0.8206 \\
+STHN & 0.8419/0.7358/0.0014 & 0.7842/0.5648/0.0011 & 0.8784/0.7579/0.0011 & 0.8459/0.6912/0.0008 & 0.8590/0.7170/0.0010 & 0.8742/0.7482/0.0013 \\
+EdgeBank & 0.1135/0.6918/0.1042 & 0.0476/0.6666/0.0356 & 0.3303/0.7746/0.3282 & 0.4175/0.8068/0.4165 & 0.3760/0.7922/0.3728 & 0.2929/0.7606/0.2888 \\
+DyGFormer & - & - & - & - & - & - \\
+\bottomrule
+\end{tabular}}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\caption{Current baseline comparison on representative inductive task views. Values are MRR/AUC/AP.}
+\label{tab:baseline_ind}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccccc}
+\toprule
+Method & AMiner-cite & DBLP & Patent-CN & Patent-US & Patent-IN & Software \\
+\midrule
+DHC & 0.7992/0.9721/0.5087 & 0.8353/0.9545/0.6371 & 0.9940/0.9994/0.9804 & 0.9904/0.9992/0.9646 & 0.9945/0.9993/0.9824 & 0.7666/0.9661/0.4919 \\
+TGN & 0.4313/0.8499/0.2140 & 0.5266/0.9039/0.2933 & 0.9913/0.9991/0.9623 & 0.9906/0.9994/0.9803 & 0.6163/0.8822/0.5436 & 0.7769/0.9557/0.6567 \\
+TGN-edge & 0.4239/0.8421/0.2035 & 0.5005/0.8972/0.2646 & 0.9912/0.9991/0.9674 & 0.9906/0.9997/0.9942 & 0.9957/0.9995/0.9859 & 0.5241/0.8830/0.2716 \\
+RepeatMixer & 0.2559/0.7980/0.1445 & 0.1513/0.6676/0.0952 & 0.8771/0.9808/0.8071 & 0.7444/0.9551/0.5717 & 0.8385/0.9738/0.6635 & 0.8170/0.9799/0.8104 \\
+STHN & 0.8419/0.7358/0.0014 & 0.7842/0.5648/0.0011 & 0.7764/0.5543/0.0030 & 0.9833/0.9660/0.0352 & 0.7773/0.4936/0.0018 & 0.8742/0.7482/0.0013 \\
+EdgeBank & 0.0476/0.6666/0.0356 & 0.0476/0.6666/0.0356 & 0.0476/0.6666/0.0356 & 0.9855/0.9951/0.9858 & 0.0476/0.6667/0.0356 & 0.2928/0.7606/0.2885 \\
+DyGFormer & - & - & 0.8702/0.9798/0.7997 & - & - & - \\
+\bottomrule
+\end{tabular}}
+\end{table*}
+
+The current comparison supports three observations. First, relation type is crucial on patent and software graphs: TGN-edge often improves substantially over plain TGN, especially on \texttt{patent\_cn} transductive and \texttt{thgl\_software} transductive. Second, simple history or repeat-aware baselines can be strong on repeated-interaction streams. RepeatMixer is the strongest current baseline on software AP, while EdgeBank is surprisingly competitive on \texttt{patent\_us} inductive. Third, DHC is most useful when relation memory and text-derived node features add information beyond repeated edges, as in AMiner citation, DBLP inductive, and the patent CN/IN current splits.
+
+\subsection{Module Ablation and Sensitivity}
+\input{tables/best_module_ablation_table}
+\input{tables/best_config_sensitivity_table}
+
+The module ablation shows that no single component dominates every dataset. On saturated patent views, removing relation memory, edge-type features, or community memory can slightly improve MRR because the target relation is already highly repetitive. On software views, however, the memory and type-related choices have larger effects. This supports a task-adaptive interpretation: relation memory and community memory are inductive biases, not unconditional improvements.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/best_module_ablation_mrr.png}
+\caption{Best-configuration module ablation measured by test MRR.}
+\label{fig:best_module_ablation}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/best_config_sensitivity_mrr.png}
+\caption{Completed best-configuration sensitivity sweep.}
+\label{fig:best_config_sensitivity}
+\end{figure}
+
+\subsection{Cross-relation Patent Analysis}
+To test whether auxiliary heterogeneous edges improve patent prediction, we build a cross-relation patent view with \texttt{patent\_ipc} as the supervised target, \texttt{patent\_assignee} as bridge context, and \texttt{assignee\_ipc} as auxiliary context. Auxiliary edges update memory but do not enter the target link loss.
+
+\begin{table}[t]
+\centering
+\caption{Cross-relation enhancement on patent target links.}
+\label{tab:cross_rel_ctx}
+\scriptsize
+\begin{tabular}{lcccc}
+\toprule
+Dataset & Setting & MRR & AUC & AP \\
+\midrule
+patent\_cn & base & 0.9785 & 0.9978 & 0.9387 \\
+patent\_cn & best boost & 0.9773 & 0.9977 & 0.9369 \\
+patent\_us & base & 0.9826 & 0.9981 & 0.9497 \\
+patent\_us & best boost & \textbf{0.9829} & \textbf{0.9982} & \textbf{0.9585} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The result is asymmetric. Patent US benefits from auxiliary relation context, while Patent CN does not. This suggests that cross-relation reinforcement should be confidence-aware: auxiliary edges help only when their semantics align with the target relation.
+
+\subsection{Community Memory Case Study}
+\input{tables/community_case_summary_table}
+
+Community case studies show that community memory is dynamic rather than a static clustering layer. Patent US inductive has almost no monitor-node churn and collapses to one final community, while software tasks have more active communities and much higher churn. These differences help explain why community memory is more useful in some temporal streams than others.
+
+\section{Discussion}
+DHC is strongest when temporal recurrence, relation type, and text-derived node features reinforce each other. It is less decisive when a target relation is nearly saturated or when a simple history baseline already captures most positives. The current evidence suggests four practical lessons:
+\begin{itemize}
+\item Edge-type features should be included in temporal heterogeneous baselines; plain temporal models can be misleadingly weak without them.
+\item Relation memory is most valuable when relation behavior is non-stationary, sparse, or partially unseen.
+\item Community memory is useful as an evolving mesoscopic context, but its benefit depends on assignment stability and community churn.
+\item Baseline reporting should remain restricted to runs executed under the same current protocol and the current six-model baseline pool.
+\end{itemize}
+
+\section{Conclusion}
+We presented DHC, a dynamic heterogeneous community-aware framework for temporal link prediction. The model combines text-aware node initialization, relation-time messages, node and relation memory, recent-neighbor encoding, TGN-style event-memory fusion, and soft community memory. On the current six-dataset benchmark in \texttt{dyn\_relation\_memory}, DHC is competitive across academic, patent, and software temporal heterogeneous graphs, with especially strong results on patent and academic inductive settings. The ablations clarify that relation and community memory should be treated as task-adaptive modules rather than universally beneficial additions.
+
+\section*{Acknowledgment}
+This work was supported in part by the National key R\&D Program of China (No. 2022YFB2602104) and the Research Start-up Funds of Hangzhou International Innovation Institute of Beihang University (No. 2024KQ026).
+
+\bibliographystyle{splncs04}
+\bibliography{iconip25}
+
+\end{document}

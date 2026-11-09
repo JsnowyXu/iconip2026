@@ -1,0 +1,159 @@
+
+\section{Methodology}
+\subsection{Overall Architecture}
+DHC follows the edge-batch procedure in Algorithm~\ref{alg:dhc_forward} 
+The model first predicts positive and negative links with the current states. 
+It then updates states after the prediction step. Negative samples are used for the loss only and do not
+update memories. The representation has two complementary branches. 
+The relation-aware context branch uses text-aware node initialization, dynamic relation states, and recent-neighbor subgraphs
+to explore relation semantics and local heterogeneous context. 
+The sequential event-memory branch stores compact chronological interaction history to preserve event order and repeated interaction signals. 
+Then, a query-level gate combines the two branches before link scoring. 
+The overall architecture of our framework is illustrated in Fig.~\ref{fig:dhc_architecture}. 
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/2-framework.png}
+\caption{ 
+Framework of DHC which combines text-aware initialization, relation-aware temporal messaging, dynamic node/relation memory, recent-neighbor subgraph encoding.
+and event-memory fusion for temporal link prediction on heterogeneous graphs.
+}
+\label{fig:dhc_architecture}
+\vspace{-2mm}
+\end{figure}
+
+\begin{algorithm}[t]
+\caption{DHC edge-batch forward and chronological state update.}
+\label{alg:dhc_forward}
+\small
+\begin{algorithmic}[1]
+\Require Chronological batch $B=\{(u_i,r_i,v_i,t_i,\mathbf{e}_i,y_i)\}$, current states $\mathbf{M},\mathbf{R}$, recent-neighbor store $\mathcal{N}$, sequential event memory $\mathcal{E}$, and sampled negatives $v_i^{-}$.
+\Ensure Positive and negative logits, target-edge loss, and updated dynamic states.
+\State Build augmented edge features $\tilde{\mathbf{e}}_i=[\mathbf{e}_i\Vert\psi(r_i)]$ when edge-type augmentation is enabled.
+\State Collect query nodes from $\{u_i,v_i,v_i^{-}\}$.
+\State Encode query nodes with the relation-aware context branch using base node features, relation states, and recent-neighbor subgraphs.
+\State Read query-node states from the sequential event-memory branch.
+\State Fuse the two branch outputs with a vector gate.
+\State Compute $s_i^{+}=s_\theta(u_i,r_i,v_i,t_i)$ and $s_i^{-}=s_\theta(u_i,r_i,v_i^{-},t_i)$.
+\State Compute BCE loss only on target edges with $y_i=1$.
+\State Generate directional relation-time messages from the observed edges in $B$.
+\State After back-propagation, update node memory with the latest node messages in the batch.
+\State Insert observed edges into the recent-neighbor store.
+\State Update sequential event memory with observed edges and augmented edge features.
+\State Update relation memory with the latest relation messages in the batch.
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Input Encoding and Relation-time Messages}
+For node $u$, DHC builds a base representation from its text-derived feature vector $\mathbf{x}_u\in\mathbb{R}^{d_x}$, node type embedding $\mathbf{a}_{\tau_u}$, and current node memory:
+\begin{equation}
+\mathbf{h}^{0}_{u}(t)=f_{\mathrm{node}}\left(\mathbf{x}_{u}\Vert\mathbf{a}_{\tau_u}\Vert\mathbf{M}_{u}(t^{-})\right),
+\label{eq:base_node}
+\end{equation}
+where $f_{\mathrm{node}}$ is a two-layer MLP. This step injects semantic attributes and type information before temporal message passing.
+For an elapsed time $\Delta t$, DHC uses a sinusoidal encoding $\Phi(\Delta t)$ as below:
+\begin{equation}
+\Phi(\Delta t)=\left[\sin\left(\frac{\Delta t}{\omega_1}\right),\ldots,\sin\left(\frac{\Delta t}{\omega_q}\right),
+\cos\left(\frac{\Delta t}{\omega_1}\right),\ldots,\cos\left(\frac{\Delta t}{\omega_q}\right)\right],
+\label{eq:time_encoding}
+\end{equation}
+\rev{where $q=\lfloor d_t/2\rfloor$ and $\omega_1,\ldots,\omega_q$ are fixed log-spaced frequencies.}
+If $d_t$ is odd, the last dimension is zero-padded. 
+Each relation also has a learned embedding. If relation memory is enabled, the effective relation representation is:
+\begin{equation}
+\boldsymbol{\rho}_{r}(t)=\mathbf{a}_{r}+W_{\rho}\mathbf{R}_{r}(t^{-}).
+\label{eq:relation_state}
+\end{equation}
+Thus, a relation is represented by both its type embedding and its current dynamic state. 
+\rev{For an observed event $(u,r,v,t,\mathbf{e})$, the implementation optionally augments the edge feature with a relation one-hot vector, $\tilde{\mathbf{e}}=\mathbf{e}\Vert\psi(r)$.}
+\rev{The raw message inputs are}
+\begin{equation}
+\mathbf{z}_{u\leftarrow v}=\mathbf{M}_{v}(t^{-})\Vert\mathbf{M}_{u}(t^{-})\Vert\tilde{\mathbf{e}}\Vert\Phi(t-t_{u}^{\mathrm{last}}),
+\end{equation}
+\rev{DHC then applies a relation-conditioned gate:}
+\begin{equation}
+\mathbf{m}_{u\leftarrow v}=W_m\mathbf{z}_{u\leftarrow v}\odot\sigma(W_g\boldsymbol{\rho}_{r}(t)) + W_b\boldsymbol{\rho}_{r}(t),
+\label{eq:rel_time_msg}
+\end{equation}
+and the same form is used for $\mathbf{m}_{v\leftarrow u}$. The gate lets relation semantics modulate the temporal event message instead of treating the relation as a static label.
+
+\subsection{Dynamic States and Recent-neighbor Storage}
+DHC maintains node memory $\mathbf{M}_u$ and relation memory $\mathbf{R}_r$ with GRU cells. 
+If a node or relation receives multiple messages in the same mini-batch, only the latest timestamped message is committed:
+\begin{align}
+\mathbf{M}_u(t) &= \mathrm{GRU}_n\left(W_n\mathbf{m}_{u}(t),\mathbf{M}_u(t^-)\right),\\
+\mathbf{R}_r(t) &= \mathrm{GRU}_r\left(W_r\frac{\mathbf{m}_{u\leftarrow v}(t)+\mathbf{m}_{v\leftarrow u}(t)}{2},\mathbf{R}_r(t^-)\right).
+\end{align}
+Node memory captures endpoint-specific historical behavior, while relation memory
+\rev{captures global non-stationarity of each relation type. The recent-neighbor store records a bounded interaction window for each node.}
+When $(u,r,v,t,\tilde{\mathbf{e}})$ is observed, both directions are inserted with relation id, timestamp, event id, and augmented edge feature.  
+For each node, DHC stores the most recent $K$ undirected interactions. Given a query node $u$, the stored events provide local temporal context:
+\begin{equation}
+\mathbf{c}_u(t)=\sum_{j\in\mathcal{N}_K(u,t)}\alpha_{uj}(t)\,W_v\left(\mathbf{M}_j(t^-)\,\Vert\,\boldsymbol{\rho}_{r_{uj}}(t)\,\Vert\,\phi(t-t_{uj})\right).
+\end{equation}
+The weights $\alpha_{uj}$ are computed by attention or replaced with uniform mean weights. This context helps the model use recent relation-aware evidence without scanning the full history.
+
+\subsection{Dual-branch Query Representation}
+For link prediction, the recent-neighbor store returns a small temporal subgraph around the query endpoints. 
+Edge attributes in this subgraph combine relation representation, augmented edge features, and time encoding. 
+Relation-aware branch produces the context representation $\mathbf{h}^{C}_u(t)$ by fusing the base node
+representation and the local temporal subgraph representation:
+\begin{equation}
+\mathbf{h}^{C}_u(t)=f_N\left(\mathbf{h}^{0}_u(t)\,\Vert\,\mathbf{c}_u(t)\right).
+\end{equation}
+\rev{In parallel, the sequential event-memory branch maintains a compact chronological state $\mathbf E_u\in\mathbb R^{d_m}$ for every node, separate from DHC's relation-aware node memory. For an observed event $(u,v,t,\tilde{\mathbf e})$, it constructs two directional messages:}
+\begin{equation}
+\rev{\begin{aligned}
+\mathbf q^{E}_{u\leftarrow v}(t)
+&=\mathbf E_u(t^-)\Vert\mathbf E_v(t^-)\Vert\tilde{\mathbf e}
+\Vert\Phi(t-t_u^{\mathrm{last},E}),\\
+\mathbf q^{E}_{v\leftarrow u}(t)
+&=\mathbf E_v(t^-)\Vert\mathbf E_u(t^-)\Vert\tilde{\mathbf e}
+\Vert\Phi(t-t_v^{\mathrm{last},E}).
+\end{aligned}}
+\label{eq:event_memory_message}
+\end{equation}
+\rev{When several events address the same node in one chronological batch, the branch retains the message with the latest timestamp. Its state and query representation are therefore}
+\begin{equation}
+\rev{\begin{aligned}
+\bar{\mathbf q}^{E}_{u}(t)
+&=\operatorname{Last}\!\left(\{\mathbf q^{E}_{u\leftarrow j}(t_i):t_i\le t\}\right),\\
+\mathbf E_u(t)&=\operatorname{GRU}_{E}\!\left(\bar{\mathbf q}^{E}_{u}(t),\mathbf E_u(t^-)\right),\\
+\mathbf h^{E}_{u}(t)&=\mathbf E_u(t^-).
+\end{aligned}}
+\label{eq:event_memory_update}
+\end{equation}
+\rev{Equation~\eqref{eq:event_memory_update} is applied only when node $u$ receives an observed message; otherwise $\mathbf E_u(t)=\mathbf E_u(t^-)$. The pre-event state $\mathbf h^{E}_{u}(t)$ is used for scoring to prevent leakage. After scoring and optimization, Eqs.~\eqref{eq:event_memory_message}--\eqref{eq:event_memory_update} are applied only to observed target/context events; sampled negatives never update the state. This branch retains endpoint-specific event order and recurrence. In contrast, the context branch uses text/type features, DHC node memory, the recurrent global state of each relation type, and an explicitly materialized bounded recent-neighbor subgraph. Their parameters and state buffers are separate; they meet only in the following query-level gate.}
+The two branches are fused by a vector gate:
+\begin{equation}
+\mathbf{g}_{u}(t)=\sigma\left(W_F\left(\mathbf{h}^{C}_{u}(t)\Vert\mathbf{h}^{E}_{u}(t)\right)+\mathbf{b}_F\right),
+\end{equation}
+
+\begin{equation}
+\mathbf{h}_{u}(t)=\mathbf{g}_{u}(t)\odot\mathbf{h}^{E}_{u}(t)+\left(1-\mathbf{g}_{u}(t)\right)\odot\mathbf{h}^{C}_{u}(t).
+\end{equation}
+
+The gate allows each query node to balance local heterogeneous context and sequential event history.
+\subsection{Link Scoring, Loss, and Negative Sampling}
+For a candidate edge $(u,r,v,t)$, DHC scores:
+\begin{equation}
+s_{\theta}(u,r,v,t)=f_s\left(\mathbf{h}_{u}(t)\Vert\mathbf{h}_{v}(t)\Vert\boldsymbol{\rho}_{r}(t)\Vert\Phi(t-t_u^{\mathrm{last}})\right),
+\label{eq:score}
+\end{equation}
+where $f_s$ is an MLP that outputs a logit. 
+Training samples one negative destination $v_i^{-}$ for each observed event. The loss is applied only to supervised target edges in the batch:
+\begin{equation}
+\mathcal{L}_{\mathrm{link}}=\frac{1}{|B^{+}|}\sum_{i\in B^{+}}w_{r_i}\left[
+\operatorname{BCE}(s_i^{+},1)+\operatorname{BCE}(s_i^{-},0)\right],
+\label{eq:link_loss}
+\end{equation}
+where $B^{+}=\{i\in B\mid y_i=1\}$, $s_i^{+}=s_{\theta}(u_i,r_i,v_i,t_i)$, $s_i^{-}=s_{\theta}(u_i,r_i,v_i^{-},t_i)$, and $w_{r_i}$ is an optional relation-specific loss weight. Context edges with $y_i=0$ do not contribute to the loss, but they still update states after prediction.
+
+The training sampler mixes three negative-destination sources:
+\begin{equation}
+P(v^{-}\mid v)=\rho_tP_{\mathrm{type}}(v^{-}\mid \tau_v)+\rho_pP_{\mathrm{pop}}(v^{-})+(1-\rho_t-\rho_p)P_{\mathrm{unif}}(v^{-}).
+\end{equation}
+The ratios $\rho_t$ and $\rho_p$ are tunable hyperparameters. 
+They control the balance between type-consistent, popularity-biased, and uniform negative destinations. 
+The default setting, $\rho_t=0.6$ and $\rho_p=0.2$, is an empirical trade-off. 
+It makes most negatives type-compatible with the positive destination, adds a smaller fraction of hard popular negatives, and keeps the remaining samples uniformly drawn for diversity. 
+Evaluation uses $K=20$ uniformly sampled negatives per positive target edge.

@@ -1,0 +1,9 @@
+task_type,parameter,value,test_mrr,run_name
+edge_inductive,neighbor_aggregation,attn,0.901445747,
+edge_inductive,popular_negative_ratio,0.1,0.905896293,
+edge_inductive,recent_neighbor_size,32,0.902702963,
+edge_inductive,typed_negative_ratio,0.1,0.9007266190000001,
+edge_transductive,neighbor_aggregation,attn,0.947159923,
+edge_transductive,popular_negative_ratio,0.2,0.947675487,
+edge_transductive,recent_neighbor_size,16,0.9475444829999999,
+edge_transductive,typed_negative_ratio,0.2,0.948153018,

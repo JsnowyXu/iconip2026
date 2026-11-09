@@ -1,0 +1,229 @@
+{
+  "columns": [
+    "",
+    "orgID",
+    "codeId",
+    "codeIIIId",
+    "codeIIId",
+    "codeIId",
+    "patentId",
+    "Unnamed: 0",
+    "summary",
+    "orgname",
+    "publicationDate",
+    "classCode",
+    "date_parsed",
+    "date_time",
+    "year"
+  ],
+  "dataset": "patent_in",
+  "date_range": {
+    "max": "2024-11-08",
+    "min": "2018-01-05",
+    "num_years": 7
+  },
+  "edge_like_counts_processed_rule": {
+    "num_edges_org_codeIII": 486402,
+    "num_edges_org_coorg": 73548,
+    "num_edges_patent_codeIII": 413803,
+    "num_edges_patent_org": 186877,
+    "num_unique_org_code_pairs": 140751,
+    "num_unique_org_org_pairs": 8567
+  },
+  "file_sizes_bytes": {
+    "cls_csv": 10431,
+    "ipc_csv": 64528,
+    "patent_csv": 158841535
+  },
+  "node_like_counts": {
+    "num_codeIII_nodes_processed_rule": 631,
+    "num_codeIII_reindexed_ids_raw": 631,
+    "num_codeIII_reindexed_ids_valid": 631,
+    "num_org_ids_raw": 3166,
+    "num_org_nodes_processed_rule": 3166,
+    "num_patent_ids_raw": 160718,
+    "num_patent_nodes_processed_rule": 160718
+  },
+  "per_processed_row": {
+    "max_orgs": 14,
+    "max_valid_codeIII": 7,
+    "mean_orgs": 1.1627633494692566,
+    "mean_valid_codeIII": 2.574714717704302
+  },
+  "raw_counts": {
+    "dedup_codeIIIId_values": 413803,
+    "dedup_org_values": 186877,
+    "invalid_or_unmapped_codeIIIId_values": 0,
+    "num_edges_org_codeIII": 486402,
+    "num_edges_org_coorg": 73548,
+    "num_edges_patent_codeIII": 413803,
+    "num_edges_patent_org": 186877,
+    "raw_codeIIIId_values": 413803,
+    "raw_org_values": 186877,
+    "rows_processed": 160718,
+    "rows_total": 160718,
+    "rows_with_codeIIIId": 160718,
+    "rows_with_date": 160718,
+    "rows_with_org": 160718,
+    "rows_with_orgname": 160718,
+    "rows_with_summary": 160718,
+    "rows_with_title": 0,
+    "rows_with_valid_codeIIIId": 160718
+  },
+  "raw_data_dir": "/home/xuxj/2026/iconip-master/raw_datasets/patent_in",
+  "raw_files": {
+    "cls_csv": "/home/xuxj/2026/iconip-master/raw_datasets/patent_in/clsIII-reInd.csv",
+    "ipc_csv": "/home/xuxj/2026/iconip-master/raw_datasets/patent_in/IPCSubClass_US.csv",
+    "patent_csv": "/home/xuxj/2026/iconip-master/raw_datasets/patent_in/all-in.csv"
+  },
+  "reference_counts": {
+    "IPCSubClass_US": {
+      "columns": 2,
+      "rows": 651
+    },
+    "clsIII_reInd": {
+      "rows": 631,
+      "unique_reindexed_ids": 631
+    }
+  },
+  "selected_columns": {
+    "date": "publicationDate",
+    "org_name": "orgname",
+    "summary": "summary",
+    "title": null
+  },
+  "top_codeIII_reindexed_ids": [
+    {
+      "codeIII": "A61K",
+      "codeIIIId": "353",
+      "codeIIIIdreId": "11",
+      "count": 19062
+    },
+    {
+      "codeIII": "G06F",
+      "codeIIIId": "351",
+      "codeIIIIdreId": "37",
+      "count": 16544
+    },
+    {
+      "codeIII": "H04L",
+      "codeIIIId": "317",
+      "codeIIIIdreId": "36",
+      "count": 13776
+    },
+    {
+      "codeIII": "H04W",
+      "codeIIIId": "440",
+      "codeIIIIdreId": "64",
+      "count": 11736
+    },
+    {
+      "codeIII": "G06Q",
+      "codeIIIId": "240",
+      "codeIIIIdreId": "77",
+      "count": 11592
+    },
+    {
+      "codeIII": "A61B",
+      "codeIIIId": "17",
+      "codeIIIIdreId": "69",
+      "count": 10812
+    },
+    {
+      "codeIII": "H04N",
+      "codeIIIId": "457",
+      "codeIIIIdreId": "68",
+      "count": 8872
+    },
+    {
+      "codeIII": "G01N",
+      "codeIIIId": "379",
+      "codeIIIIdreId": "28",
+      "count": 7968
+    },
+    {
+      "codeIII": "G06N",
+      "codeIIIId": "452",
+      "codeIIIIdreId": "106",
+      "count": 7358
+    },
+    {
+      "codeIII": "C07D",
+      "codeIIIId": "579",
+      "codeIIIIdreId": "38",
+      "count": 7266
+    }
+  ],
+  "top_org_ids": [
+    [
+      "3124",
+      400
+    ],
+    [
+      "3249",
+      400
+    ],
+    [
+      "4372",
+      400
+    ],
+    [
+      "4512",
+      400
+    ],
+    [
+      "4902",
+      400
+    ],
+    [
+      "3622",
+      400
+    ],
+    [
+      "4847",
+      400
+    ],
+    [
+      "4139",
+      400
+    ],
+    [
+      "5206",
+      400
+    ],
+    [
+      "962",
+      400
+    ]
+  ],
+  "year_counts_head": [
+    [
+      "2022",
+      35070
+    ],
+    [
+      "2021",
+      30464
+    ],
+    [
+      "2024",
+      28530
+    ],
+    [
+      "2023",
+      28397
+    ],
+    [
+      "2020",
+      15418
+    ],
+    [
+      "2019",
+      13472
+    ],
+    [
+      "2018",
+      9367
+    ]
+  ]
+}

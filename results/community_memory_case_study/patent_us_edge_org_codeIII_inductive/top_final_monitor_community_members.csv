@@ -1,0 +1,9 @@
+node_id,node_type_id,node_type_name,community_id,assign_confidence,node_label
+0,0,patent,0,0.015625,1685
+3,0,patent,0,0.015625,9395
+68,0,patent,0,0.015625,112704
+66,0,patent,0,0.015625,109228
+64,0,patent,0,0.015625,105990
+62,0,patent,0,0.015625,102549
+61,0,patent,0,0.015625,100686
+59,0,patent,0,0.015625,97754

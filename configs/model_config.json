@@ -1,0 +1,27 @@
+{
+  "model_name": "DHCModel",
+  "default_dimensions": {
+    "memory_dim": 128,
+    "relation_dim": 64,
+    "time_dim": 32,
+    "message_dim": 128,
+    "community_dim": 128,
+    "num_communities": 64,
+    "node_type_emb_dim": 16,
+    "edge_feat_dim": 2
+  },
+  "training": {
+    "batch_size": 256,
+    "epochs": 10,
+    "lr": 0.001,
+    "lambda_contrastive": 0.1,
+    "lambda_multiclass": 1.0,
+    "lambda_multilabel": 1.0,
+    "negative_samples_per_edge": 20
+  },
+  "splits": {
+    "train": 0.7,
+    "val": 0.15,
+    "test": 0.15
+  }
+}

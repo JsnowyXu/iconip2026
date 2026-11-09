@@ -1,0 +1,217 @@
+\section{Experiments}
+% Integration checklist for the final experiment pass.
+% Confirmed inputs already reflected below:
+% (1) DHC/TGN-edge/STHN/RepeatMixer/EdgeBank MRR tables from results/edge_only_formal/reports/.
+% (2) Classical ML baselines from results/edge_only_formal/reports/tabular_ml_*.csv.
+% (3) Existing ablation/sensitivity figures under ICONIP/figures/.
+% (4) Existing cross-relation Patent-US figure under ICONIP-old/figures/.
+% (5) Existing relation-memory/context case table under results/relation_temporal_context_case_study/.
+% Pending final integration, do not describe as completed until files are present:
+% (a) DyGFormer/TGAT successful model-zoo metrics, if reruns produce non-missing CSV rows.
+% (b) Newly generated memory trajectory/convergence/context-heatmap/error-case figures.
+% (c) Any final visual/case-study text from the baseline/visual/case agents.
+% Page-budget note: keep only MRR main tables in the paper body unless AP/AUC tables replace a figure or move to appendix/supplement.
+\subsection{Experiment Setup}
+\noindent\textbf{Datasets.} We evaluate DHC on four processed temporal heterogeneous graphs from scholarly citations \cite{aminer,dblp}, a locally archived US-patent export, and the THGL software benchmark \cite{ahrabian2020software}. 
+The scholarly graphs contain citation or coauthor dynamics. 
+The patent graph contains organization--technology-code links with auxiliary patent relations. 
+The software graph contains typed temporal interactions among software entities. Table~\ref{tab:dataset_stats} summarizes the processed statistics.
+\rev{Patent-US was constructed from the archived \texttt{all-us.csv}, \texttt{IPCSubClass\_US.csv}, and \texttt{clsIII-reInd.csv} files. The export contains patent identifiers, publication dates, assignee names, IPC codes, and abstracts. We normalize assignee names, map IPC codes to level-III technology classes, and create patent--organization, patent--class, organization--class, and organization--organization events at the patent publication time. The prediction target is organization--class; the other three relations are context. The previously cited patent-statistics webpage was not the graph source and has therefore been removed. Because the upstream download URL/version is not recoverable from the archived project metadata, we do not claim a more specific provenance; a reproducibility release must include the archive checksum and redistribution URL or access instructions.}
+
+\begin{table}[t]
+\centering
+\caption{Statistics of the processed temporal datasets. R-Types denotes relation types, N-Types denotes node types, and Avg.D denotes average degree.}
+\label{tab:dataset_stats}
+\scriptsize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lrrrr}
+\toprule
+Statistic & aminer-paper & dblp & patent-us & thgl-software \\
+\midrule
+Nodes       & 265,234 & 184,938 & 201,321 & 681,927 \\
+Edges       & 961,282 & 200,000 & 1,047,764 & 1,489,806 \\
+R-Types     & 4       & 2       & 4         & 14 \\
+N-Types     & 3       & 2       & 3         & 4 \\
+Avg.D       & 7.24    & 2.16    & 10.41     & 4.37 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\textbf{Task views and data splits.}
+All task views are built from the full processed event stream. 
+A selected target relation provides supervised edges, while other relations remain as context edges. 
+In transductive views, target edges are sorted by time and split into 70\%/15\%/15\% training, validation, and test parts. 
+The exported windows keep all context edges before the corresponding cutoffs. Only target edges have \texttt{edge\_label=1}; context edges have \texttt{edge\_label=0} and update states only. 
+\rev{For the AMiner-Paper and DBLP inductive views, source-side unseen nodes are sampled from the target relation with a fixed seed; their target edges are assigned to test and all training context touching them is removed. Patent-US instead uses a chronological organization cold-start split and removes held-out organizations from the training window. ``Unseen'' therefore means unseen in training event history; static features, types, and global IDs remain available. Importantly, the THGL-Software run reported here triggered the builder's insufficient-supervision fallback to a chronological temporal split. Its ``inductive'' column is not a strict unseen-node result and must not be interpreted as one. A genuine THGL cold-start rebuild and rerun are required before making a four-dataset inductive claim.}
+
+\noindent\textbf{Compared baselines.}
+We compare with completed temporal link-prediction baselines under the same processed views. 
+TGN-edge augments the memory-based continuous-time graph baseline \cite{rossi2020tgn} with explicit edge-type features \cite{gastinger2024tgb2}. 
+STHN is a compact continuous-time link-prediction baseline for dynamic interactions \cite{li2023sthn}. 
+RepeatMixer models repeated interactions through repeat-aware sampling \cite{zou2024repeatmixer}. 
+EdgeBank is a non-parametric historical-recurrence baseline. 
+We also add tabular baselines using XGBoost, Random Forest, and Logistic Regression over hand-crafted pair features, including endpoint attributes, relation id, time gaps, historical pair counts, node degrees, relation frequency, and endpoint feature similarity. 
+TemporalCount is a non-parametric forecasting baseline that scores a candidate edge from historical pair and relation-pair intensity. 
+These methods cover memory-based, heterogeneous, repeat-aware, non-parametric history, and interpretable tabular strategies.
+DyGFormer and TGAT are supported by the model-zoo runner, but their formal outputs are currently missing or failed for the reported tasks; therefore we reserve them for the final version only if successful reruns produce complete metrics.
+% Final pass insertion point: add TAMI/TGN-base here only if they are selected for the compact main table or moved to a supplementary table.
+
+\noindent\textbf{Evaluation metrics and implementation details.}
+We use MRR as the main ranking metric in the paper body, and use AUC/AP in ablations and case studies when they clarify calibration or binary discrimination. 
+MRR averages the reciprocal of the ranks of the first relevant item in a list of predicted answers. Training follows strict chronological order. At the beginning of each epoch, 
+dynamic states are reset and the training stream is replayed.
+ Validation and testing also use causal replay: 
+ the model scores each target batch before updating states with the same batch. 
+ Training uses one sampled negative destination per positive edge, 
+ while evaluation uses 20 negatives. The default dimensions are 128 for node memory, 
+ 64 for relation embeddings, 32 for time encoding, 
+ and 128 for message dimension. The best checkpoint is selected by validation MRR for edge tasks.
+ We run all experiments on two NVIDIA RTX 3090 GPUs with 24GB RAM.
+\rev{For node attributes, each processed dataset stores a 128-dimensional vector. AMiner-Paper and DBLP concatenate 64 standardized structural/type coordinates with 64 deterministic hybrid-hash text coordinates (word 1--2 grams and character 2--4 grams) derived from available titles, abstracts, venues, author names, years, and dataset metadata. Patent-US uses character 2--4-gram TF--IDF for 120 coordinates and eight structural coordinates, from patent abstracts, organization names, and IPC descriptions. THGL-Software has no natural-language field in our input; its 128-dimensional vector is a padded structural/type representation. No pretrained language model is fine-tuned.}
+
+\rev{The reported $K=20$ protocol was selected as a common, computationally feasible sampled-ranking protocol across all four processed views and all rerun baselines; it is not the official dataset-specific TGB/TGB-2.0 negative sampler. Consequently, the tables support controlled comparison within our candidate sets, not a leaderboard-level state-of-the-art claim. We agree that MRR increases mechanically as the candidate set becomes easier/smaller. We have not fabricated unavailable $K=100$ or all-candidate results; these stricter evaluations, together with multi-seed variance, are required follow-up experiments.}
+
+\rev{Efficiency follows directly from the bounded design. For batch size $b$, memory width $d_m$, relation width $d_r$, and at most $K_N$ stored neighbors per query node, recurrent updates cost $O(bd_m^2)$ and relation-conditioned projections cost $O(bd_md_r)$; local encoding costs $O(bK_Nd_m^2)$ up to attention constants. Persistent state is $O(|\mathcal V|d_m+|\mathcal R|d_m+|\mathcal V|K_N)$, in addition to model parameters. Relation memory itself adds only $O(|\mathcal R|d_m)$ state, whereas the two node-memory buffers dominate at scale. Saved run metadata records roughly 1.0--1.2 million trainable parameters across the four configurations. End-to-end runtime and peak-memory numbers were not measured under a single controlled hardware/software protocol, so we report no incomparable wall-clock figures and identify this as a limitation.}
+\subsection{Performance Comparison}
+\label{sec:performance_comparison}
+As shown in Tables~\ref{tab:inductive_mrr} and~\ref{tab:transductive_mrr}, we compare our model with the baselines that have completed outputs on the four paper datasets.
+The tables intentionally exclude candidate model-zoo baselines whose rows are still missing, and include classical ML baselines only where the current formal reports contain completed values.
+
+\textbf{Inductive results.}
+\rev{Table~\ref{tab:inductive_mrr} reports cold-start results for AMiner-Paper, DBLP, and Patent-US; the THGL-Software column retains the artifact's original ``inductive'' label but is a temporal-fallback result, as disclosed above.}
+DHC is competitive on AMiner-paper, DBLP, and Patent-US, but the strengthened baseline set also shows where simple recurrence or compact temporal modeling is sufficient. 
+On AMiner-paper and DBLP, DHC ranks second behind STHN and is clearly stronger than tabular and historical baselines, indicating that relation-aware temporal context helps when academic links depend on typed structure and text-derived node evidence. 
+On Patent-US, tabular and count-based methods are unexpectedly strong because the target organization--technology relation contains repeated, highly regular interactions. 
+On THGL-Software, STHN and RepeatMixer outperform DHC in the current run, suggesting that DHC's larger relation-memory machinery is not always beneficial when software interactions are sparse and relation-local recurrence dominates.
+
+\begin{table}[t]
+\centering
+\caption{\rev{MRR for history-level cold-start temporal link prediction. THGL-Software is a temporal fallback, not a strict unseen-node split.} The best result is in bold, and the second best is underlined.}
+\label{tab:inductive_mrr}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccc}
+\toprule
+Method & AMiner-paper & DBLP & Patent-US & THGL-Software \\
+\midrule
+TGN-edge & 0.4239 & 0.5005 & \underline{0.9906} & 0.6296 \\
+EdgeBank & 0.0476 & 0.0476 & 0.9726 & 0.0476 \\
+XGBoost & 0.2646 & 0.2081 & \textbf{1.0000} & 0.1283 \\
+Random Forest & 0.0905 & 0.0792 & \textbf{1.0000} & 0.0742 \\
+Logistic Regression & 0.3570 & 0.2308 & \textbf{1.0000} & 0.5769 \\
+TemporalCount & 0.0476 & 0.0476 & 0.9820 & 0.0476 \\
+STHN & \textbf{0.8419} & \textbf{0.7842} & 0.9833 & \textbf{0.8936}\\
+RepeatMixer & 0.2559 & 0.1513 & 0.7444 & \underline{0.8170} \\
+DHC & \underline{0.7790} & \underline{0.7683} & \underline{0.9906} & 0.4703 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+% Final pass insertion point: if DyGFormer/TGAT reruns succeed, add rows to Tables~\ref{tab:inductive_mrr} and~\ref{tab:transductive_mrr} and revise the ranking discussion.
+% If using the refreshed six-dataset tabular-only report, add one compact sentence here instead of a new table unless the page budget allows it.
+\textbf{Transductive results.} Table~\ref{tab:transductive_mrr} shows the transductive setting. 
+This setting is usually easier than the inductive setting because training and test nodes may overlap. 
+DHC remains strong on AMiner-paper and Patent-US, but it is not uniformly best after adding stronger baselines. 
+STHN gives the best AMiner-paper and DBLP transductive MRR, while TGN-edge performs best on Patent-US and THGL-Software. 
+The Patent-US table is especially informative: XGBoost and TemporalCount approach the best neural baseline, confirming that repeated organization--technology interactions make history intensity a powerful signal. 
+In contrast, tabular baselines are much weaker on AMiner-paper, where text-aware node evidence and temporal structure must be combined. 
+The DBLP transductive result also warns that DHC can overfit or mis-rank when the graph has few relation types and limited degree, so we treat this setting as a limitation rather than claiming uniform superiority.
+\begin{table}[t]
+\centering
+\caption{MRR result for transductive temporal link prediction.The best result is in bold, and the second best is underlined.}
+\label{tab:transductive_mrr}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccc}
+\toprule
+Method & AMiner-paper & DBLP & Patent-US & THGL-Software \\
+\midrule
+TGN-edge & 0.3782 & 0.5724 & \textbf{0.9967} & \textbf{0.8913}\\
+EdgeBank & 0.0476 & 0.0476 & 0.9446 & 0.3048\\
+XGBoost & 0.2621 & 0.1691 & 0.9913 & 0.4400\\
+Random Forest & 0.2457 & 0.0616 & 0.9681 & 0.3096\\
+Logistic Regression & 0.3404 & \underline{0.6812} & 0.6659 & 0.3268\\
+TemporalCount & 0.0476 & 0.0476 & \underline{0.9953} & 0.3120\\
+STHN & \textbf{0.8419} & \textbf{0.7842} & 0.8459 & \underline{0.8760} \\
+RepeatMixer & 0.5648 & 0.5106 & 0.5872 & 0.8199\\
+DHC & \underline{0.7670} & 0.2548 & 0.9885 & 0.8000 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+Overall, the expanded comparison gives a more precise picture. 
+DHC is most useful when relation heterogeneity and node evidence must be combined with temporal context, as in academic inductive prediction. 
+It is less advantageous when a dataset is dominated by simple repeated pairs or when compact temporal sequence models already capture the main signal.
+\subsection{Ablation and Sensitivity}
+% Final pass insertion point: replace or supplement Figures~\ref{fig:ablation}--\ref{fig:sensitivity} if the visual agent produces updated memory-trajectory, convergence, or attention/context plots.
+Figure~\ref{fig:ablation} reports the contribution of the main DHC components on Patent-US and THGL-Software. Removing recent-neighbor context causes the largest degradation in most settings. This confirms that local temporal neighborhoods provide important evidence beyond isolated endpoint states. 
+The effect of relation memory is more task dependent. Its removal has little influence on Patent-US transductive, where the target relation is dense and highly regular, 
+\rev{but it reduces performance on Patent-US cold-start and on the THGL-Software view labeled inductive (which is a temporal fallback). The former supports the incomplete-history interpretation, whereas the latter only shows task-dependent temporal behavior.} Removing edge-type information also lowers performance, 
+but the drop is not obvious especially on Patent-US transductive tasks where relation patterns are relatively stable, but becomes more visible in settings with richer heterogeneity. 
+Overall, the full model gives the best or near-best result across all four splits. 
+These results show that the three components play complementary roles: 
+edge types provide explicit heterogeneous cues, 
+relation memory tracks evolving relation semantics, 
+and recent-neighbor context supplies local temporal evidence.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/3_ablation.png}
+\caption{Results of ablation study on patent-us and thgl-software datasets.}
+\label{fig:ablation}
+\end{figure}
+Figure~\ref{fig:sensitivity} shows the sensitivity of DHC to negative sampling and temporal-neighborhood construction on Patent-US. 
+The four parameters affect the model in different ways. For \emph{typed negative ratio}, a moderate ratio gives stable gains, 
+while a larger value leads to mixed effects. This suggests that type-consistent negatives help reduce reliance on coarse node-type cues, but too many such samples may reduce negative diversity. 
+The effect of \emph{popular negative ratio} is more evident. 
+A moderate value provides informative hard negatives, 
+especially in the inductive setting, where the best performance is obtained at 0.1. 
+The transductive setting continues to benefit as the ratio increases to 0.2, 
+indicating that frequent destination nodes remain a major source of ranking confusion 
+when node identities are already observed.
+
+The preferred temporal window also differs across task settings. 
+A larger \emph{recent neighbor size} is more helpful for inductive prediction, 
+where broader local evidence can compensate for limited historical information about unseen nodes. 
+In contrast, the transductive setting favors a smaller window, which provides sufficient context 
+while avoiding unnecessary noise. 
+Finally, \emph{neighbor aggregation} has the smallest effect among the four parameters. 
+Attention-based aggregation is consistently better than mean pooling, 
+although the margin is limited. This indicates that recent interactions in Patent-US are relatively coherent, 
+while selective weighting still offers a safer default for relation-aware temporal modeling.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/4_sensitivity.png}
+\caption{Sensitivity analysis on patent-us dataset.}
+\label{fig:sensitivity}
+\end{figure}
+\subsection{Cross-relation Patent Analysis}
+% Final pass insertion point: verify whether a newer cross-relation visual supersedes ICONIP-old/figures/cross_relation_mrr_base_vs_best.png.
+Patent tasks expose a different behavior from academic and software graphs because the target relation is strongly tied to repeated organization--technology activity. 
+Figure~\ref{fig:cross-relation-patent} summarizes the completed cross-relation Patent-US runs. 
+The larger gains occur when auxiliary patent relations provide context that is temporally aligned with the target organization--code relation. 
+When the auxiliary relation is weakly synchronized, adding more context gives smaller improvements and can even make the ranking depend on stale neighbors. 
+This explains why simple historical baselines are strong in Tables~\ref{tab:inductive_mrr} and~\ref{tab:transductive_mrr}, while DHC still benefits when the relation-memory state captures which auxiliary relations are currently useful.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.82\textwidth]{../ICONIP-old/figures/cross_relation_mrr_base_vs_best.png}
+\caption{Cross-relation Patent-US analysis. The figure compares the base and best relation-context settings under the completed Patent-US cross-relation runs.}
+\label{fig:cross-relation-patent}
+\end{figure}
+
+\subsection{Relation-memory and Temporal Context Case Study}
+% Final pass insertion point: update this paragraph and the input table only after the case-study agent writes its final artifacts.
+Table~\ref{tab:case-relation-temporal-context} gives two aggregate cases grounded in the saved run artifacts. 
+We treat them as aggregate case studies rather than per-edge rank examples, because the available outputs contain \texttt{metrics.json}, \texttt{train\_history.csv}, and memory trace files, but not exported edge-level before/after ranking trajectories. 
+\rev{For the software artifact named \texttt{thgl\_software\_edge\_inductive}---which the preprocessing audit identifies as a temporal fallback---the controlled \texttt{best\_config\_module\_ablation} runs show that removing relation memory changes MRR only from 0.7971 to 0.7967, but lowers AP from 0.5661 to 0.5466.}
+This 0.0195 AP drop (3.45\% relative to the full model) indicates that relation memory improves aggregate positive-edge discrimination even when the top reciprocal-rank metric is nearly unchanged. 
+Removing community/context information causes a larger AP drop of 0.0382, matching the multi-relation and sparse-history nature of the software graph.
+For the patent temporal-context case, the \texttt{patent\_cn} recent-neighbor sweep shows that inductive prediction prefers a moderate window ($K=16$, AP 0.9870), while the transductive split peaks at a shorter window ($K=8$, AP 0.9873). 
+Increasing the inductive window to $K=32$ lowers AP to 0.9822, and the weakest transductive setting is $K=12$ with AP 0.9825. 
+This supports the interpretation that a short window can miss useful context for weakly observed nodes, whereas an overly long or poorly aligned window may reintroduce outdated organization--technology evidence.
+
+\input{../results/relation_temporal_context_case_study/relation_temporal_context_case_table.tex}
+

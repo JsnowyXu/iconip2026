@@ -1,0 +1,3 @@
+dataset,task_name,model,run_dir,epochs_run,best_epoch,best_val_mrr,final_loss,avg_epoch_sec,total_sec,test_mrr,test_auc,test_ap,total_params,trainable_params,split,source_path
+patent_us,patent_us_edge_org_codeIII_inductive,DHC-main,/home/xuxj/2026/dyn_relation_memory/results/edge_only_formal/main/patent_us_edge_org_codeIII_inductive__seed42,9.0,2.0,0.9964120783448516,1.2110462730356273,162.74631971783108,1464.7168774604797,0.9905660377358491,0.9993948024207903,0.9815530049698002,1108115,1108115,,
+patent_us,patent_us_edge_org_codeIII_inductive,tami,,,,,,34.437784618801544,,0.6668331668331667,0.8877551020408163,0.6629302391597474,1978310,494165,test,/home/xuxj/2026/dyn_relation_memory/results/tami_baseline_formal_20260508/patent_us_edge_org_codeIII_inductive.csv

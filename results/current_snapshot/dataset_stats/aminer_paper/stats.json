@@ -1,0 +1,16 @@
+{
+  "dataset": "aminer_paper",
+  "num_nodes": 265234,
+  "num_edges": 961282,
+  "num_relations": 4,
+  "num_node_types": 3,
+  "time_min": 0.0,
+  "time_max": 2012.0,
+  "time_span": 2012.0,
+  "edge_feat_dim": 2,
+  "node_feat_dim": 128,
+  "avg_degree": 7.248557877195231,
+  "max_degree": 1462,
+  "has_multiclass_label": true,
+  "has_multilabel": true
+}

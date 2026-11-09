@@ -1,0 +1,1687 @@
+[
+  {
+    "path": "data/processed/amazon_movies_unified.pt",
+    "nodes": 293562,
+    "edges": 200000,
+    "num_rels": 5,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 140013,
+        "supervised": 140013,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 30087,
+        "supervised": 30087,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 29900,
+        "supervised": 29900,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {}
+  },
+  {
+    "path": "data/processed/aminer_paper_unified.pt",
+    "nodes": 265234,
+    "edges": 961282,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 678061,
+        "supervised": 678061,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 144171,
+        "supervised": 144171,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 139050,
+        "supervised": 139050,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {}
+  },
+  {
+    "path": "data/processed/dblp_unified.pt",
+    "nodes": 184938,
+    "edges": 200000,
+    "num_rels": 2,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 146099,
+        "supervised": 146099,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 36810,
+        "supervised": 36810,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 17091,
+        "supervised": 17091,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {}
+  },
+  {
+    "path": "data/processed/paper_tasks/amazon_movies_edge_inductive.pt",
+    "nodes": 293562,
+    "edges": 200000,
+    "num_rels": 5,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 144521,
+        "supervised": 66884,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 36734,
+        "supervised": 16649,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 18745,
+        "supervised": 9266,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 200000,
+      "supervised_edges": 92799,
+      "train_window_edges": 144521,
+      "val_window_edges": 36734,
+      "test_window_edges": 18745,
+      "target_original_rel_ids": [
+        4
+      ],
+      "train_supervised_edges": 66884,
+      "val_supervised_edges": 16649,
+      "test_supervised_edges": 9266,
+      "target_original_rel_id": 4,
+      "protocol": "full_hetero_context_inductive",
+      "unseen_source_node_ids": {
+        "count": 1591,
+        "sha256": "a8b8b38403dd5a7e216d83713b45399f48c4edd5d70eceb2e3a7f8ce077fcd02",
+        "full_values": "Original task .pt metadata; local repro/data_audit_full.json"
+      }
+    }
+  },
+  {
+    "path": "data/processed/paper_tasks/amazon_movies_edge_transductive.pt",
+    "nodes": 293562,
+    "edges": 200000,
+    "num_rels": 5,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 139880,
+        "supervised": 64967,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 29981,
+        "supervised": 13946,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 30139,
+        "supervised": 13887,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 200000,
+      "supervised_edges": 92800,
+      "train_window_edges": 139880,
+      "val_window_edges": 29981,
+      "test_window_edges": 30139,
+      "target_original_rel_ids": [
+        4
+      ],
+      "train_supervised_edges": 64967,
+      "val_supervised_edges": 13946,
+      "test_supervised_edges": 13887,
+      "target_original_rel_id": 4,
+      "protocol": "full_hetero_context_transductive"
+    }
+  },
+  {
+    "path": "data/processed/paper_tasks/amazon_movies_node_multilabel.pt",
+    "nodes": 293562,
+    "edges": 200000,
+    "num_rels": 5,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 140013,
+        "supervised": 140013,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 30087,
+        "supervised": 30087,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 29900,
+        "supervised": 29900,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 200000,
+      "supervised_edges": 200000,
+      "train_window_edges": 140013,
+      "val_window_edges": 30087,
+      "test_window_edges": 29900,
+      "target_original_rel_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "train_supervised_edges": 140013,
+      "val_supervised_edges": 30087,
+      "test_supervised_edges": 29900,
+      "node_task_view": true,
+      "target_kind": "all_relations"
+    }
+  },
+  {
+    "path": "data/processed/paper_tasks/aminer_paper_citation_edge_inductive.pt",
+    "nodes": 265234,
+    "edges": 961282,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 870607,
+        "supervised": 147123,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 63734,
+        "supervised": 32866,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 26941,
+        "supervised": 20010,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 961282,
+      "supervised_edges": 199999,
+      "train_window_edges": 870607,
+      "val_window_edges": 63734,
+      "test_window_edges": 26941,
+      "target_original_rel_ids": [
+        0
+      ],
+      "train_supervised_edges": 147123,
+      "val_supervised_edges": 32866,
+      "test_supervised_edges": 20010,
+      "target_original_rel_id": 0,
+      "protocol": "full_hetero_context_inductive",
+      "unseen_source_node_ids": {
+        "count": 1799,
+        "sha256": "af75d3f5ec7b9f501132a1d9252692829770df5802778c6874b42d52cb101c3d",
+        "full_values": "Original task .pt metadata; local repro/data_audit_full.json"
+      }
+    }
+  },
+  {
+    "path": "data/processed/paper_tasks/aminer_paper_citation_edge_transductive.pt",
+    "nodes": 265234,
+    "edges": 961282,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 857834,
+        "supervised": 145456,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 69911,
+        "supervised": 36364,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 33537,
+        "supervised": 18180,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 961282,
+      "supervised_edges": 200000,
+      "train_window_edges": 857834,
+      "val_window_edges": 69911,
+      "test_window_edges": 33537,
+      "target_original_rel_ids": [
+        0
+      ],
+      "train_supervised_edges": 145456,
+      "val_supervised_edges": 36364,
+      "test_supervised_edges": 18180,
+      "target_original_rel_id": 0,
+      "protocol": "full_hetero_context_transductive"
+    }
+  },
+  {
+    "path": "data/processed/paper_tasks/aminer_paper_citation_node_multilabel.pt",
+    "nodes": 265234,
+    "edges": 961282,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 678061,
+        "supervised": 678061,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 144171,
+        "supervised": 144171,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 139050,
+        "supervised": 139050,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 961282,
+      "supervised_edges": 961282,
+      "train_window_edges": 678061,
+      "val_window_edges": 144171,
+      "test_window_edges": 139050,
+      "target_original_rel_ids": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "train_supervised_edges": 678061,
+      "val_supervised_edges": 144171,
+      "test_supervised_edges": 139050,
+      "node_task_view": true,
+      "target_kind": "all_relations"
+    }
+  },
+  {
+    "path": "data/processed/paper_tasks/aminer_paper_coauthor_edge_inductive.pt",
+    "nodes": 265234,
+    "edges": 961282,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 460838,
+        "supervised": 460838,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 364222,
+        "supervised": 101361,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 136222,
+        "supervised": 131336,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 961282,
+      "supervised_edges": 693535,
+      "train_window_edges": 460838,
+      "val_window_edges": 364222,
+      "test_window_edges": 136222,
+      "target_original_rel_ids": [
+        3
+      ],
+      "train_supervised_edges": 460838,
+      "val_supervised_edges": 101361,
+      "test_supervised_edges": 131336,
+      "target_original_rel_id": 3,
+      "protocol": "full_hetero_context_inductive",
+      "unseen_source_node_ids": {
+        "count": 13632,
+        "sha256": "4f84baa10604b5793abbff60ce866ea578e31e53c18cc558c11dc0313893d8bd",
+        "full_values": "Original task .pt metadata; local repro/data_audit_full.json"
+      }
+    }
+  },
+  {
+    "path": "data/processed/paper_tasks/aminer_paper_coauthor_edge_transductive.pt",
+    "nodes": 265234,
+    "edges": 961282,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 568440,
+        "supervised": 568440,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 71602,
+        "supervised": 22234,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 321240,
+        "supervised": 102862,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 961282,
+      "supervised_edges": 693536,
+      "train_window_edges": 568440,
+      "val_window_edges": 71602,
+      "test_window_edges": 321240,
+      "target_original_rel_ids": [
+        3
+      ],
+      "train_supervised_edges": 568440,
+      "val_supervised_edges": 22234,
+      "test_supervised_edges": 102862,
+      "target_original_rel_id": 3,
+      "protocol": "full_hetero_context_transductive"
+    }
+  },
+  {
+    "path": "data/processed/paper_tasks/aminer_paper_coauthor_node_multilabel.pt",
+    "nodes": 265234,
+    "edges": 961282,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 678061,
+        "supervised": 678061,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 144171,
+        "supervised": 144171,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 139050,
+        "supervised": 139050,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 961282,
+      "supervised_edges": 961282,
+      "train_window_edges": 678061,
+      "val_window_edges": 144171,
+      "test_window_edges": 139050,
+      "target_original_rel_ids": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "train_supervised_edges": 678061,
+      "val_supervised_edges": 144171,
+      "test_supervised_edges": 139050,
+      "node_task_view": true,
+      "target_kind": "all_relations"
+    }
+  },
+  {
+    "path": "data/processed/paper_tasks/aminer_paper_edge_inductive.pt",
+    "nodes": 265234,
+    "edges": 961282,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 460838,
+        "supervised": 460838,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 364222,
+        "supervised": 101361,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 136222,
+        "supervised": 131336,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 961282,
+      "supervised_edges": 693535,
+      "train_window_edges": 460838,
+      "val_window_edges": 364222,
+      "test_window_edges": 136222,
+      "target_original_rel_ids": [
+        3
+      ],
+      "train_supervised_edges": 460838,
+      "val_supervised_edges": 101361,
+      "test_supervised_edges": 131336,
+      "target_original_rel_id": 3,
+      "protocol": "full_hetero_context_inductive",
+      "unseen_source_node_ids": {
+        "count": 13632,
+        "sha256": "4f84baa10604b5793abbff60ce866ea578e31e53c18cc558c11dc0313893d8bd",
+        "full_values": "Original task .pt metadata; local repro/data_audit_full.json"
+      }
+    }
+  },
+  {
+    "path": "data/processed/paper_tasks/aminer_paper_edge_transductive.pt",
+    "nodes": 265234,
+    "edges": 961282,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 568440,
+        "supervised": 568440,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 71602,
+        "supervised": 22234,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 321240,
+        "supervised": 102862,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 961282,
+      "supervised_edges": 693536,
+      "train_window_edges": 568440,
+      "val_window_edges": 71602,
+      "test_window_edges": 321240,
+      "target_original_rel_ids": [
+        3
+      ],
+      "train_supervised_edges": 568440,
+      "val_supervised_edges": 22234,
+      "test_supervised_edges": 102862,
+      "target_original_rel_id": 3,
+      "protocol": "full_hetero_context_transductive"
+    }
+  },
+  {
+    "path": "data/processed/paper_tasks/aminer_paper_node_multilabel.pt",
+    "nodes": 265234,
+    "edges": 961282,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 678061,
+        "supervised": 678061,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 144171,
+        "supervised": 144171,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 139050,
+        "supervised": 139050,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 961282,
+      "supervised_edges": 961282,
+      "train_window_edges": 678061,
+      "val_window_edges": 144171,
+      "test_window_edges": 139050,
+      "target_original_rel_ids": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "train_supervised_edges": 678061,
+      "val_supervised_edges": 144171,
+      "test_supervised_edges": 139050,
+      "node_task_view": true,
+      "target_kind": "all_relations"
+    }
+  },
+  {
+    "path": "data/processed/paper_tasks/dblp_edge_inductive.pt",
+    "nodes": 184938,
+    "edges": 200000,
+    "num_rels": 2,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 147886,
+        "supervised": 114160,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 33360,
+        "supervised": 26492,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 18754,
+        "supervised": 14866,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 200000,
+      "supervised_edges": 155518,
+      "train_window_edges": 147886,
+      "val_window_edges": 33360,
+      "test_window_edges": 18754,
+      "target_original_rel_ids": [
+        1
+      ],
+      "train_supervised_edges": 114160,
+      "val_supervised_edges": 26492,
+      "test_supervised_edges": 14866,
+      "target_original_rel_id": 1,
+      "protocol": "full_hetero_context_inductive",
+      "unseen_source_node_ids": {
+        "count": 1208,
+        "sha256": "aa2a488cdcd10cf096bbd51e1aa8e027cfc61104fda0e0abaeb09f126dcd8124",
+        "full_values": "Original task .pt metadata; local repro/data_audit_full.json"
+      }
+    }
+  },
+  {
+    "path": "data/processed/paper_tasks/dblp_edge_transductive.pt",
+    "nodes": 184938,
+    "edges": 200000,
+    "num_rels": 2,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 146099,
+        "supervised": 112281,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 36810,
+        "supervised": 30059,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 17091,
+        "supervised": 13179,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 200000,
+      "supervised_edges": 155519,
+      "train_window_edges": 146099,
+      "val_window_edges": 36810,
+      "test_window_edges": 17091,
+      "target_original_rel_ids": [
+        1
+      ],
+      "train_supervised_edges": 112281,
+      "val_supervised_edges": 30059,
+      "test_supervised_edges": 13179,
+      "target_original_rel_id": 1,
+      "protocol": "full_hetero_context_transductive"
+    }
+  },
+  {
+    "path": "data/processed/paper_tasks/dblp_node_multilabel.pt",
+    "nodes": 184938,
+    "edges": 200000,
+    "num_rels": 2,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 146099,
+        "supervised": 146099,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 36810,
+        "supervised": 36810,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 17091,
+        "supervised": 17091,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 200000,
+      "supervised_edges": 200000,
+      "train_window_edges": 146099,
+      "val_window_edges": 36810,
+      "test_window_edges": 17091,
+      "target_original_rel_ids": [
+        0,
+        1
+      ],
+      "train_supervised_edges": 146099,
+      "val_supervised_edges": 36810,
+      "test_supervised_edges": 17091,
+      "node_task_view": true,
+      "target_kind": "all_relations"
+    }
+  },
+  {
+    "path": "data/processed/patent_cn_unified.pt",
+    "nodes": 198390,
+    "edges": 757275,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 534357,
+        "supervised": 534357,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 114573,
+        "supervised": 114573,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 108345,
+        "supervised": 108345,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {}
+  },
+  {
+    "path": "data/processed/patent_in_unified.pt",
+    "nodes": 164307,
+    "edges": 1154804,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 809114,
+        "supervised": 809114,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 181225,
+        "supervised": 181225,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 164465,
+        "supervised": 164465,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {}
+  },
+  {
+    "path": "data/processed/patent_us_unified.pt",
+    "nodes": 201321,
+    "edges": 1047764,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 744631,
+        "supervised": 744631,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 149604,
+        "supervised": 149604,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 153529,
+        "supervised": 153529,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {}
+  },
+  {
+    "path": "data/processed/tasks/patent_cn_edge_org_codeIII_inductive.pt",
+    "nodes": 198390,
+    "edges": 690931,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 616782,
+        "supervised": 196827,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 41007,
+        "supervised": 41007,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 33142,
+        "supervised": 33142,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 690931,
+      "supervised_edges": 270976,
+      "train_window_edges": 616782,
+      "val_window_edges": 41007,
+      "test_window_edges": 33142
+    }
+  },
+  {
+    "path": "data/processed/tasks/patent_cn_edge_org_codeIII_transductive.pt",
+    "nodes": 198390,
+    "edges": 757275,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 534357,
+        "supervised": 190114,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 114573,
+        "supervised": 41423,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 108345,
+        "supervised": 39439,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 757275,
+      "supervised_edges": 270976,
+      "train_window_edges": 534357,
+      "val_window_edges": 114573,
+      "test_window_edges": 108345
+    }
+  },
+  {
+    "path": "data/processed/tasks/patent_cn_node_patent_multilabel.pt",
+    "nodes": 198390,
+    "edges": 757275,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 534357,
+        "supervised": 0,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 114573,
+        "supervised": 0,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 108345,
+        "supervised": 0,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 757275,
+      "supervised_edges": 0,
+      "train_window_edges": 534357,
+      "val_window_edges": 114573,
+      "test_window_edges": 108345
+    }
+  },
+  {
+    "path": "data/processed/tasks/patent_in_edge_org_codeIII_inductive.pt",
+    "nodes": 164307,
+    "edges": 1074509,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 935384,
+        "supervised": 344315,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 77977,
+        "supervised": 77977,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 61148,
+        "supervised": 61148,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 1074509,
+      "supervised_edges": 483440,
+      "train_window_edges": 935384,
+      "val_window_edges": 77977,
+      "test_window_edges": 61148
+    }
+  },
+  {
+    "path": "data/processed/tasks/patent_in_edge_org_codeIII_transductive.pt",
+    "nodes": 164307,
+    "edges": 1154804,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 809114,
+        "supervised": 338557,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 181225,
+        "supervised": 76305,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 164465,
+        "supervised": 68578,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 1154804,
+      "supervised_edges": 483440,
+      "train_window_edges": 809114,
+      "val_window_edges": 181225,
+      "test_window_edges": 164465
+    }
+  },
+  {
+    "path": "data/processed/tasks/patent_in_node_patent_multilabel.pt",
+    "nodes": 164307,
+    "edges": 1154804,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 809114,
+        "supervised": 0,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 181225,
+        "supervised": 0,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 164465,
+        "supervised": 0,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 1154804,
+      "supervised_edges": 0,
+      "train_window_edges": 809114,
+      "val_window_edges": 181225,
+      "test_window_edges": 164465
+    }
+  },
+  {
+    "path": "data/processed/tasks/patent_us_edge_org_codeIII_inductive.pt",
+    "nodes": 201321,
+    "edges": 925249,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": false,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 863605,
+        "supervised": 302491,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 61642,
+        "supervised": 61642,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 131,
+        "supervised": 53,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 925249,
+      "supervised_edges": 364134,
+      "train_window_edges": 863605,
+      "val_window_edges": 61642,
+      "test_window_edges": 131
+    }
+  },
+  {
+    "path": "data/processed/tasks/patent_us_edge_org_codeIII_transductive.pt",
+    "nodes": 201321,
+    "edges": 1047764,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 744631,
+        "supervised": 299674,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 149604,
+        "supervised": 60424,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 153529,
+        "supervised": 62727,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 1047764,
+      "supervised_edges": 422825,
+      "train_window_edges": 744631,
+      "val_window_edges": 149604,
+      "test_window_edges": 153529
+    }
+  },
+  {
+    "path": "data/processed/tasks/patent_us_node_patent_multilabel.pt",
+    "nodes": 201321,
+    "edges": 1047764,
+    "num_rels": 4,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 744631,
+        "supervised": 0,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 149604,
+        "supervised": 0,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 153529,
+        "supervised": 0,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 1047764,
+      "supervised_edges": 0,
+      "train_window_edges": 744631,
+      "val_window_edges": 149604,
+      "test_window_edges": 153529
+    }
+  },
+  {
+    "path": "data/processed/tgb2_tasks/backup_20260511_thgl_software_bad_split/thgl_software_edge_inductive.pt",
+    "nodes": 681927,
+    "edges": 1489806,
+    "num_rels": 14,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 1108627,
+        "supervised": 140656,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 203697,
+        "supervised": 30136,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 177482,
+        "supervised": 30139,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 1489806,
+      "supervised_edges": 200931,
+      "train_window_edges": 1108627,
+      "val_window_edges": 203697,
+      "test_window_edges": 177482,
+      "target_original_rel_ids": [
+        6
+      ],
+      "train_supervised_edges": 140656,
+      "val_supervised_edges": 30136,
+      "test_supervised_edges": 30139,
+      "target_original_rel_id": 6,
+      "protocol": "full_hetero_context_inductive",
+      "unseen_source_node_ids": []
+    }
+  },
+  {
+    "path": "data/processed/tgb2_tasks/backup_20260511_thgl_software_bad_split/thgl_software_edge_transductive.pt",
+    "nodes": 681927,
+    "edges": 1489806,
+    "num_rels": 14,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 1108627,
+        "supervised": 140656,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 203697,
+        "supervised": 30136,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 177482,
+        "supervised": 30139,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 1489806,
+      "supervised_edges": 200931,
+      "train_window_edges": 1108627,
+      "val_window_edges": 203697,
+      "test_window_edges": 177482,
+      "target_original_rel_ids": [
+        6
+      ],
+      "train_supervised_edges": 140656,
+      "val_supervised_edges": 30136,
+      "test_supervised_edges": 30139,
+      "target_original_rel_id": 6,
+      "protocol": "full_hetero_context_transductive"
+    }
+  },
+  {
+    "path": "data/processed/tgb2_tasks/backup_20260511_thgl_software_bad_split/thgl_software_node_multilabel.pt",
+    "nodes": 681927,
+    "edges": 1489806,
+    "num_rels": 14,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 1042882,
+        "supervised": 1042882,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 223493,
+        "supervised": 223493,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 223431,
+        "supervised": 223431,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 1489806,
+      "supervised_edges": 1489806,
+      "train_window_edges": 1042882,
+      "val_window_edges": 223493,
+      "test_window_edges": 223431,
+      "target_original_rel_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "train_supervised_edges": 1042882,
+      "val_supervised_edges": 223493,
+      "test_supervised_edges": 223431,
+      "node_task_view": true,
+      "target_kind": "all_relations"
+    }
+  },
+  {
+    "path": "data/processed/tgb2_tasks/thgl_github_edge_inductive.pt",
+    "nodes": 5856765,
+    "edges": 17499577,
+    "num_rels": 14,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 13770860,
+        "supervised": 2658476,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 3110791,
+        "supervised": 664431,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 617926,
+        "supervised": 297080,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 17499577,
+      "supervised_edges": 3619987,
+      "train_window_edges": 13770860,
+      "val_window_edges": 3110791,
+      "test_window_edges": 617926,
+      "target_original_rel_ids": [
+        5
+      ],
+      "train_supervised_edges": 2658476,
+      "val_supervised_edges": 664431,
+      "test_supervised_edges": 297080,
+      "target_original_rel_id": 5,
+      "protocol": "full_hetero_context_inductive",
+      "unseen_source_node_ids": {
+        "count": 39342,
+        "sha256": "f14234b9b142c33d84007dd6380be6cd517a8720d5fa72048d8e789ed23293be",
+        "full_values": "Original task .pt metadata; local repro/data_audit_full.json"
+      }
+    }
+  },
+  {
+    "path": "data/processed/tgb2_tasks/thgl_github_edge_transductive.pt",
+    "nodes": 5856765,
+    "edges": 17499577,
+    "num_rels": 14,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 12591271,
+        "supervised": 2533993,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 2493365,
+        "supervised": 543000,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 2414941,
+        "supervised": 542995,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 17499577,
+      "supervised_edges": 3619988,
+      "train_window_edges": 12591271,
+      "val_window_edges": 2493365,
+      "test_window_edges": 2414941,
+      "target_original_rel_ids": [
+        5
+      ],
+      "train_supervised_edges": 2533993,
+      "val_supervised_edges": 543000,
+      "test_supervised_edges": 542995,
+      "target_original_rel_id": 5,
+      "protocol": "full_hetero_context_transductive"
+    }
+  },
+  {
+    "path": "data/processed/tgb2_tasks/thgl_github_node_multilabel.pt",
+    "nodes": 5856765,
+    "edges": 17499577,
+    "num_rels": 14,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 12250061,
+        "supervised": 12250061,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 2625358,
+        "supervised": 2625358,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 2624158,
+        "supervised": 2624158,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 17499577,
+      "supervised_edges": 17499576,
+      "train_window_edges": 12250061,
+      "val_window_edges": 2625358,
+      "test_window_edges": 2624158,
+      "target_original_rel_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "train_supervised_edges": 12250061,
+      "val_supervised_edges": 2625358,
+      "test_supervised_edges": 2624158,
+      "node_task_view": true,
+      "target_kind": "all_relations"
+    }
+  },
+  {
+    "path": "data/processed/tgb2_tasks/thgl_software_edge_inductive.pt",
+    "nodes": 681927,
+    "edges": 1489806,
+    "num_rels": 14,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 1201623,
+        "supervised": 144188,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 242112,
+        "supervised": 36047,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 46071,
+        "supervised": 20696,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 1489806,
+      "supervised_edges": 200931,
+      "train_window_edges": 1201623,
+      "val_window_edges": 242112,
+      "test_window_edges": 46071,
+      "target_original_rel_ids": [
+        6
+      ],
+      "train_supervised_edges": 144188,
+      "val_supervised_edges": 36047,
+      "test_supervised_edges": 20696,
+      "target_original_rel_id": 6,
+      "protocol": "full_hetero_context_inductive",
+      "unseen_source_node_ids": {
+        "count": 6983,
+        "sha256": "4ac092b2812ac6a6302af693faf59c8b0936c9b066cbd4136c0ef95758b5fd7b",
+        "full_values": "Original task .pt metadata; local repro/data_audit_full.json"
+      }
+    }
+  },
+  {
+    "path": "data/processed/tgb2_tasks/thgl_software_edge_transductive.pt",
+    "nodes": 681927,
+    "edges": 1489806,
+    "num_rels": 14,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 1108622,
+        "supervised": 140651,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 203700,
+        "supervised": 30139,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 177484,
+        "supervised": 30141,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 1489806,
+      "supervised_edges": 200931,
+      "train_window_edges": 1108622,
+      "val_window_edges": 203700,
+      "test_window_edges": 177484,
+      "target_original_rel_ids": [
+        6
+      ],
+      "train_supervised_edges": 140651,
+      "val_supervised_edges": 30139,
+      "test_supervised_edges": 30141,
+      "target_original_rel_id": 6,
+      "protocol": "full_hetero_context_transductive"
+    }
+  },
+  {
+    "path": "data/processed/tgb2_tasks/thgl_software_node_multilabel.pt",
+    "nodes": 681927,
+    "edges": 1489806,
+    "num_rels": 14,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 1042864,
+        "supervised": 1042864,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 223470,
+        "supervised": 223470,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 223472,
+        "supervised": 223472,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {
+      "enabled": true,
+      "supervision_mode": "edge_label_mask",
+      "preserve_global_rel_ids": true,
+      "selected_edges": 1489806,
+      "supervised_edges": 1489806,
+      "train_window_edges": 1042864,
+      "val_window_edges": 223470,
+      "test_window_edges": 223472,
+      "target_original_rel_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "train_supervised_edges": 1042864,
+      "val_supervised_edges": 223470,
+      "test_supervised_edges": 223472,
+      "node_task_view": true,
+      "target_kind": "all_relations"
+    }
+  },
+  {
+    "path": "data/processed/thgl_github_unified.pt",
+    "nodes": 5856765,
+    "edges": 17499577,
+    "num_rels": 14,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 12250061,
+        "supervised": 12250061,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 2625358,
+        "supervised": 2625358,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 2624158,
+        "supervised": 2624158,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {}
+  },
+  {
+    "path": "data/processed/thgl_software_unified.pt",
+    "nodes": 681927,
+    "edges": 1489806,
+    "num_rels": 14,
+    "node_feature_dim": 128,
+    "disjoint": true,
+    "indices_in_bounds": true,
+    "split": {
+      "train": {
+        "events": 1042882,
+        "supervised": 1042882,
+        "time_ordered": true
+      },
+      "val": {
+        "events": 223493,
+        "supervised": 223493,
+        "time_ordered": true
+      },
+      "test": {
+        "events": 223431,
+        "supervised": 223431,
+        "time_ordered": true
+      }
+    },
+    "context_protocol": {}
+  }
+]

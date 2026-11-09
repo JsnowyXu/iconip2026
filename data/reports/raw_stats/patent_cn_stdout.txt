@@ -1,0 +1,171 @@
+{
+  "core_field_nonempty_counts": {
+    "codeIIIId": 200033,
+    "orgID": 200033,
+    "patentId": 200033,
+    "publicationDate": 200033,
+    "summary": 200033,
+    "title": 200033
+  },
+  "dataset": "patent_cn",
+  "dataset_dir": "/home/xuxj/2026/iconip-master/raw_datasets/patent_cn",
+  "entity_counts": {
+    "applicant_name": 8311,
+    "codeIII_raw_reindexed": 609,
+    "codeIII_reference_rows": 609,
+    "codeIII_valid_in_clsIII_reInd": 609,
+    "org": 2160,
+    "patent": 200033
+  },
+  "files": {
+    "IPCSubClass.csv": {
+      "exists": true,
+      "line_count": 647,
+      "path": "/home/xuxj/2026/iconip-master/raw_datasets/patent_cn/IPCSubClass.csv",
+      "size_bytes": 74752
+    },
+    "all-cn.csv": {
+      "exists": true,
+      "line_count": 200034,
+      "path": "/home/xuxj/2026/iconip-master/raw_datasets/patent_cn/all-cn.csv",
+      "size_bytes": 177731724
+    },
+    "clsIII-reInd.csv": {
+      "exists": true,
+      "line_count": 610,
+      "path": "/home/xuxj/2026/iconip-master/raw_datasets/patent_cn/clsIII-reInd.csv",
+      "size_bytes": 10059
+    }
+  },
+  "header_columns": {
+    "main_csv": [
+      "",
+      "orgID",
+      "codeId",
+      "codeIVId",
+      "codeIIIId",
+      "codeIIId",
+      "codeIId",
+      "patentId",
+      "title",
+      "publicationDate",
+      "applicantName",
+      "summary"
+    ]
+  },
+  "line_count_main_csv": 200034,
+  "records": 200033,
+  "relation_edge_counts_like_preprocessing": {
+    "org_codeIII": 279864,
+    "org_coorg": 23836,
+    "patent_codeIII": 266352,
+    "patent_org": 210289
+  },
+  "rows": {
+    "org_codeIII_edges": 279864,
+    "org_coorg_edges": 23836,
+    "patent_codeIII_edges": 266352,
+    "patent_org_edges": 210289,
+    "rows_processable_like_preprocessing": 200033
+  },
+  "top_codeIII_reindexed": [
+    {
+      "count": 9692,
+      "value": "121"
+    },
+    {
+      "count": 5211,
+      "value": "49"
+    },
+    {
+      "count": 4467,
+      "value": "37"
+    },
+    {
+      "count": 4333,
+      "value": "87"
+    },
+    {
+      "count": 3634,
+      "value": "194"
+    },
+    {
+      "count": 3614,
+      "value": "17"
+    },
+    {
+      "count": 3568,
+      "value": "117"
+    },
+    {
+      "count": 3342,
+      "value": "192"
+    },
+    {
+      "count": 3263,
+      "value": "124"
+    },
+    {
+      "count": 3241,
+      "value": "198"
+    }
+  ],
+  "top_orgID": [
+    {
+      "count": 277,
+      "value": "732"
+    },
+    {
+      "count": 269,
+      "value": "24"
+    },
+    {
+      "count": 267,
+      "value": "217"
+    },
+    {
+      "count": 264,
+      "value": "94"
+    },
+    {
+      "count": 263,
+      "value": "798"
+    },
+    {
+      "count": 261,
+      "value": "330"
+    },
+    {
+      "count": 260,
+      "value": "218"
+    },
+    {
+      "count": 258,
+      "value": "869"
+    },
+    {
+      "count": 256,
+      "value": "1195"
+    },
+    {
+      "count": 255,
+      "value": "328"
+    }
+  ],
+  "year_counts": {
+    "2010": 2834,
+    "2011": 3964,
+    "2012": 7324,
+    "2013": 10508,
+    "2014": 14729,
+    "2015": 20911,
+    "2016": 27451,
+    "2017": 42463,
+    "2018": 35866,
+    "2019": 33983
+  },
+  "year_range": {
+    "max": 2019,
+    "min": 2010
+  }
+}

@@ -1,0 +1,5 @@
+method,patent_us,patent_in,patent_cn,thgl_software,aminer_paper,amazon_movies,dblp
+XGBoost,0.9861,0.9732,0.9883,0.0916,0.0949,0.5581,0.0597
+RandomForest,0.9693,0.7729,0.9148,0.0742,0.0429,0.3610,0.0473
+LogisticRegression,0.6706,0.3409,0.4962,0.0845,0.1689,0.3715,0.2701
+TemporalCount,0.9946,0.9893,0.9955,0.0728,0.0356,0.4708,0.0356

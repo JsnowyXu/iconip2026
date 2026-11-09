@@ -1,0 +1,16 @@
+\begin{table*}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{Inductive Link Prediction on Five Datasets (available methods in the current workspace; `-` denotes unavailable or excluded results)}
+\label{tab:baseline_inductive}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llllll}
+\toprule
+                       method &                          raw\_cn &                          raw\_us &                           arxiv &                            dblp & amazon\_movies \\
+\midrule
+Current(dyn\_hetero\_community) & MRR/AUC/AP=0.9724/0.9897/0.8839 & MRR/AUC/AP=0.9531/0.9880/0.8869 & MRR/AUC/AP=0.8281/0.9736/0.6523 & MRR/AUC/AP=0.5232/0.8036/0.2784 &             - \\
+\bottomrule
+\end{tabular}
+}%
+\end{table*}

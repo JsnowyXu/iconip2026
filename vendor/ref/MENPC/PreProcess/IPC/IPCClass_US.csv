@@ -1,0 +1,133 @@
+Class,Name
+A01,agriculture; forestry; animal husbandry; hunting; trapping; fishing foodstuffs; tobacco
+A21,baking; equipment for making or processing doughs; doughs for baking
+A22,butchering; meat treatment; processing poultry or fish
+A23,"foods or foodstuffs; treatment thereof, not covered by other classes"
+A24,tobacco; cigars; cigarettes; simulated smoking devices; smokers' requisites personal or domestic articles
+A41,wearing apparel
+A42,headwear
+A43,footwear
+A44,haberdashery; jewellery
+A45,hand or travelling articles
+A46,brushware
+A47,furniture; domestic articles or appliances; coffee mills; spice mills; suction cleaners in general health; life-saving; amusement
+A61,medical or veterinary science; hygiene
+A62,life-saving; fire-fighting
+A63,sports; games; amusements
+A99,subject matter not otherwise provided for in this section
+B01,physical or chemical processes or apparatus in general
+B02,"crushing, pulverising, or disintegrating; preparatory treatment of grain for milling"
+B03,separation of solid materials using liquids or using pneumatic tables or jigs; magnetic or electrostatic separation of solid materials from solid materials or fluids; separation by high-voltage electric fields
+B04,centrifugal apparatus or machines for carrying-out physical or chemical processes
+B05,"spraying or atomising in general; applying fluent materials to surfaces, in general"
+B06,generating or transmitting mechanical vibrations in general
+B07,separating solids from solids; sorting
+B08,cleaning
+B09,disposal of solid waste; reclamation of contaminated soil  shaping
+B21,mechanical metal-working without essentially removing material; punching metal
+B22,casting; powder metallurgy
+B23,machine tools; metal-working not otherwise provided for
+B24,grinding; polishing
+B25,hand tools; portable power-driven tools; handles for hand implements; workshop equipment; manipulators
+B26,hand cutting tools; cutting; severing
+B27,working or preserving wood or similar material; nailing or stapling machines in general
+B28,"working cement, clay, or stone"
+B29,working of plastics; working of substances in a plastic state in general
+B30,presses
+B31,"making articles of paper, cardboard or material worked in a manner analogous to paper; working paper, cardboard or material worked in a manner analogous to paper"
+B32,layered products
+B33,additive manufacturing technology  printing
+B41,printing; lining machines; typewriters; stamps
+B42,bookbinding; albums; files; special printed matter
+B43,writing or drawing implements; bureau accessories
+B44,decorative arts transporting
+B60,vehicles in general
+B61,railways
+B62,land vehicles for travelling otherwise than on rails
+B63,ships or other waterborne vessels; related equipment
+B64,aircraft; aviation; cosmonautics
+B65,conveying; packing; storing; handling thin or filamentary material
+B66,hoisting; lifting; hauling
+B67,"opening or closing bottles, jars or similar containers; liquid handling"
+B68,saddlery; upholstery microstructural technology; nanotechnology
+B81,microstructural technology
+B82,nanotechnology
+B99,subject matter not otherwise provided for in this section
+C01,inorganic chemistry
+C02,"treatment of water, waste water, sewage, or sludge"
+C03,glass; mineral or slag wool
+C04,cements; concrete; artificial stone; ceramics; refractories
+C05,fertilisers; manufacture thereof
+C06,explosives; matches
+C07,organic chemistry
+C08,organic macromolecular compounds; their preparation or chemical working-up; compositions based thereon
+C09,dyes; paints; polishes; natural resins; adhesives; compositions not otherwise provided for; applications of materials not otherwise provided for
+C10,"petroleum, gas or coke industries; technical gases containing carbon monoxide; fuels; lubricants; peat"
+C11,"animal or vegetable oils, fats, fatty substances or waxes; fatty acids therefrom; detergents; candles"
+C12,biochemistry; beer; spirits; wine; vinegar; microbiology; enzymology; mutation or genetic engineering
+C13,sugar industry
+C14,skins; hides; pelts or leather metallurgy
+C21,metallurgy of iron
+C22,metallurgy; ferrous or non-ferrous alloys; treatment of alloys or non-ferrous metals
+C23,"coating metallic material; coating material with metallic material; chemical surface treatment; diffusion treatment of metallic material; coating by vacuum evaporation, by sputtering, by ion implantation or by chemical vapour deposition, in general; inhibiting corrosion of metallic material or incrustation in general"
+C25,electrolytic or electrophoretic processes; apparatus therefor
+C30,crystal growth  combinatorial technology
+C40,combinatorial technology
+C99,subject matter not otherwise provided for in this section
+D01,natural or man-made threads or fibres; spinning
+D02,yarns; mechanical finishing of yarns or ropes; warping or beaming
+D03,weaving
+D04,braiding; lace-making; knitting; trimmings; non-woven fabrics
+D05,sewing; embroidering; tufting
+D06,treatment of textiles or the like; laundering; flexible materials not otherwise provided for
+D07,ropes; cables other than electric paper
+D21,paper-making; production of cellulose
+D99,subject matter not otherwise provided for in this section
+E01,"construction of roads, railways, or bridges"
+E02,hydraulic engineering; foundations; soil-shifting
+E03,water supply; sewerage
+E04,building
+E05,locks; keys; window or door fittings; safes
+E06,"doors, windows, shutters, or roller blinds, in general; ladders earth or rock drilling; mining"
+E21,earth or rock drilling; mining
+E99,subject matter not otherwise provided for in this section
+F01,machines or engines in general; engine plants in general; steam engines
+F02,combustion engines; hot-gas or combustion-product engine plants
+F03,"machines or engines for liquids; wind, spring, or weight motors; producing mechanical power or a reactive propulsive thrust, not otherwise provided for"
+F04,positive-displacement machines for liquids; pumps for liquids or elastic fluids engineering in general
+F15,fluid-pressure actuators; hydraulics or pneumatics in general
+F16,engineering elements or units; general measures for producing and maintaining effective functioning of machines or installations; thermal insulation in general
+F17,storing or distributing gases or liquids lighting; heating
+F21,lighting
+F22,steam generation
+F23,combustion apparatus; combustion processes
+F24,heating; ranges; ventilating
+F25,refrigeration or cooling; combined heating and refrigeration systems; heat pump systems; manufacture or storage of ice; liquefaction or solidification of gases
+F26,drying
+F27,"furnaces; kilns, ovens or retorts"
+F28,heat exchange in general weapons; blasting
+F41,weapons
+F42,ammunition; blasting
+F99,subject matter not otherwise provided for in this section
+G01,measuring; testing
+G02,optics
+G03,photography; cinematography; analogous techniques using waves other than optical waves; electrography; holography
+G04,horology
+G05,controlling; regulating
+G06,computing; calculating or counting
+G07,checking-devices
+G08,signalling
+G09,educating; cryptography; display; advertising; seals
+G10,musical instruments; acoustics
+G11,information storage
+G12,instrument details
+G16,information and communication technology [ict] specially adapted for specific application fields
+G21,nuclear physics; nuclear engineering
+G99,subject matter not otherwise provided for in this section
+H01,electric elements
+H02,"generation, conversion, or distribution of electric power"
+H03,electronic circuitry
+H04,electric communication technique
+H05,electric techniques not otherwise provided for
+H10,semiconductor devices; electric solid-state devices not otherwise provided for
+H99,subject matter not otherwise provided for in this section

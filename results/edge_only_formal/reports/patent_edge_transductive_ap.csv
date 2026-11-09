@@ -1,0 +1,10 @@
+method,patent_cn,patent_in,patent_us
+DHC,0.9794,0.9839,0.9677
+TGNedge-type,0.9842,0.9896,0.9894
+EdgeBank,0.7894,0.7308,0.9412
+XGBoost,0.9883,0.9732,0.9861
+RandomForest,0.9148,0.7729,0.9693
+LogisticRegression,0.4962,0.3409,0.6706
+TemporalCount,0.9955,0.9893,0.9946
+STHN,0.0011,0.0010,0.0008
+RepeatMixer,0.5353,0.6269,0.4692

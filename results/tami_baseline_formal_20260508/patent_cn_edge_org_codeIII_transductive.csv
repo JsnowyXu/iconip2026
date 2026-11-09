@@ -1,0 +1,3 @@
+split,mrr,auc,ap,avg_epoch_sec,total_params,trainable_params,device,eval_num_negs,gamma,epochs_run,best_epoch,early_stopped,monitor_metric,early_stop_patience
+val,0.5823931247908304,0.8531262243486291,0.3899638424050934,27.913309168815612,2512112,494165,cuda:2,20,0.9,10,9,False,val_mrr,5
+test,0.5899806446071809,0.8572334826835841,0.42070254506347105,27.913309168815612,2512112,494165,cuda:2,20,0.9,10,9,False,val_mrr,5

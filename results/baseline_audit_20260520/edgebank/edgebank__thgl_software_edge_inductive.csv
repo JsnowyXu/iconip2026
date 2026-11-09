@@ -1,0 +1,3 @@
+split,model,mrr,auc,ap,memory_mode,seed,eval_pos_edges,history_pos_edges,pos_history_hits,pos_history_hit_rate,all_zero_tie_rate
+val,EdgeBank,0.08550741294104126,0.6812209176294252,0.07356260465233609,unlimited_memory,42,36047,144188,1461,0.040530418620134824,0.9583321774350154
+test,EdgeBank,0.04761904761904763,0.6666299115434969,0.03560607179119092,unlimited_memory,42,20696,25,0,0.0,1.0

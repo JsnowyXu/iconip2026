@@ -1,0 +1,16 @@
+\begin{table*}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{Node Multi-label Classification on Five Datasets (available methods in the current workspace; `-` denotes unavailable or excluded results)}
+\label{tab:baseline_multilabel}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llllll}
+\toprule
+                       method &                                                                      raw\_cn &                                                                      raw\_us &                                                                       arxiv &                                                                        dblp & amazon\_movies \\
+\midrule
+Current(dyn\_hetero\_community) & MRR/AUC/AP=0.8964/0.9788/0.6923; F1micro=0.0073; F1macro=0.0015; mAP=0.0028 & MRR/AUC/AP=0.9166/0.9874/0.8333; F1micro=0.0057; F1macro=0.0023; mAP=0.0026 & MRR/AUC/AP=0.5904/0.8328/0.3388; F1micro=0.4598; F1macro=0.3840; mAP=0.4734 & MRR/AUC/AP=0.6689/0.9248/0.4086; F1micro=0.9478; F1macro=0.8546; mAP=0.8904 &             - \\
+\bottomrule
+\end{tabular}
+}%
+\end{table*}

@@ -1,0 +1,35 @@
+[dyn_relation_memory](dyn_relation_memory) 这个文件夹保留了所有的数据预处理和跑实验的代码。现在让我们从aminer-paper的数据集处理统计，主实验，baselines来逐步完成。约定
+- 项目根目录：`/home/xuxj/2026/dyn_relation_memory` 
+- 数据集目录：`/home/xuxj/2026/datasets`
+- baseline 仓库目录：`/home/xuxj/2026/baselines/src`  
+实验环境用pytorch，所有实现都直接在服务器GPU上跑，先看占用情况，再分配GPU
+1.首先，处理中专利相关数据集，注意这里不要用原来的数据集合相关代码，数据集情况如下，要求全量使用：
+1.1 datasets/patent_cn/all-cn[使用字段orgID也叫assignee包含多个相互构建org联边，与codeIIIId 和 patentId连边，codeIIIId 包含多个拼接，不要彼此加边，而是与专利和org增加边，同时作为patentid的多标签，title，publicationDate【时间标签】，summary]，
+clsIII-reInd 用于将all-in.csv中的codeIIIId拆分后根据codeIIIId中codeIIIIdreId字段得到分类号代码codeIII，再去IPCSubClass.csv中根据分类号代码获取分类号描述，用于文本向量初始化。
+1.2 patent-us和patent-in处理方式和上面相同，字段可能有，去各自文件夹下处理。输出为当前主模型和baseline模型所需要的格式。
+三个预处理都完整记录预处理跑代码过程，要归纳主要处理步骤按照us/cn/in的顺序写入到patent.md文件，这个数据集上我们的任务是边的inductive【org->codeIIIId】和transductive【org->codeIIIId】用于推理assignee在未来某个IPC上发表专利的概率，专利节点的多标签分类任务。在生成的md文件中统计异质图所有统计信息，尤其是节点数，边数，节点类型和名称，边类型和名称，标签类型和名称等。输出处理后数据集再跑数据集分析，给出图形化统计结果
+2. 在1生成的数据集中，分别执行dhc主实验：org->codeIIIId 边的inductive 和transductive边预测，专利的多标签分类任务，用MRR，AP，AUC及任何适用于边预测任务的指标，整个过程中要考虑后续统计分析和可视化，比如实验性能，memory向量可视化，社区表征可视化及社区casestudy及社区动态划分的可解释等。
+baseline实验：统一用RepeatMixter-main下的RepeatMixer,DyGFormer,CAWN,EdgeBank,GraphMixer,TGAT,TCL  TGB2-main下的 TGN, TGN-edges, STHN。指标同上。
+三个数据集的实验分别生成一个 数据集名称如patent_cn_process.md文件，详细记录每个实验执行的命令，进度等相关信息，用于会话结束或异常的时候可根据进度再次跑实验。
+3.按照不同评估指标，在当前数据集以及所有baseline的不同任务进行大表统计，比如MRR指标在三个不同的专利数据集下主实验和所有baseline针对pg->code的结果大表，其他同理。
+4.dhc模型这块如果不是异常暂停，暂时不修改，不过请确认一下针对边预测，是否用到了其他的边类型表征。如果没有这块要修改。针对节点分类，也要确认除了节点表征也要融入边的表征。
+5. 整个执行过程中是拥有全部权限的，不要随意删除任何当前目录和上一级目录外的其他任何文件。自动执行所有命令，无需询问。
+
+
+
+[dyn_relation_memory](dyn_relation_memory) 这个文件夹保留了所有的数据预处理和跑实验的代码。现在让我们从aminer-paper的数据集处理统计，主实验，baselines来逐步完成。约定
+- 项目根目录：`/home/xuxj/2026/dyn_relation_memory` 
+- 数据集目录：`/home/xuxj/2026/datasets`
+- baseline 仓库目录：`/home/xuxj/2026/baselines/src`  
+实验环境用pytorch，所有实现都直接在服务器GPU上跑，先看占用情况，再分配GPU
+1.首先，处理中专利相关数据集，注意这里不要用原来的数据集合相关代码，数据集情况如下，要求全量使用：
+1.1 datasets/patent_cn/all-cn[使用字段orgID也叫assignee包含多个相互构建org联边，与codeIIIId 和 patentId连边，codeIIIId 包含多个拼接，不要彼此加边，而是与专利和org增加边，同时作为patentid的多标签，title，publicationDate【时间标签】，summary]，
+clsIII-reInd 用于将all-in.csv中的codeIIIId拆分后根据codeIIIId中codeIIIIdreId字段得到分类号代码codeIII，再去IPCSubClass.csv中根据分类号代码获取分类号描述，用于文本向量初始化。
+1.2 patent-us和patent-in处理方式和上面相同，字段可能有，去各自文件夹下处理。输出为当前主模型和baseline模型所需要的格式。
+三个预处理都完整记录预处理跑代码过程，要归纳主要处理步骤按照us/cn/in的顺序写入到patent.md文件，这个数据集上我们的任务是边的inductive【org->codeIIIId】和transductive【org->codeIIIId】用于推理assignee在未来某个IPC上发表专利的概率，专利节点的多标签分类任务。在生成的md文件中统计异质图所有统计信息，尤其是节点数，边数，节点类型和名称，边类型和名称，标签类型和名称等。输出处理后数据集再跑数据集分析，给出图形化统计结果
+2. 在1生成的数据集中，分别执行dhc主实验：org->codeIIIId 边的inductive 和transductive边预测，专利的多标签分类任务，用MRR，AP，AUC及任何适用于边预测任务的指标，整个过程中要考虑后续统计分析和可视化，比如实验性能，memory向量可视化，社区表征可视化及社区casestudy及社区动态划分的可解释等。
+baseline实验：统一用RepeatMixter-main下的RepeatMixer,DyGFormer,CAWN,EdgeBank,GraphMixer,TGAT,TCL  TGB2-main下的 TGN, TGN-edges, STHN。指标同上。
+三个数据集的实验分别生成一个 数据集名称如patent_cn_process.md文件，详细记录每个实验执行的命令，进度等相关信息，用于会话结束或异常的时候可根据进度再次跑实验。
+3.按照不同评估指标，在当前数据集以及所有baseline的不同任务进行大表统计，比如MRR指标在三个不同的专利数据集下主实验和所有baseline针对pg->code的结果大表，其他同理。
+4.dhc模型这块如果不是异常暂停，暂时不修改，不过请确认一下针对边预测，是否用到了其他的边类型表征。如果没有这块要修改。针对节点分类，也要确认除了节点表征也要融入边的表征。
+5. 整个执行过程中是拥有全部权限的，不要随意删除任何当前目录和上一级目录外的其他任何文件。自动执行所有命令，无需询问。

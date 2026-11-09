@@ -1,0 +1,5 @@
+dataset,task_name,variant,test_mrr,test_auc,test_ap,source_dir,full_test_mrr,delta_mrr_vs_full
+patent_us,patent_us_edge_org_codeIII_inductive,full__s42,1.0,0.999750800996796,0.9943983517960775,/home/xuxj/2026/dyn_relation_memory/results/best_config_module_ablation/patent_us_edge_org_codeIII_inductive__full__s42,1.0,0.0
+patent_us,patent_us_edge_org_codeIII_inductive,no_community__s42,1.0,0.9997864008543966,0.9953077813755485,/home/xuxj/2026/dyn_relation_memory/results/best_config_module_ablation/patent_us_edge_org_codeIII_inductive__no_community__s42,1.0,0.0
+patent_us,patent_us_edge_org_codeIII_inductive,no_edge_type__s42,1.0,0.9999644001423994,0.999294595414211,/home/xuxj/2026/dyn_relation_memory/results/best_config_module_ablation/patent_us_edge_org_codeIII_inductive__no_edge_type__s42,1.0,0.0
+patent_us,patent_us_edge_org_codeIII_inductive,no_relation_memory__s42,1.0,0.9998220007119971,0.9965223722521693,/home/xuxj/2026/dyn_relation_memory/results/best_config_module_ablation/patent_us_edge_org_codeIII_inductive__no_relation_memory__s42,1.0,0.0

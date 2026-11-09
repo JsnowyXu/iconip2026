@@ -1,0 +1,16 @@
+{
+  "dataset": "dblp_v18",
+  "num_nodes": 184938,
+  "num_edges": 200000,
+  "num_relations": 2,
+  "num_node_types": 2,
+  "time_min": 210.0,
+  "time_max": 2026.0,
+  "time_span": 1816.0,
+  "edge_feat_dim": 2,
+  "node_feat_dim": 128,
+  "avg_degree": 2.162887021596427,
+  "max_degree": 278,
+  "has_multiclass_label": true,
+  "has_multilabel": true
+}

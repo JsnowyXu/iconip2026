@@ -1,0 +1,5 @@
+dataset,variant,test_mrr,test_auc,test_ap,note
+raw_cn,base,0.9785,0.9978,0.9387,main-text cross-relation table
+raw_cn,boost_base,0.9773,0.9977,0.9369,best boost reported in main text
+raw_us,base,0.9826,0.9981,0.9497,main-text cross-relation table
+raw_us,boost_relw_sparse,0.9829,0.9982,0.9585,best boost reported in main text

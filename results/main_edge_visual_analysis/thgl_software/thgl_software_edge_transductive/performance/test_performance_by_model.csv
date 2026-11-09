@@ -1,0 +1,3 @@
+dataset,task_name,model,run_dir,epochs_run,best_epoch,best_val_mrr,final_loss,avg_epoch_sec,total_sec,test_mrr,test_auc,test_ap,total_params,trainable_params,split,source_path
+thgl_software,thgl_software_edge_transductive,tami,,,,,,48.580628108978274,,0.80212679267362,0.9687788690829232,0.6060582016475468,6441836,492485,test,/home/xuxj/2026/dyn_relation_memory/results/tami_baseline_formal_20260508/thgl_software_edge_transductive.csv
+thgl_software,thgl_software_edge_transductive,DHC-main,/home/xuxj/2026/dyn_relation_memory/results/edge_only_formal/main/thgl_software_edge_transductive__seed42,9.0,1.0,0.7719301507632241,1.0443428642403507,844.6277561717563,7601.649805545807,0.7999780683217061,0.9740242303725821,0.56995266078421,1036362,1036362,,

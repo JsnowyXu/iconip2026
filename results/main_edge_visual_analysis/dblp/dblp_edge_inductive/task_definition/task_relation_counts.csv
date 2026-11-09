@@ -1,0 +1,3 @@
+dataset,dataset_label,task_name,task_path,relation_id,relation_name,is_target_relation,edge_count,supervised_edge_count,dominant_src_type,dominant_dst_type,task_phrase
+dblp,dblp,dblp_edge_inductive,/home/xuxj/2026/dyn_relation_memory/data/processed/paper_tasks/dblp_edge_inductive.pt,0,author_write_paper,False,44481,0,author,paper,author -> paper author_write_paper
+dblp,dblp,dblp_edge_inductive,/home/xuxj/2026/dyn_relation_memory/data/processed/paper_tasks/dblp_edge_inductive.pt,1,paper_cite_paper,True,155519,155518,paper,paper,paper -> paper paper_cite_paper

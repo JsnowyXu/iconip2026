@@ -1,0 +1,5 @@
+dataset,task_name,variant,test_mrr,test_auc,test_ap,source_dir,full_test_mrr,delta_mrr_vs_full
+dblp,dblp_edge_transductive,full__s42,0.5447116444271008,0.9121287524770053,0.28500918708600426,/home/xuxj/2026/dyn_relation_memory/results/edge_memory_ablation/dblp_edge_transductive__full__s42,0.5447116444271008,0.0
+dblp,dblp_edge_transductive,no_edge_type__s42,0.25434719506904785,0.5052943969745962,0.12296128516224045,/home/xuxj/2026/dyn_relation_memory/results/edge_memory_ablation/dblp_edge_transductive__no_edge_type__s42,0.5447116444271008,-0.290364449358053
+dblp,dblp_edge_transductive,no_edge_type_no_rel__s42,0.49103069789388937,0.8817641629012662,0.2531320620956289,/home/xuxj/2026/dyn_relation_memory/results/edge_memory_ablation/dblp_edge_transductive__no_edge_type_no_rel__s42,0.5447116444271008,-0.05368094653321148
+dblp,dblp_edge_transductive,no_rel__s42,0.47362235970499783,0.8772809724530481,0.2547552321001652,/home/xuxj/2026/dyn_relation_memory/results/edge_memory_ablation/dblp_edge_transductive__no_rel__s42,0.5447116444271008,-0.07108928472210302

@@ -1,0 +1,23 @@
+
+\section{Related Work}
+\textbf{Temporal Graph Learning}
+Temporal graph learning has been widely studied for dynamic link prediction. 
+TGAT combines temporal neighborhood attention with functional time encoding \cite{xu2020tgat}. 
+TGN provides a memory-based continuous time framework and remains a strong baseline \cite{rossi2020tgn}. 
+Recent methods further improve efficiency or long-history modeling, including GraphMixer, DyGFormer, and RepeatMixer \cite{cong2023graphmixer,yu2023dygformer,zou2024repeatmixer}, 
+while newer studies revisit temporal position encoding, target-aware matching, and interaction heterogeneity \cite{cheng2025scalability,tieu2025learnable,yi2026future,yu2026tami}. 
+Heterogeneous graph models such as HAN and HGT capture typed nodes and relations, and temporal variants such as STHN extend this idea to dynamic typed graphs \cite{wang2019heterogeneous,hu2020hgt,li2023sthn,yue2025heterogeneous}. 
+Benchmark efforts, including TGB, TGB 2.0, and TGB-Seq, provide realistic protocols for temporal, multi-relational, and future-link prediction \cite{huang2023tgb,gastinger2024tgb2,yi2025tgbseq}. 
+These studies motivate our chronological evaluation and strong temporal baselines. However, many methods still treat relation types as static edge features. 
+DHC follows a strict chronological protocol, but instead focuses on relation-aware dynamic temporal context by explicitly maintaining relation memory in heterogeneous streams for link scoring.
+\rev{The closest architectural baseline, STHN, simplifies continuous-time heterogeneous link prediction by sampling a fixed number of recent interactions and encoding them with a compact heterogeneous temporal network. DHC differs at the state and query levels: it assigns every relation type a recurrent state updated from chronological messages, uses that state to gate endpoint messages and neighbor-edge attributes, and fuses the resulting query-specific temporal subgraph representation with an independently maintained TGN event memory. TAMI instead targets interaction heterogeneity through target-aware matching; it does not instantiate DHC's recurrent per-relation state. Thus, DHC's intended novelty is dynamic relation semantics and their use throughout message generation, local context encoding, and scoring, rather than temporal sampling alone.}
+
+\textbf{Recent Link Prediction on Academic Networks}
+Academic networks have become representative testbeds for temporal heterogeneous link prediction. 
+Recent studies model papers, authors, venues, datasets, patents, assignees, and technology classes as typed entities, and cast prediction tasks as forecasting future citation, collaboration, publication--dataset, or patent impacts. 
+For instance, publication--dataset link prediction on sparse scholarly knowledge graphs highlights the importance of inductive generalization and data discoverability \cite{irrera2025heterogeneous}.
+Citation-oriented studies further exploit dynamic academic graphs, clustering structures, centrality signals, and bias-aware graph representations to estimate future scientific impact \cite{zhang2025cdchgn,lu2026bacite}.
+Similarly, patent-related studies formulate citation and technology-impact prediction as dynamic learning problems over technical indicators and evolving citation patterns \cite{seol2026patentcitation}.
+Beyond these settings, recent work has extended the empirical scope to topology-aware link prediction on citation benchmarks, heterogeneous link prediction in biomedical networks, and patent-based technology-opportunity discovery \cite{hu2025biomedicalhgnn,wu2026identifying,liang2026tagnn}
+Other recent work broadens the evidence base through topology-focused link prediction on citation benchmarks, heterogeneous link prediction in biomedical networks, and patent-based technology-opportunity discovery \cite{hu2025biomedicalhgnn,wu2026identifying,liang2026tagnn}. 
+Collectively, these studies motivate the design of DHC, particularly its emphasis on preserving typed contextual edges, relation states, and strictly chronological evaluation.

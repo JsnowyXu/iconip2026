@@ -1,0 +1,118 @@
+{
+  "dataset": "thgl_software",
+  "source": "TGB2/THGL raw CSV",
+  "raw_paths": {
+    "edgelist_csv": "/home/xuxj/2026/iconip-master/raw_datasets/tgb2/thgl-software/thgl-software_edgelist.csv",
+    "nodetype_csv": "/home/xuxj/2026/iconip-master/raw_datasets/tgb2/thgl-software/thgl-software_nodetype.csv",
+    "edgemapping_csv": "/home/xuxj/2026/iconip-master/raw_datasets/tgb2/thgl-software/thgl-software_edgemapping.csv",
+    "nodemapping_csv": "/home/xuxj/2026/iconip-master/raw_datasets/tgb2/thgl-software/thgl-software_nodemapping.csv"
+  },
+  "num_edges": 1489806,
+  "num_endpoint_nodes": 681927,
+  "num_source_nodes": 553587,
+  "num_destination_nodes": 469392,
+  "num_edge_types": 14,
+  "min_timestamp": 1704085280,
+  "max_timestamp": 1706763599,
+  "min_timestamp_utc": "2024-01-01T05:01:20+00:00",
+  "max_timestamp_utc": "2024-02-01T04:59:59+00:00",
+  "num_nodetype_rows": 681927,
+  "num_unique_nodetype_nodes": 681927,
+  "duplicate_node_rows": 0,
+  "num_endpoint_nodes_missing_nodetype": 0,
+  "num_nodetype_nodes_not_in_edges": 0,
+  "edge_types": [
+    {
+      "id": 0,
+      "name": "U_SE_C_I",
+      "count": 156193
+    },
+    {
+      "id": 1,
+      "name": "I_AO_C_R",
+      "count": 157614
+    },
+    {
+      "id": 2,
+      "name": "I_AO_O_R",
+      "count": 156457
+    },
+    {
+      "id": 3,
+      "name": "U_SO_O_P",
+      "count": 164090
+    },
+    {
+      "id": 4,
+      "name": "P_AO_O_R",
+      "count": 165137
+    },
+    {
+      "id": 5,
+      "name": "U_SE_O_I",
+      "count": 118859
+    },
+    {
+      "id": 6,
+      "name": "U_SO_C_P",
+      "count": 200931
+    },
+    {
+      "id": 7,
+      "name": "P_AO_C_R",
+      "count": 196859
+    },
+    {
+      "id": 8,
+      "name": "U_SO_R_P",
+      "count": 38067
+    },
+    {
+      "id": 9,
+      "name": "P_AO_R_R",
+      "count": 38462
+    },
+    {
+      "id": 10,
+      "name": "U_SE_RO_I",
+      "count": 25280
+    },
+    {
+      "id": 11,
+      "name": "I_AO_RO_R",
+      "count": 24821
+    },
+    {
+      "id": 12,
+      "name": "U_CO_A_R",
+      "count": 41352
+    },
+    {
+      "id": 13,
+      "name": "R_FO_R",
+      "count": 5684
+    }
+  ],
+  "node_types": [
+    {
+      "id": 0,
+      "name": "user",
+      "count": 182175
+    },
+    {
+      "id": 1,
+      "name": "issue",
+      "count": 192228
+    },
+    {
+      "id": 2,
+      "name": "repo",
+      "count": 109134
+    },
+    {
+      "id": 3,
+      "name": "pr",
+      "count": 198390
+    }
+  ]
+}

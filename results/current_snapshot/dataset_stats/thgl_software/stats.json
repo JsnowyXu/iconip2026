@@ -1,0 +1,16 @@
+{
+  "dataset": "thgl_software",
+  "num_nodes": 681927,
+  "num_edges": 1489806,
+  "num_relations": 14,
+  "num_node_types": 4,
+  "time_min": 1704085248.0,
+  "time_max": 1706763648.0,
+  "time_span": 2678400.0,
+  "edge_feat_dim": 2,
+  "node_feat_dim": 128,
+  "avg_degree": 4.369400243721102,
+  "max_degree": 17732,
+  "has_multiclass_label": true,
+  "has_multilabel": true
+}
